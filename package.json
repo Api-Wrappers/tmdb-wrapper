@@ -29,7 +29,7 @@
   "scripts": {
     "build": "pnpm tsc && pnpm tsc-alias",
     "release": "yarn version && npm publish",
-    "preversion": "pnpm tsc"
+    "preversion": "pnpm run build"
   },
   "devDependencies": {
     "@types/node": "^20.11.20",
