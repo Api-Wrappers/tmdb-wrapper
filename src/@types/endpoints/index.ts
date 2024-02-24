@@ -7,6 +7,7 @@ export * from './configuration';
 export * from './credits';
 export * from './discover';
 export * from './find';
+export * from './genre';
 export * from './keywords';
 export * from './movies';
 export * from './networks';

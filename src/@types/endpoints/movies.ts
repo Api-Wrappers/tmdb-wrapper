@@ -1,4 +1,4 @@
-import { Genre, Movie, ProductionCompany, ProductionCountry, SpokenLanguage } from '..';
+import { Genre, LanguageOption, Movie, ProductionCompany, ProductionCountry, SpokenLanguage } from '..';
 
 export interface BelongsToCollection {
   id: number;
@@ -160,3 +160,10 @@ export type MovieChangeValue =
       credit_id: string;
     }
   | unknown;
+
+export interface MoviesImageSearchOptions extends LanguageOption {
+  /**
+   * a list of ISO-639-1 values to query
+   */
+  include_image_language?: string[];
+}

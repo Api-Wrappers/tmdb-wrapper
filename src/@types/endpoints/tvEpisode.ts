@@ -1,4 +1,4 @@
-import { Credits, Crew } from '..';
+import { Credits, Crew, LanguageOption } from '..';
 
 export interface EpisodeSelection {
   tvShowID: number;
@@ -56,3 +56,17 @@ export interface TvEpisodeTranslations {
 }
 
 export type TvEpisodeChangeValue = string | unknown;
+
+export interface TvEpisodeImageSearchOptions extends LanguageOption {
+  /**
+   * a list of ISO-639-1 values to query
+   */
+  include_image_language?: string[];
+}
+
+export interface TvEpisodeVideoSearchOptions extends LanguageOption {
+  /**
+   * a list of ISO-639-1 values to query
+   */
+  include_video_language?: string[];
+}
