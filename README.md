@@ -2,6 +2,17 @@
   TMDB Api Wrapper
 </h1>
 
+<p align="center">
+  <a href="https://www.npmjs.com/package/@tdanks2000/tmdb-wrapper">
+    <img alt="NPM Version" src="https://img.shields.io/npm/v/%40tdanks2000%2Ftmdb-wrapper">
+  </a>
+  <a href="https://github.com/tdanks2000/tmdb-wrapper/blob/master/LICENSE">
+    <img src="https://img.shields.io/npm/l/@tdanks2000/tmdb-wrapper" alt="GitHub">
+  </a>
+</p>
+
+<br />
+
 The TMDB Api Wrapper simplifies the process of making API requests to The Movie Database (TMDb), a comprehensive database for movies and TV shows. It encapsulates functionality related to various API endpoints, such as account, certifications, changes, collections, configuration, credits, discover, find, genres, keywords, movies, people, reviews, search, trending, TV episodes, TV seasons, and TV shows. With this wrapper, developers can quickly integrate TMDB functionality into their TypeScript projects.
 
 ## Table of Contents
