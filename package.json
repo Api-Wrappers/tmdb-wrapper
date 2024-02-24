@@ -1,5 +1,5 @@
 {
-  "name": "tmdb-wrapper",
+  "name": "@tdanks2000/tmdb-wrapper",
   "module": "./src/index.ts",
   "type": "module",
   "main": "dist/index.js",
@@ -36,5 +36,5 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
-  "version": "1.0.0"
+  "version": "1.0.1"
 }
