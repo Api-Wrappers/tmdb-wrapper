@@ -1,0 +1,41 @@
+{
+  "name": "tmdb-wrapper",
+  "module": "./src/index.ts",
+  "type": "module",  
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tdanks2000/tmdb-wrapper"
+  }, 
+  "keywords": [
+    "tmdb",
+    "tmdbWrapper",
+    "tmdb wrapper",
+    "tmdb-wrapper",
+    "api wrapper",
+    "node",
+    "typescript"
+  ],
+  "engines": {
+    "node": ">=16"
+  },
+  "author": "TDanks2000",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "tsc",
+    "release": "yarn version && npm publish",
+    "preversion": "tsc"
+  },
+  "devDependencies": {
+    "bun-types": "latest",
+    "ts-node": "^10.9.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
