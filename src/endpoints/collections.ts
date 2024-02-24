@@ -5,7 +5,7 @@ import {
   ImageCollection,
   LanguageOption,
   Translations,
-} from '@/@types';
+} from '../@types';
 
 const BASE_COLLECTION = '/collection';
 

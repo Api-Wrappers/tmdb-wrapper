@@ -1,4 +1,4 @@
-import { BaseEndpoint, ExternalIdOptions, FindResult } from '@/@types';
+import { BaseEndpoint, ExternalIdOptions, FindResult } from '../@types';
 
 /**
  * Represents an endpoint for finding media by external ID.

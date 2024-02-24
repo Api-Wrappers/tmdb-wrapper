@@ -16,7 +16,7 @@ import {
   PersonTvShowCredit,
   PopularPersons,
   TaggedImages,
-} from '@/@types';
+} from '../@types';
 
 const BASE_PERSON = '/person';
 

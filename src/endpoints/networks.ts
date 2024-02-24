@@ -1,4 +1,4 @@
-import { AlternativeNames, BaseEndpoint, NetworkDetails, NetworkImages } from '@/@types';
+import { AlternativeNames, BaseEndpoint, NetworkDetails, NetworkImages } from '../@types';
 
 /**
  * Represents an endpoint for accessing network details.

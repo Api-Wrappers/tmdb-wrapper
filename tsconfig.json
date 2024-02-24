@@ -96,13 +96,6 @@
 
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
-    "skipLibCheck": true /* Skip type checking all .d.ts files. */,
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["./src/*"],
-      "@/types/*": ["./src/@types/*"],
-      "@/utils/*": ["./src/utils/*"],
-      "@/endpoints/*": ["./src/endpoints/*"]
-    }
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */
   }
 }

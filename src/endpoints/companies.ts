@@ -1,4 +1,4 @@
-import { AlternativeNames, BaseEndpoint, CompanyDetails, CompanyImages } from '@/@types';
+import { AlternativeNames, BaseEndpoint, CompanyDetails, CompanyImages } from '../@types';
 
 /**
  * Represents an endpoint for accessing company details and related information.

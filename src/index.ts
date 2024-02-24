@@ -17,7 +17,7 @@ import {
   TvEpisodesEndpoint,
   TvSeasonsEndpoint,
   TvShowsEndpoint,
-} from '@/endpoints';
+} from './endpoints';
 
 class TMDB {
   constructor(access_token: string) {

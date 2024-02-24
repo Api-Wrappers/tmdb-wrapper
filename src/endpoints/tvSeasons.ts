@@ -16,7 +16,7 @@ import {
   TvSeasonImageSearchOptions,
   TvSeasonVideoSearchOptions,
   Videos,
-} from '@/@types';
+} from '../@types';
 
 const BASE_SEASON = (seasonSelection: SeasonSelection): string => {
   return `/tv/${seasonSelection.tvShowID}/season/${seasonSelection.seasonNumber}`;

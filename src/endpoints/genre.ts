@@ -1,4 +1,4 @@
-import { BaseEndpoint, Genres, LanguageOption } from '@/@types';
+import { BaseEndpoint, Genres, LanguageOption } from '../@types';
 
 /**
  * Represents an endpoint for retrieving genre information for movies and TV shows.

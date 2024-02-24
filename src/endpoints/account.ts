@@ -1,4 +1,4 @@
-import { AccountDetails, BaseEndpoint } from '@/@types';
+import { AccountDetails, BaseEndpoint } from '../@types';
 
 /**
  * Represents an endpoint for retrieving account details.

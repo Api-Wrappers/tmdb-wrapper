@@ -12,7 +12,7 @@ import {
   SearchOptions,
   TV,
   TvSearchOptions,
-} from '@/@types';
+} from '../@types';
 
 const BASE_SEARCH = '/search';
 

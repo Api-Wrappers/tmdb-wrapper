@@ -1,4 +1,4 @@
-import { API } from '@/utils';
+import { API } from '../../utils';
 
 export class BaseEndpoint {
   protected api: API;

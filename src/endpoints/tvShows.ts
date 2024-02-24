@@ -32,7 +32,7 @@ import {
   Videos,
   WatchProviders,
   tvAiringToday,
-} from '@/@types';
+} from '../@types';
 
 const BASE_TV = '/tv';
 

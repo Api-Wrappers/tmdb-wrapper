@@ -1,4 +1,4 @@
-import { BaseEndpoint, LanguageOption, PageOption, TimeWindow, TrendingMediaType, TrendingResults } from '@/@types';
+import { BaseEndpoint, LanguageOption, PageOption, TimeWindow, TrendingMediaType, TrendingResults } from '../@types';
 
 /**
  * Represents an endpoint for retrieving trending content.

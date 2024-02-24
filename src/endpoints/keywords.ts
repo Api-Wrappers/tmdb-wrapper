@@ -1,4 +1,4 @@
-import { BaseEndpoint, BelongingMovies, Keyword, KeywordsOptions } from '@/@types';
+import { BaseEndpoint, BelongingMovies, Keyword, KeywordsOptions } from '../@types';
 
 const BASE_KEYWORD = '/keyword';
 

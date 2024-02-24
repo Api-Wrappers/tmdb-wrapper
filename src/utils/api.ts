@@ -1,4 +1,4 @@
-import { ErrorResponse } from '@/@types';
+import { ErrorResponse } from '../@types';
 
 const BASE_URL_V3 = 'https://api.themoviedb.org/3';
 

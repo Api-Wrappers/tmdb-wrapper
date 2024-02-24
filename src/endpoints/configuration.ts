@@ -1,4 +1,4 @@
-import { BaseEndpoint, Configuration } from '@/@types';
+import { BaseEndpoint, Configuration } from '../@types';
 
 /**
  * Represents an endpoint for retrieving current system configuration.

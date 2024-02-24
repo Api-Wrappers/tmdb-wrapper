@@ -1,4 +1,4 @@
-import { BaseEndpoint, CreditResponse } from '@/@types';
+import { BaseEndpoint, CreditResponse } from '../@types';
 
 /**
  * Represents an endpoint for retrieving credit details.

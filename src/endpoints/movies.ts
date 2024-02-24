@@ -28,7 +28,7 @@ import {
   UpcomingMovies,
   Videos,
   WatchProviders,
-} from '@/@types';
+} from '../@types';
 
 const BASE_MOVIE = '/movie';
 

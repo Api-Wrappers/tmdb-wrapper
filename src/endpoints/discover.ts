@@ -4,7 +4,7 @@ import {
   MovieQueryOptions,
   TvShowDiscoverResult,
   TvShowQueryOptions,
-} from '@/@types';
+} from '../@types';
 
 const BASE_DISCOVER = '/discover';
 

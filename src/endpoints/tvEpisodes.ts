@@ -15,7 +15,7 @@ import {
   TvEpisodeTranslations,
   TvEpisodeVideoSearchOptions,
   Videos,
-} from '@/@types';
+} from '../@types';
 
 const BASE_EPISODE = (episodeSelection: EpisodeSelection): string => {
   return `/tv/${episodeSelection.tvShowID}/season/${episodeSelection.seasonNumber}/episode/${episodeSelection.episodeNumber}`;
