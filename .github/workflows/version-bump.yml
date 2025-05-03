@@ -1,0 +1,42 @@
+name: Version Bump
+
+on:
+  workflow_dispatch:
+    inputs:
+      version-type:
+        description: 'Type of version bump (patch, minor, major)'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+      - name: Bump version
+        run: |
+          npm version ${{ github.event.inputs.version-type }} -m "Bump version to %s"
+
+      - name: Push changes
+        run: |
+          git push
+          git push --tags

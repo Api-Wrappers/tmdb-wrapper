@@ -3,6 +3,7 @@ import {
   CertificationEndpoint,
   ChangeEndpoint,
   CollectionsEndpoint,
+  CompaniesEndpoint,
   ConfigurationEndpoint,
   CreditsEndpoint,
   DiscoverEndpoint,
@@ -10,6 +11,7 @@ import {
   GenreEndpoint,
   KeywordsEndpoint,
   MoviesEndpoint,
+  NetworksEndpoint,
   PeopleEndpoint,
   ReviewEndpoint,
   SearchEndpoint,
@@ -17,6 +19,7 @@ import {
   TvEpisodesEndpoint,
   TvSeasonsEndpoint,
   TvShowsEndpoint,
+  WatchProvidersEndpoint,
 } from './endpoints';
 
 class TMDB {
@@ -25,6 +28,7 @@ class TMDB {
     this.certification = new CertificationEndpoint(access_token);
     this.changes = new ChangeEndpoint(access_token);
     this.collections = new CollectionsEndpoint(access_token);
+    this.companies = new CompaniesEndpoint(access_token);
     this.configuration = new ConfigurationEndpoint(access_token);
     this.credits = new CreditsEndpoint(access_token);
     this.discover = new DiscoverEndpoint(access_token);
@@ -32,6 +36,7 @@ class TMDB {
     this.genre = new GenreEndpoint(access_token);
     this.keywords = new KeywordsEndpoint(access_token);
     this.movies = new MoviesEndpoint(access_token);
+    this.networks = new NetworksEndpoint(access_token);
     this.people = new PeopleEndpoint(access_token);
     this.review = new ReviewEndpoint(access_token);
     this.search = new SearchEndpoint(access_token);
@@ -39,12 +44,14 @@ class TMDB {
     this.tvEpisodes = new TvEpisodesEndpoint(access_token);
     this.tvSeasons = new TvSeasonsEndpoint(access_token);
     this.tvShows = new TvShowsEndpoint(access_token);
+    this.watchProviders = new WatchProvidersEndpoint(access_token);
   }
 
   account: AccountEndpoint;
   certification: CertificationEndpoint;
   changes: ChangeEndpoint;
   collections: CollectionsEndpoint;
+  companies: CompaniesEndpoint;
   configuration: ConfigurationEndpoint;
   credits: CreditsEndpoint;
   discover: DiscoverEndpoint;
@@ -52,6 +59,7 @@ class TMDB {
   genre: GenreEndpoint;
   keywords: KeywordsEndpoint;
   movies: MoviesEndpoint;
+  networks: NetworksEndpoint;
   people: PeopleEndpoint;
   review: ReviewEndpoint;
   search: SearchEndpoint;
@@ -59,6 +67,7 @@ class TMDB {
   tvEpisodes: TvEpisodesEndpoint;
   tvSeasons: TvSeasonsEndpoint;
   tvShows: TvShowsEndpoint;
+  watchProviders: WatchProvidersEndpoint;
 }
 
 export * from './@types';

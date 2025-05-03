@@ -3,17 +3,18 @@
 </h1>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@tdanks2000/tmdb-wrapper">
-    <img alt="NPM Version" src="https://img.shields.io/npm/v/%40tdanks2000%2Ftmdb-wrapper">
-  </a>
-  <a href="https://github.com/tdanks2000/tmdb-wrapper/blob/master/LICENSE">
-    <img src="https://img.shields.io/npm/l/@tdanks2000/tmdb-wrapper" alt="GitHub">
-  </a>
+  <a href="https://www.npmjs.com/package/@tdanks2000/tmdb-wrapper"><img alt="npm version" src="https://img.shields.io/npm/v/@tdanks2000/tmdb-wrapper"></a>
+  <a href="https://github.com/tdanks2000/tmdb-wrapper/blob/master/LICENSE"><img alt="license" src="https://img.shields.io/npm/l/@tdanks2000/tmdb-wrapper"></a>
+  <a href="https://github.com/tdanks2000/tmdb-wrapper"><img alt="GitHub stars" src="https://img.shields.io/github/stars/tdanks2000/tmdb-wrapper?style=social"></a>
 </p>
 
 <br />
 
-The TMDB Api Wrapper simplifies the process of making API requests to The Movie Database (TMDb), a comprehensive database for movies and TV shows. It encapsulates functionality related to various API endpoints, such as account, certifications, changes, collections, configuration, credits, discover, find, genres, keywords, movies, people, reviews, search, trending, TV episodes, TV seasons, and TV shows. With this wrapper, developers can quickly integrate TMDB functionality into their TypeScript projects.
+<p align="center">
+  <b>A powerful and easy-to-use TypeScript wrapper for The Movie Database (TMDb) API</b>
+</p>
+
+The TMDB Api Wrapper simplifies the process of making API requests to The Movie Database (TMDb), a comprehensive database for movies and TV shows. It encapsulates functionality related to various API endpoints, such as account, certifications, changes, collections, configuration, credits, discover, find, genres, keywords, movies, people, reviews, search, trending, TV episodes, TV seasons, TV shows, companies, networks, and watch providers. With this wrapper, developers can quickly integrate TMDB functionality into their TypeScript projects.
 
 ## Table of Contents
 
@@ -21,6 +22,17 @@ The TMDB Api Wrapper simplifies the process of making API requests to The Movie 
 - [Usage](#usage)
 - [Authentication](#authentication)
 - [Functionality](#functionality)
+  - [Movies](#movies)
+  - [TV Shows](#tv-shows)
+  - [People](#people)
+  - [Companies](#companies)
+  - [Networks](#networks)
+  - [Watch Providers](#watch-providers)
+  - [Other Endpoints](#other-endpoints)
+- [Image Handling](#image-handling)
+- [Examples](#examples)
+- [Troubleshooting](#troubleshooting)
+- [API Reference](#api-reference)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -55,87 +67,257 @@ Then, create an instance of the TMDB class, optionally providing an access token
 const tmdb = new TMDB('YOUR_ACCESS_TOKEN');
 ```
 
-You can now use the `tmdb` object to access various functionalities of the TMDB API. See the next section for details on available functionality.
+You can now use the `tmdb` object to access various functionalities of the TMDB API. The wrapper provides access to all major TMDB API endpoints including Movies, TV Shows, People, Companies, Networks, and Watch Providers.
+
+## Authentication
+
+To use the TMDB API, you need to obtain an API key from [TMDb API Settings](https://www.themoviedb.org/settings/api). The wrapper supports both API key authentication and read access token authentication.
+
+```typescript
+// Using API key
+const tmdb = new TMDB({ apiKey: 'YOUR_API_KEY' });
+
+// Using read access token (recommended)
+const tmdb = new TMDB('YOUR_ACCESS_TOKEN');
+```
 
 ## Functionality
 
-The TMDB Api Wrapper provides the following functionality:
-
-### Account
-
-- Manage account details and settings.
-
-### Certifications
-
-- Retrieve certification information for movies.
-
-### Changes
-
-- Get information about changes to the database.
-
-### Collections
-
-- Access information about movie collections.
-
-### Configuration
-
-- Retrieve configuration information for the API.
-
-### Credits
-
-- Get credits information for movies and TV shows.
-
-### Discover
-
-- Discover movies and TV shows based on various criteria.
-
-### Find
-
-- Find movies and TV shows by external IDs.
-
-### Genres
-
-- Retrieve information about movie and TV show genres.
-
-### Keywords
-
-- Access information about movie keywords.
+The TMDB Api Wrapper provides access to the following endpoints:
 
 ### Movies
 
-- Access information about movies.
+Access comprehensive information about movies, including details, credits, reviews, and more.
 
-### People
+```typescript
+// Get popular movies
+const popularMovies = await tmdb.movies.getPopular();
 
-- Retrieve information about people involved in movies and TV shows.
+// Get movie details
+const movieDetails = await tmdb.movies.getDetails(550); // Fight Club
 
-### Reviews
-
-- Get reviews for movies and TV shows.
-
-### Search
-
-- Search for movies, TV shows, and people.
-
-### Trending
-
-- Get trending movies and TV shows.
-
-### TV Episodes
-
-- Access information about TV show episodes.
-
-### TV Seasons
-
-- Access information about TV show seasons.
+// Get movie credits
+const movieCredits = await tmdb.movies.getCredits(550);
+```
 
 ### TV Shows
 
-- Access information about TV shows.
+Retrieve information about TV shows, seasons, and episodes.
+
+```typescript
+// Get popular TV shows
+const popularShows = await tmdb.tvShows.getPopular();
+
+// Get TV show details
+const showDetails = await tmdb.tvShows.getDetails(1396); // Breaking Bad
+
+// Get season details
+const seasonDetails = await tmdb.tvSeasons.getDetails(1396, 1);
+
+// Get episode details
+const episodeDetails = await tmdb.tvEpisodes.getDetails(1396, 1, 1);
+```
+
+### People
+
+Access information about actors, directors, and other people involved in movies and TV shows.
+
+```typescript
+// Get popular people
+const popularPeople = await tmdb.people.getPopular();
+
+// Get person details
+const personDetails = await tmdb.people.getDetails(287); // Brad Pitt
+
+// Get person movie credits
+const personMovieCredits = await tmdb.people.getMovieCredits(287);
+```
+
+### Companies
+
+Retrieve information about production companies.
+
+```typescript
+// Get company details
+const companyDetails = await tmdb.companies.getDetails(1); // Lucasfilm
+
+// Get company movies
+const companyMovies = await tmdb.companies.getMovies(1);
+```
+
+### Networks
+
+Access information about TV networks.
+
+```typescript
+// Get network details
+const networkDetails = await tmdb.networks.getDetails(213); // Netflix
+
+// Get alternative names
+const alternativeNames = await tmdb.networks.getAlternativeNames(213);
+```
+
+### Watch Providers
+
+Retrieve information about streaming platforms and availability.
+
+```typescript
+// Get available regions
+const regions = await tmdb.watchProviders.getAvailableRegions();
+
+// Get movie providers
+const movieProviders = await tmdb.watchProviders.getMovieProviders();
+
+// Get TV providers
+const tvProviders = await tmdb.watchProviders.getTvProviders();
+```
+
+### Other Endpoints
+
+The wrapper also provides access to these additional endpoints:
+
+- **Account**: Manage account details and settings
+- **Certifications**: Retrieve certification information for movies and TV shows
+- **Changes**: Get information about changes to the database
+- **Collections**: Access information about movie collections
+- **Configuration**: Retrieve configuration information for the API
+- **Credits**: Get credits information for movies and TV shows
+- **Discover**: Discover movies and TV shows based on various criteria
+- **Find**: Find movies and TV shows by external IDs
+- **Genres**: Retrieve information about movie and TV show genres
+- **Keywords**: Access information about movie keywords
+- **Reviews**: Get reviews for movies and TV shows
+- **Search**: Search for movies, TV shows, and people
+- **Trending**: Get trending movies and TV shows
+
+## Image Handling
+
+The wrapper provides enhanced utilities for handling TMDB images:
+
+```typescript
+import { getFullImagePath, ImageSizes, ImageFormats } from '@tdanks2000/tmdb-wrapper';
+
+// Example usage for movie poster
+const posterUrl = getFullImagePath(
+  'https://image.tmdb.org/t/p/',
+  ImageSizes.W500,
+  '/wwemzKWzjKYJFfCeiB57q3r4Bcm',
+  ImageFormats.JPG
+);
+// Results in: https://image.tmdb.org/t/p/w500/wwemzKWzjKYJFfCeiB57q3r4Bcm.jpg
+
+// Example usage for profile image
+const profileUrl = getFullImagePath(
+  'https://image.tmdb.org/t/p/',
+  ImageSizes.W185,
+  '/5XBzD5WuTyVQZeS4VI25z2moMeY.jpg',
+  ImageFormats.JPG
+);
+// Results in: https://image.tmdb.org/t/p/w185/5XBzD5WuTyVQZeS4VI25z2moMeY.jpg
+```
+
+The utility supports all TMDB image sizes and formats:
+
+- **Sizes**: W45, W92, W154, W185, W300, W342, W500, W780, W1280, Original
+- **Formats**: JPG, PNG, SVG
+
+## Examples
+
+### Searching for Content
+
+```typescript
+// Search for movies
+const movieResults = await tmdb.search.searchMovies('Inception');
+
+// Search for TV shows
+const tvResults = await tmdb.search.searchTvShows('Breaking Bad');
+
+// Search for people
+const peopleResults = await tmdb.search.searchPeople('Brad Pitt');
+
+// Multi-search (movies, TV shows, and people)
+const multiResults = await tmdb.search.searchMulti('Marvel');
+```
+
+### Getting Trending Content
+
+```typescript
+// Get trending movies (day)
+const trendingMoviesDay = await tmdb.trending.getTrendingMovies('day');
+
+// Get trending TV shows (week)
+const trendingTvWeek = await tmdb.trending.getTrendingTvShows('week');
+
+// Get trending people (day)
+const trendingPeopleDay = await tmdb.trending.getTrendingPeople('day');
+
+// Get all trending content (week)
+const trendingAllWeek = await tmdb.trending.getTrendingAll('week');
+```
+
+### Using Discover
+
+```typescript
+// Discover movies by genre
+const actionMovies = await tmdb.discover.discoverMovies({
+  with_genres: '28', // Action genre ID
+  sort_by: 'popularity.desc'
+});
+
+// Discover TV shows by network
+const netflixShows = await tmdb.discover.discoverTvShows({
+  with_networks: '213', // Netflix network ID
+  sort_by: 'vote_average.desc'
+});
+```
+
+## Troubleshooting
+
+### Rate Limiting
+
+TMDb API has rate limiting in place. If you encounter rate limiting issues, consider implementing a delay between requests or using a caching mechanism.
+
+```typescript
+// Example of implementing a delay between requests
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+async function fetchWithDelay() {
+  const result1 = await tmdb.movies.getPopular();
+  await delay(250); // Wait 250ms between requests
+  const result2 = await tmdb.tvShows.getPopular();
+  return { movies: result1, tvShows: result2 };
+}
+```
+
+### Authentication Issues
+
+If you're experiencing authentication issues, ensure your API key or access token is valid and correctly formatted.
+
+```typescript
+// Check if your token is valid
+try {
+  const accountDetails = await tmdb.account.getDetails();
+  console.log('Authentication successful:', accountDetails);
+} catch (error) {
+  console.error('Authentication failed:', error);
+}
+```
+
+## API Reference
+
+For a complete list of available methods and parameters, please refer to the [TMDB API Documentation](https://developers.themoviedb.org/3/getting-started/introduction).
+
+This wrapper aims to provide a 1:1 mapping to the official TMDB API, with TypeScript types for improved developer experience.
 
 ## Contributing
 
 Contributions are welcome! For bug reports, feature requests, or any other questions, please open an issue on the [GitHub repository](https://github.com/tdanks2000/tmdb-wrapper).
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
@@ -145,4 +327,8 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 
 # ❤️
 
-Reminder that <strong><i>you are great, you are enough, and your presence is valued.</i></strong> If you are struggling with your mental health, please reach out to someone you love and consult a professional. You are not alone.
+<p align="center">
+<a target="_blank" href="https://tdanks.com/mental-health/quote">
+❤️ Reminder that <strong><i>you are great, you are enough, and your presence is valued.</i></strong> If you are struggling with your mental health, please reach out to someone you love and consult a professional. You are not alone. ❤️
+</a>
+</p>

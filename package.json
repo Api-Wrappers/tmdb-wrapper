@@ -1,6 +1,7 @@
 {
   "name": "@tdanks2000/tmdb-wrapper",
-  "version": "1.0.3",
+  "version": "1.1.0",
+  "description": "A powerful and easy-to-use TypeScript wrapper for The Movie Database (TMDb) API",
   "module": "./src/index.ts",
   "type": "module",
   "main": "dist/index.js",
@@ -12,6 +13,14 @@
     "type": "git",
     "url": "git+https://github.com/tdanks2000/tmdb-wrapper"
   },
+  "homepage": "https://github.com/tdanks2000/tmdb-wrapper#readme",
+  "bugs": {
+    "url": "https://github.com/tdanks2000/tmdb-wrapper/issues"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md"
+  ],
   "keywords": [
     "tmdb",
     "tmdbWrapper",
@@ -19,7 +28,14 @@
     "tmdb-wrapper",
     "api wrapper",
     "node",
-    "typescript"
+    "typescript",
+    "movies",
+    "tv shows",
+    "movie database",
+    "themoviedb",
+    "tmdb api",
+    "entertainment",
+    "media"
   ],
   "engines": {
     "node": ">=16"
@@ -28,14 +44,16 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "pnpm tsc && pnpm tsc-alias",
-    "release": "yarn version && npm publish",
-    "preversion": "pnpm run build"
+    "build": "tsc && tsc-alias",
+    "release": "npm run build && npm version patch && npm publish",
+    "release:minor": "npm run build && npm version minor && npm publish",
+    "release:major": "npm run build && npm version major && npm publish",
+    "preversion": "npm run build"
   },
   "devDependencies": {
-    "@types/node": "^20.11.20",
+    "@types/node": "^22.15.3",
     "ts-node": "^10.9.2",
-    "tsc-alias": "^1.8.8",
-    "typescript": "^5.3.3"
+    "tsc-alias": "^1.8.15",
+    "typescript": "^5.8.3"
   }
 }
