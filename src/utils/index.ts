@@ -1,2 +1,2 @@
-export * from './api';
-export * from './getimagePath';
+export * from "./api";
+export * from "./getimagePath";

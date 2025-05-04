@@ -1,9 +1,10 @@
-import { API } from '../../utils';
+import { API } from "../../utils";
+import { TokenType } from "../types";
 
 export class BaseEndpoint {
-  protected api: API;
+	protected api: API;
 
-  constructor(protected readonly access_token: string) {
-    this.api = new API(access_token);
-  }
+	constructor(protected readonly auth: TokenType) {
+		this.api = new API(auth);
+	}
 }

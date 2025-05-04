@@ -1,1 +1,1 @@
-export * from './baseEndpoint';
+export * from "./baseEndpoint";
