@@ -34,7 +34,8 @@ export class CollectionsEndpoint extends BaseEndpoint {
 	): Promise<DetailedCollection> {
 		return await this.api.get<DetailedCollection>(
 			`${BASE_COLLECTION}/${id}`,
-			options,
+
+			options as Record<string, unknown>,
 		);
 	}
 
@@ -70,7 +71,8 @@ export class CollectionsEndpoint extends BaseEndpoint {
 	): Promise<Translations> {
 		return await this.api.get<Translations>(
 			`${BASE_COLLECTION}/${id}/translations`,
-			options,
+
+			options as Record<string, unknown>,
 		);
 	}
 }
