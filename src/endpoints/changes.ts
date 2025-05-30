@@ -1,4 +1,9 @@
-import { BaseEndpoint, ChangeOption, MediaChanges, TokenType } from "../@types";
+import {
+	BaseEndpoint,
+	type ChangeOption,
+	type MediaChanges,
+	type TokenType,
+} from "../@types";
 
 /**
  * Represents an endpoint for retrieving changes in movies, TV shows, and persons.

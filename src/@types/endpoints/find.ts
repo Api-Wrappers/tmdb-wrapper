@@ -1,4 +1,4 @@
-import { Episode, MediaType, Movie, Person, Season, TV } from "..";
+import type { Episode, MediaType, Movie, Person, Season, TV } from "..";
 
 export type ExternalSource =
 	| "imdb_id"

@@ -1,9 +1,9 @@
 import {
 	BaseEndpoint,
-	BelongingMovies,
-	Keyword,
-	KeywordsOptions,
-	TokenType,
+	type BelongingMovies,
+	type Keyword,
+	type KeywordsOptions,
+	type TokenType,
 } from "../@types";
 
 const BASE_KEYWORD = "/keyword";

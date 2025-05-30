@@ -1,4 +1,4 @@
-import { Episode, LanguageOption } from "..";
+import type { Episode, LanguageOption } from "..";
 
 export interface SeasonSelection {
 	tvShowID: number;

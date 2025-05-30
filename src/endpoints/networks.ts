@@ -1,9 +1,9 @@
 import {
-	AlternativeNames,
+	type AlternativeNames,
 	BaseEndpoint,
-	NetworkDetails,
-	NetworkImages,
-	TokenType,
+	type NetworkDetails,
+	type NetworkImages,
+	type TokenType,
 } from "../@types";
 
 /**

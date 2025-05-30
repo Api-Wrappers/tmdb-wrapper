@@ -1,8 +1,8 @@
 import {
 	BaseEndpoint,
-	ExternalIdOptions,
-	FindResult,
-	TokenType,
+	type ExternalIdOptions,
+	type FindResult,
+	type TokenType,
 } from "../@types";
 
 /**

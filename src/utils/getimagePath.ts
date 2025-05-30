@@ -24,11 +24,10 @@ export const getFullImagePath = (
 		const imagePathArr = imagePath.split(".");
 		const imageFormat = format || imagePathArr[1];
 		return `${baseUrl}${fileSize}${imagePathArr[0]}.${imageFormat}`;
-	} else {
-		// If no extension in path, use provided format or default to jpg
-		const imageFormat = format || "jpg";
-		return `${baseUrl}${fileSize}${imagePath}.${imageFormat}`;
 	}
+	// If no extension in path, use provided format or default to jpg
+	const imageFormat = format || "jpg";
+	return `${baseUrl}${fileSize}${imagePath}.${imageFormat}`;
 };
 
 /**

@@ -1,11 +1,11 @@
 import {
 	BaseEndpoint,
-	LanguageOption,
-	PageOption,
-	TimeWindow,
-	TokenType,
-	TrendingMediaType,
-	TrendingResults,
+	type LanguageOption,
+	type PageOption,
+	type TimeWindow,
+	type TokenType,
+	type TrendingMediaType,
+	type TrendingResults,
 } from "../@types";
 
 /**

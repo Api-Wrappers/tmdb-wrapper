@@ -1,4 +1,4 @@
-import { BaseEndpoint, Configuration, TokenType } from "../@types";
+import { BaseEndpoint, type Configuration, type TokenType } from "../@types";
 
 /**
  * Represents an endpoint for retrieving current system configuration.
@@ -17,6 +17,6 @@ export class ConfigurationEndpoint extends BaseEndpoint {
 	 * @returns {Promise<Configuration>} A Promise that resolves with the current system configuration.
 	 */
 	async getCurrent(): Promise<Configuration> {
-		return await this.api.get<Configuration>(`/configuration`);
+		return await this.api.get<Configuration>("/configuration");
 	}
 }

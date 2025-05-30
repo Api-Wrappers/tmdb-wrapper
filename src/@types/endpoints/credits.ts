@@ -1,4 +1,4 @@
-import { Image, Person } from "..";
+import type { Image, Person } from "..";
 
 export interface CreditSeason {
 	air_date?: string;

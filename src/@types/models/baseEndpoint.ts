@@ -1,5 +1,5 @@
 import { API } from "../../utils";
-import { TokenType } from "../types";
+import type { TokenType } from "../types";
 
 export class BaseEndpoint {
 	protected api: API;

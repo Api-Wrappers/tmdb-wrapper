@@ -1,9 +1,9 @@
 import {
-	AlternativeNames,
+	type AlternativeNames,
 	BaseEndpoint,
-	CompanyDetails,
-	CompanyImages,
-	TokenType,
+	type CompanyDetails,
+	type CompanyImages,
+	type TokenType,
 } from "../@types";
 
 /**

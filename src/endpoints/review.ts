@@ -1,4 +1,4 @@
-import { BaseEndpoint, ReviewDetails, TokenType } from "../@types";
+import { BaseEndpoint, type ReviewDetails, type TokenType } from "../@types";
 
 /**
  * Represents an endpoint for accessing review details.

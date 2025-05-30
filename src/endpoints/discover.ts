@@ -1,10 +1,10 @@
 import {
 	BaseEndpoint,
-	MovieDiscoverResult,
-	MovieQueryOptions,
-	TokenType,
-	TvShowDiscoverResult,
-	TvShowQueryOptions,
+	type MovieDiscoverResult,
+	type MovieQueryOptions,
+	type TokenType,
+	type TvShowDiscoverResult,
+	type TvShowQueryOptions,
 } from "../@types";
 
 const BASE_DISCOVER = "/discover";

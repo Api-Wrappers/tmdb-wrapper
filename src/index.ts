@@ -1,4 +1,4 @@
-import { TokenType } from "./@types";
+import type { TokenType } from "./@types";
 import {
 	AccountEndpoint,
 	CertificationEndpoint,

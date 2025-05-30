@@ -1,5 +1,5 @@
-import { Movie } from "..";
-import { PageOption } from "./options";
+import type { Movie } from "..";
+import type { PageOption } from "./options";
 
 export interface KeywordsOptions extends PageOption {
 	include_adult?: boolean;

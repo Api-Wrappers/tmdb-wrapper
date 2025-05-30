@@ -1,4 +1,4 @@
-import { ErrorResponse, TokenType } from "../@types";
+import type { ErrorResponse, TokenType } from "../@types";
 
 const BASE_URL_V3 = "https://api.themoviedb.org/3";
 

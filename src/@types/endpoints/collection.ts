@@ -1,4 +1,4 @@
-import { LanguageOption, Movie } from "..";
+import type { LanguageOption, Movie } from "..";
 
 export interface Collection {
 	id: number;

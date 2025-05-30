@@ -1,4 +1,4 @@
-import { AccountDetails, BaseEndpoint, TokenType } from "../@types";
+import { type AccountDetails, BaseEndpoint, type TokenType } from "../@types";
 
 /**
  * Represents an endpoint for retrieving account details.

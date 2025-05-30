@@ -1,8 +1,8 @@
 import {
 	BaseEndpoint,
-	TokenType,
-	WatchProviders,
-	WatchRegionsResponse,
+	type TokenType,
+	type WatchProviders,
+	type WatchRegionsResponse,
 } from "../@types";
 
 /**

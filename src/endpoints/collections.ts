@@ -1,11 +1,11 @@
 import {
 	BaseEndpoint,
-	CollectionImageOptions,
-	DetailedCollection,
-	ImageCollection,
-	LanguageOption,
-	TokenType,
-	Translations,
+	type CollectionImageOptions,
+	type DetailedCollection,
+	type ImageCollection,
+	type LanguageOption,
+	type TokenType,
+	type Translations,
 } from "../@types";
 
 const BASE_COLLECTION = "/collection";

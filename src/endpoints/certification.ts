@@ -1,4 +1,4 @@
-import { BaseEndpoint, Certifications, TokenType } from "../@types";
+import { BaseEndpoint, type Certifications, type TokenType } from "../@types";
 
 /**
  * Represents an endpoint for retrieving certifications for movies and TV shows.

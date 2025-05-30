@@ -1,4 +1,4 @@
-import { Image } from "..";
+import type { Image } from "..";
 
 export interface CompanyDetails {
 	description: string;

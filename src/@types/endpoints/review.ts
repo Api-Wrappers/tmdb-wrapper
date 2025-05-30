@@ -1,4 +1,4 @@
-import { Review } from "..";
+import type { Review } from "..";
 
 export interface ReviewDetails extends Review {
 	iso_639_1: string;

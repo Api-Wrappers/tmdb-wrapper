@@ -1,4 +1,4 @@
-import { Movie, TV } from "..";
+import type { Movie, TV } from "..";
 
 export type SortOption =
 	| "popularity.asc"

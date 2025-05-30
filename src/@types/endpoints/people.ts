@@ -1,4 +1,4 @@
-import { Image, Movie, Person, TV } from "..";
+import type { Image, Movie, Person, TV } from "..";
 
 interface Cast {
 	character: string;

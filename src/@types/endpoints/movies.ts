@@ -1,4 +1,4 @@
-import {
+import type {
 	Genre,
 	LanguageOption,
 	Movie,
@@ -44,11 +44,11 @@ export interface MovieDetails {
 
 export enum ReleaseDateType {
 	Premiere = 1,
-	"Theatrical (limited)",
-	Theatrical,
-	Digital,
-	Physical,
-	TV,
+	"Theatrical (limited)" = 2,
+	Theatrical = 3,
+	Digital = 4,
+	Physical = 5,
+	TV = 6,
 }
 
 export interface ReleaseDate {

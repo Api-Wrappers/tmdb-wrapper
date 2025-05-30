@@ -1,4 +1,4 @@
-import { Credits, Crew, LanguageOption } from "..";
+import type { Credits, Crew, LanguageOption } from "..";
 
 export interface EpisodeSelection {
 	tvShowID: number;

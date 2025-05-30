@@ -1,4 +1,9 @@
-import { BaseEndpoint, Genres, LanguageOption, TokenType } from "../@types";
+import {
+	BaseEndpoint,
+	type Genres,
+	type LanguageOption,
+	type TokenType,
+} from "../@types";
 
 /**
  * Represents an endpoint for retrieving genre information for movies and TV shows.
