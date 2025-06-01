@@ -8,9 +8,9 @@
   "types": "./dist/index.d.mts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.mts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.mts"
+      "require": "./dist/index.cjs"
     }
   },
   "publishConfig": {
@@ -53,16 +53,18 @@
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
-    "release": "npm run build && npm version patch && npm publish",
-    "release:minor": "npm run build && npm version minor && npm publish",
-    "release:major": "npm run build && npm version major && npm publish",
-    "preversion": "npm run build",
+    "test": "bun test",
+    "release": "npm run test && npm run build && npm version patch && npm publish",
+    "release:minor": "npm run test && npm run build && npm version minor && npm publish",
+    "release:major": "npm run test && npm run build && npm version major && npm publish",
+    "preversion": "npm run test && npm run build",
     "check": "biome check .",
     "check:unsafe": "biome check --write --unsafe .",
     "check:write": "biome check --write ."
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.0-beta.5",
+    "@types/bun": "^1.2.15",
     "@types/node": "^22.15.27",
     "tsdown": "^0.12.5",
     "typescript": "^5.8.3"
