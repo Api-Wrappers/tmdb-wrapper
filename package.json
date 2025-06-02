@@ -63,7 +63,7 @@
     "check:write": "biome check --write ."
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.0.0-beta.5",
+    "@biomejs/biome": "^2.0.0-beta.6",
     "@types/bun": "^1.2.15",
     "@types/node": "^22.15.29",
     "tsdown": "^0.12.6",
