@@ -1,41 +1,32 @@
-import { describe, it, expect } from "bun:test";
+import { describe, it, expect, beforeAll } from "bun:test";
 import { execSync } from "child_process";
 import { existsSync, readFileSync } from "fs";
 import path from "path";
 
 describe("Package Build", () => {
   describe("Build Process", () => {
-    it("should build the package successfully", () => {
-      expect(() => {
-        execSync("bun run build", {
-          cwd: process.cwd(),
-          stdio: "pipe",
-        });
-      }).not.toThrow();
+    beforeAll(() => {
+      execSync("bun run build", {
+        cwd: process.cwd(),
+        stdio: "pipe",
+      });
     });
-
-    it("should generate expected build outputs", () => {
-      try {
-        execSync("bun run build", {
-          cwd: process.cwd(),
-          stdio: "pipe",
-        });
-      } catch (error) {
-        // Build may fail, but we'll check files anyway
-      }
-
+  
+    it("should build the package successfully", () => {
       const distPath = path.join(process.cwd(), "dist");
-
       expect(existsSync(distPath)).toBe(true);
-
+    });
+  
+    it("should generate expected build outputs", () => {
+      const distPath = path.join(process.cwd(), "dist");
       const expectedFiles = ["index.mjs", "index.cjs", "index.d.mts"];
-
       expectedFiles.forEach((file) => {
         const filePath = path.join(distPath, file);
         expect(existsSync(filePath)).toBe(true);
       });
     });
   });
+  
 
   describe("Package Exports", () => {
     it("should export TMDB class and types", async () => {
