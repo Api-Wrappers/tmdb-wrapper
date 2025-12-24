@@ -50,6 +50,7 @@ export interface DiscoverQueryOptions {
 	without_keywords?: string;
 	with_keywords?: string;
 	with_companies?: string;
+	with_text_query?: string;
 }
 
 export interface MovieQueryOptions extends DiscoverQueryOptions {
