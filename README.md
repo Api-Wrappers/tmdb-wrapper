@@ -192,36 +192,97 @@ The wrapper also provides access to these additional endpoints:
 
 ## Image Handling
 
-The wrapper provides enhanced utilities for handling TMDB images:
+## Image Handling
 
-```typescript
-import { getFullImagePath, ImageSizes, ImageFormats } from '@tdanks2000/tmdb-wrapper';
+The wrapper includes utilities to reliably construct TMDB image URLs, plus a convenience helper for TMDB `Image` objects.
 
-// Example usage for movie poster
-const posterUrl = getFullImagePath(
-  'https://image.tmdb.org/t/p/',
-  ImageSizes.W500,
-  '/wwemzKWzjKYJFfCeiB57q3r4Bcm',
-  ImageFormats.JPG
-);
-// Results in: https://image.tmdb.org/t/p/w500/wwemzKWzjKYJFfCeiB57q3r4Bcm.jpg
-
-// Example usage for profile image
-const profileUrl = getFullImagePath(
-  'https://image.tmdb.org/t/p/',
-  ImageSizes.W185,
-  '/5XBzD5WuTyVQZeS4VI25z2moMeY.jpg',
-  ImageFormats.JPG
-);
-// Results in: https://image.tmdb.org/t/p/w185/5XBzD5WuTyVQZeS4VI25z2moMeY.jpg
+```
+import {
+	formImage,
+	getFullImagePath,
+	ImageSizes,
+	ImageFormats,
+} from "@tdanks2000/tmdb-wrapper";
 ```
 
-The utility supports all TMDB image sizes and formats:
+### `getFullImagePath(...)`
 
-- **Sizes**: W45, W92, W154, W185, W300, W342, W500, W780, W1280, Original
-- **Formats**: JPG, PNG, SVG
+```
+getFullImagePath(
+  baseUrl: string,      // e.g. "https://image.tmdb.org/t/p/"
+  fileSize: string,     // e.g. ImageSizes.W500 or "w780"
+  imagePath: string,    // e.g. "/abc123" or "/abc123.jpg"
+  format?: string       // optional: ImageFormats.JPG / PNG / SVG
+): string
+```
 
-## Examples
+Notes:
+- `imagePath` can be with or without a leading `/` (both work).
+- If `imagePath` is already an absolute URL (`https://...`), it’s returned unchanged.
+- If you provide `format`, the extension is appended/replaced safely.
+- If you omit `format`, the original path is preserved (no forced default extension).
+
+### `formImage(image, fileSize, format?)`
+
+`formImage` is a small helper that reads `file_path` from a TMDB `Image` object and returns a ready-to-use URL. If the image object doesn’t include a `file_path`, it returns `undefined`.
+
+```
+formImage(
+  image: Image,
+  fileSize: ImageSizes,
+  format?: ImageFormats
+): string | undefined
+```
+
+### Examples
+
+Poster path without extension (add one via `format`):
+
+```
+const posterUrl = getFullImagePath(
+	"https://image.tmdb.org/t/p/",
+	ImageSizes.W500,
+	"/wwemzKWzjKYJFfCeiB57q3r4Bcm",
+	ImageFormats.JPG,
+);
+// https://image.tmdb.org/t/p/w500/wwemzKWzjKYJFfCeiB57q3r4Bcm.jpg
+```
+
+Profile path that already includes an extension (no need to pass `format`):
+
+```
+const profileUrl = getFullImagePath(
+	"https://image.tmdb.org/t/p/",
+	ImageSizes.W185,
+	"/5XBzD5WuTyVQZeS4VI25z2moMeY.jpg",
+);
+// https://image.tmdb.org/t/p/w185/5XBzD5WuTyVQZeS4VI25z2moMeY.jpg
+```
+
+Using `formImage` with a TMDB response image object:
+
+```
+const images = await tmdb.movies.getImages(550);
+const poster = images.posters[0];
+
+const posterUrl = formImage(poster, ImageSizes.W500);
+// e.g. https://image.tmdb.org/t/p/w500/xxxxx.jpg
+```
+
+Override the output extension (append/replace) with `format`:
+
+```
+const posterPngUrl = formImage(poster, ImageSizes.W500, ImageFormats.PNG);
+```
+
+### Sizes & formats
+
+This package exports common presets:
+
+- **Sizes**: `ImageSizes.ORIGINAL`, `W500`, `W300`, `W185`, `W92`, `H632`
+- **Formats**: `ImageFormats.JPG`, `PNG`, `SVG`
+
+TMDB can support additional sizes depending on their configuration; you can also pass any valid TMDB size string directly (e.g. `"w780"`, `"w1280"`).
 
 ### Searching for Content
 

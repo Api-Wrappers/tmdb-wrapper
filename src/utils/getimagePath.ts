@@ -1,13 +1,53 @@
+import type { Image } from "../@types";
+
+export const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
+
+export const ImageSizes = {
+	ORIGINAL: "original",
+	W500: "w500",
+	W300: "w300",
+	W185: "w185",
+	W92: "w92",
+	H632: "h632",
+} as const;
+
+export type ImageSize = (typeof ImageSizes)[keyof typeof ImageSizes];
+
+export const ImageFormats = {
+	JPG: "jpg",
+	PNG: "png",
+	SVG: "svg",
+} as const;
+
+export type ImageFormat = (typeof ImageFormats)[keyof typeof ImageFormats];
+
+const isAbsoluteUrl = (value: string) => /^https?:\/\//i.test(value);
+
+const normalizeBaseUrl = (baseUrl: string) =>
+	baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+
+const normalizeSize = (size: string) => size.replace(/^\/+|\/+$/g, "");
+
+const normalizePath = (path: string) =>
+	path.startsWith("/") ? path : `/${path}`;
+
+const setExtension = (path: string, format: string) => {
+	const lastSlash = path.lastIndexOf("/");
+	const lastDot = path.lastIndexOf(".");
+
+	const hasExt = lastDot > lastSlash;
+	if (!hasExt) return `${path}.${format}`;
+
+	return `${path.slice(0, lastDot + 1)}${format}`;
+};
+
 /**
- * Utility method to construct full url for image
- * based on configuration
+ * Constructs a TMDB image URL.
  *
- * https://developers.themoviedb.org/3/getting-started/images
- * @param {string} baseUrl base image url (e.g., 'https://image.tmdb.org/t/p/')
- * @param {string} fileSize file size (e.g., 'original', 'w500')
- * @param {string} imagePath raw image path
- * @param {string} format override image format (e.g., 'svg', 'png', 'jpg')
- * @returns {string} The complete image URL
+ * - Keeps paths as-is unless `format` is provided (then it replaces/appends
+ *   the extension safely using the last dot after the last slash).
+ * - Handles leading/trailing slashes robustly.
+ * - If `imagePath` is already an absolute URL, it is returned unchanged.
  */
 export const getFullImagePath = (
 	baseUrl: string,
@@ -16,37 +56,27 @@ export const getFullImagePath = (
 	format?: string,
 ): string => {
 	if (!imagePath) return "";
+	if (isAbsoluteUrl(imagePath)) return imagePath;
 
-	// Handle case where imagePath doesn't have an extension
-	const hasExtension = imagePath.includes(".");
+	const base = normalizeBaseUrl(baseUrl);
+	const size = normalizeSize(fileSize);
 
-	if (hasExtension) {
-		const imagePathArr = imagePath.split(".");
-		const imageFormat = format || imagePathArr[1];
-		return `${baseUrl}${fileSize}${imagePathArr[0]}.${imageFormat}`;
-	}
-	// If no extension in path, use provided format or default to jpg
-	const imageFormat = format || "jpg";
-	return `${baseUrl}${fileSize}${imagePath}.${imageFormat}`;
+	let path = normalizePath(imagePath);
+	if (format) path = setExtension(path, format);
+
+	return `${base}${size}${path}`;
 };
 
 /**
- * Common image sizes available in TMDB
+ * Convenience helper for TMDB `Image` objects.
  */
-export const ImageSizes = {
-	ORIGINAL: "original",
-	W500: "w500",
-	W300: "w300",
-	W185: "w185",
-	W92: "w92",
-	H632: "h632",
-};
+export const formImage = (
+	image: Image,
+	fileSize: ImageSize,
+	format?: ImageFormat,
+): string | undefined => {
+	const path = image?.file_path;
+	if (!path) return undefined;
 
-/**
- * Image formats supported by TMDB
- */
-export const ImageFormats = {
-	JPG: "jpg",
-	PNG: "png",
-	SVG: "svg",
+	return getFullImagePath(TMDB_IMAGE_BASE_URL, fileSize, path, format);
 };
