@@ -196,7 +196,7 @@ The wrapper also provides access to these additional endpoints:
 
 The wrapper includes utilities to reliably construct TMDB image URLs, plus a convenience helper for TMDB `Image` objects.
 
-```
+```typescript
 import {
 	formImage,
 	getFullImagePath,
@@ -207,7 +207,7 @@ import {
 
 ### `getFullImagePath(...)`
 
-```
+```typescript
 getFullImagePath(
   baseUrl: string,      // e.g. "https://image.tmdb.org/t/p/"
   fileSize: string,     // e.g. ImageSizes.W500 or "w780"
@@ -226,7 +226,7 @@ Notes:
 
 `formImage` is a small helper that reads `file_path` from a TMDB `Image` object and returns a ready-to-use URL. If the image object doesn’t include a `file_path`, it returns `undefined`.
 
-```
+```typescript
 formImage(
   image: Image,
   fileSize: ImageSizes,
@@ -238,7 +238,7 @@ formImage(
 
 Poster path without extension (add one via `format`):
 
-```
+```typescript
 const posterUrl = getFullImagePath(
 	"https://image.tmdb.org/t/p/",
 	ImageSizes.W500,
@@ -250,7 +250,7 @@ const posterUrl = getFullImagePath(
 
 Profile path that already includes an extension (no need to pass `format`):
 
-```
+```typescript
 const profileUrl = getFullImagePath(
 	"https://image.tmdb.org/t/p/",
 	ImageSizes.W185,
@@ -261,7 +261,7 @@ const profileUrl = getFullImagePath(
 
 Using `formImage` with a TMDB response image object:
 
-```
+```typescript
 const images = await tmdb.movies.getImages(550);
 const poster = images.posters[0];
 
@@ -271,7 +271,7 @@ const posterUrl = formImage(poster, ImageSizes.W500);
 
 Override the output extension (append/replace) with `format`:
 
-```
+```typescript
 const posterPngUrl = formImage(poster, ImageSizes.W500, ImageFormats.PNG);
 ```
 
