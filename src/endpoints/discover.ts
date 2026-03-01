@@ -11,11 +11,16 @@ const BASE_DISCOVER = "/discover";
 
 /**
  * Represents an endpoint for discovering movies and TV shows based on various criteria.
+ *
+ * TMDB v3 reference:
+ * - GET /discover/movie
+ * - GET /discover/tv
  */
 export class DiscoverEndpoint extends BaseEndpoint {
 	/**
 	 * Constructs a new DiscoverEndpoint instance.
-	 * @param {string} access_token - The access token used for authentication.
+	 *
+	 * @param {TokenType} access_token - The access token used for authentication.
 	 */
 	constructor(protected readonly access_token: TokenType) {
 		super(access_token);
@@ -23,11 +28,14 @@ export class DiscoverEndpoint extends BaseEndpoint {
 
 	/**
 	 * Retrieves a list of movies based on the provided query options asynchronously.
+	 *
+	 * TMDB: GET /discover/movie
+	 *
 	 * @param {MovieQueryOptions} [options] - Optional parameters for refining the movie discovery.
 	 * @returns {Promise<MovieDiscoverResult>} A Promise that resolves with the movie discovery results.
 	 */
-	async movie(options?: MovieQueryOptions): Promise<MovieDiscoverResult> {
-		return await this.api.get<MovieDiscoverResult>(
+	movie(options?: MovieQueryOptions): Promise<MovieDiscoverResult> {
+		return this.api.get<MovieDiscoverResult>(
 			`${BASE_DISCOVER}/movie`,
 			options as Record<string, unknown>,
 		);
@@ -35,11 +43,14 @@ export class DiscoverEndpoint extends BaseEndpoint {
 
 	/**
 	 * Retrieves a list of TV shows based on the provided query options asynchronously.
+	 *
+	 * TMDB: GET /discover/tv
+	 *
 	 * @param {TvShowQueryOptions} [options] - Optional parameters for refining the TV show discovery.
 	 * @returns {Promise<TvShowDiscoverResult>} A Promise that resolves with the TV show discovery results.
 	 */
-	async tvShow(options?: TvShowQueryOptions): Promise<TvShowDiscoverResult> {
-		return await this.api.get<TvShowDiscoverResult>(
+	tvShow(options?: TvShowQueryOptions): Promise<TvShowDiscoverResult> {
+		return this.api.get<TvShowDiscoverResult>(
 			`${BASE_DISCOVER}/tv`,
 			options as Record<string, unknown>,
 		);
