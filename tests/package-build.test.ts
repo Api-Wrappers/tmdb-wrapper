@@ -1,10 +1,18 @@
-import { describe, expect, it } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
+import { execSync } from "child_process";
 import { createRequire } from "module";
 import { existsSync, readFileSync } from "fs";
 import path from "path";
 import { pathToFileURL } from "url";
 
 describe("Package Build", () => {
+	beforeAll(() => {
+		execSync("bun run build", {
+			cwd: process.cwd(),
+			stdio: "pipe",
+		});
+	});
+
 	describe("Build Outputs", () => {
 		it("builds the package successfully", () => {
 			const distPath = path.join(process.cwd(), "dist");
