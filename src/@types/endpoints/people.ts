@@ -1,12 +1,13 @@
 import type { Image, Movie, Person, TV } from "..";
+import type { Nullable } from "../wire";
 
 interface Cast {
 	character: string;
 	credit_id: string;
 	vote_count: number;
 	id: number;
-	backdrop_path: string;
-	poster_path: string;
+	backdrop_path: Nullable<string>;
+	poster_path: Nullable<string>;
 	original_language: string;
 	vote_average: number;
 	genre_ids: number[];
@@ -21,8 +22,8 @@ interface Crew {
 	credit_id: string;
 	overview: string;
 	vote_count: number;
-	poster_path: string;
-	backdrop_path: string;
+	poster_path: Nullable<string>;
+	backdrop_path: Nullable<string>;
 	popularity: number;
 	genre_ids: number[];
 	job: string;
@@ -90,7 +91,7 @@ export interface PersonDetails {
 	biography: string;
 	popularity: number;
 	place_of_birth: string;
-	profile_path: string;
+	profile_path: Nullable<string>;
 	adult: boolean;
 	imdb_id: string;
 	homepage: string;
@@ -100,7 +101,7 @@ export type PersonChangeValue =
 	| string
 	| {
 			profile: {
-				file_path: string;
+				file_path: Nullable<string>;
 			};
 	  };
 
@@ -118,7 +119,7 @@ export interface PeopleImages {
 
 export interface TaggedImage {
 	aspect_ratio: number;
-	file_path: string;
+	file_path: Nullable<string>;
 	height: number;
 	id: string;
 	iso_639_1: string;
@@ -139,13 +140,11 @@ export interface TaggedImages {
 
 export interface PersonTranslations {
 	id: number;
-	translations: {
+	translations: Array<{
 		iso_3166_1: string;
 		iso_639_1: string;
 		name: string;
 		english_name: string;
-		data: {
-			biography: string;
-		};
-	};
+		data: { biography: string };
+	}>;
 }

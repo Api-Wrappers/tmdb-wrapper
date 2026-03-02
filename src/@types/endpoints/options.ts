@@ -31,6 +31,7 @@ import type {
 	Videos,
 	WatchProviders,
 } from "..";
+import type { TMDBDate } from "../wire";
 
 export interface LanguageOption {
 	language?: string;
@@ -49,8 +50,8 @@ export interface PageOption {
 }
 
 export interface ChangeOption extends PageOption {
-	start_date?: Date;
-	end_date?: Date;
+	start_date?: TMDBDate; // "YYYY-MM-DD"
+	end_date?: TMDBDate;
 }
 
 // Appendable Response Keys

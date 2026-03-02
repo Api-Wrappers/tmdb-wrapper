@@ -5,13 +5,14 @@ import type {
 	ProductionCountry,
 	SpokenLanguage,
 } from "..";
+import type { Nullable } from "../wire";
 
 export interface CreatedBy {
 	id: number;
 	credit_id: string;
 	name: string;
 	gender: number;
-	profile_path: string;
+	profile_path: Nullable<string>;
 }
 
 export interface NextEpisodeToAir {
@@ -26,7 +27,7 @@ export interface NextEpisodeToAir {
 	runtime: number;
 	season_number: number;
 	show_id: number;
-	still_path: string;
+	still_path: Nullable<string>;
 }
 
 export interface LastEpisodeToAir {
@@ -37,7 +38,7 @@ export interface LastEpisodeToAir {
 	overview: string;
 	production_code: string;
 	season_number: number;
-	still_path: string;
+	still_path: Nullable<string>;
 	vote_average: number;
 	vote_count: number;
 }
@@ -45,7 +46,7 @@ export interface LastEpisodeToAir {
 export interface Network {
 	name: string;
 	id: number;
-	logo_path: string;
+	logo_path: Nullable<string>;
 	origin_country: string;
 }
 
@@ -55,12 +56,12 @@ export interface Season {
 	id: number;
 	name: string;
 	overview: string;
-	poster_path: string;
+	poster_path: Nullable<string>;
 	season_number: number;
 }
 
 export interface TvShowDetails {
-	backdrop_path: string;
+	backdrop_path: Nullable<string>;
 	created_by: CreatedBy[];
 	episode_run_time: number[];
 	first_air_date: string;
@@ -81,7 +82,7 @@ export interface TvShowDetails {
 	original_name: string;
 	overview: string;
 	popularity: number;
-	poster_path: string;
+	poster_path: Nullable<string>;
 	production_companies: ProductionCompany[];
 	production_countries: ProductionCountry[];
 	seasons: Season[];
@@ -95,7 +96,7 @@ export interface TvShowDetails {
 
 export interface Network {
 	id: number;
-	logo_path: string;
+	logo_path: Nullable<string>;
 	name: string;
 	origin_country: string;
 }
@@ -127,7 +128,7 @@ export interface ScreenedTheatrically {
 }
 
 export interface SimilarTvShow {
-	backdrop_path: string;
+	backdrop_path: Nullable<string>;
 	first_air_date: string;
 	genre_ids: number[];
 	id: number;
@@ -135,7 +136,7 @@ export interface SimilarTvShow {
 	original_name: string;
 	overview: string;
 	origin_country: string[];
-	poster_path: string;
+	poster_path: Nullable<string>;
 	popularity: number;
 	name: string;
 	vote_average: number;
@@ -150,7 +151,7 @@ export interface Similartv {
 }
 
 export interface Latesttv {
-	backdrop_path?: string;
+	backdrop_path: Nullable<string>;
 	created_by: CreatedBy[];
 	episode_run_time: number[];
 	first_air_date: string;
@@ -169,7 +170,7 @@ export interface Latesttv {
 	original_name: string;
 	overview?: string;
 	popularity: number;
-	poster_path?: string;
+	poster_path: Nullable<string>;
 	production_companies: ProductionCompany[];
 	seasons: Season[];
 	status: string;
@@ -179,10 +180,10 @@ export interface Latesttv {
 }
 
 export interface OnTheAirResult {
-	poster_path: string;
+	poster_path: Nullable<string>;
 	popularity: number;
 	id: number;
-	backdrop_path: string;
+	backdrop_path: Nullable<string>;
 	vote_average: number;
 	overview: string;
 	first_air_date: string;
@@ -202,10 +203,10 @@ export interface OnTheAir {
 }
 
 export interface AiringTodayResult {
-	poster_path: string;
+	poster_path: Nullable<string>;
 	popularity: number;
 	id: number;
-	backdrop_path: string;
+	backdrop_path: Nullable<string>;
 	vote_average: number;
 	overview: string;
 	first_air_date: string;
@@ -225,10 +226,10 @@ export interface tvAiringToday {
 }
 
 export interface PopularTvShowResult {
-	poster_path: string;
+	poster_path: Nullable<string>;
 	popularity: number;
 	id: number;
-	backdrop_path: string;
+	backdrop_path: Nullable<string>;
 	vote_average: number;
 	overview: string;
 	first_air_date: string;
@@ -248,10 +249,10 @@ export interface Populartv {
 }
 
 export interface TopRatedTvShowResult {
-	poster_path: string;
+	poster_path: Nullable<string>;
 	popularity: number;
 	id: number;
-	backdrop_path: string;
+	backdrop_path: Nullable<string>;
 	vote_average: number;
 	overview: string;
 	first_air_date: string;

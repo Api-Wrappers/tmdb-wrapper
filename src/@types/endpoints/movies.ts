@@ -6,17 +6,18 @@ import type {
 	ProductionCountry,
 	SpokenLanguage,
 } from "..";
+import type { Nullable, TMDBDateTime } from "../wire";
 
 export interface BelongsToCollection {
 	id: number;
 	name: string;
-	poster_path: string;
-	backdrop_path: string;
+	poster_path: Nullable<string>;
+	backdrop_path: Nullable<string>;
 }
 
 export interface MovieDetails {
 	adult: boolean;
-	backdrop_path: string;
+	backdrop_path: Nullable<string>;
 	belongs_to_collection?: BelongsToCollection;
 	budget: number;
 	genres: Genre[];
@@ -27,7 +28,7 @@ export interface MovieDetails {
 	original_title: string;
 	overview: string;
 	popularity: number;
-	poster_path?: string;
+	poster_path: Nullable<string>;
 	production_companies: ProductionCompany[];
 	production_countries: ProductionCountry[];
 	release_date: string;
@@ -54,7 +55,7 @@ export enum ReleaseDateType {
 export interface ReleaseDate {
 	certification: string;
 	iso_639_1: string;
-	release_date: Date;
+	release_date: TMDBDateTime;
 	type: ReleaseDateType;
 	note: string;
 }
@@ -84,7 +85,7 @@ export interface MovieList {
 	iso_639_1: string;
 	list_type: string;
 	name: string;
-	poster_path: string;
+	poster_path: Nullable<string>;
 }
 
 export interface MovieLists {
@@ -97,7 +98,7 @@ export interface MovieLists {
 
 export interface LatestMovie {
 	adult: boolean;
-	backdrop_path?: string;
+	backdrop_path: Nullable<string>;
 	belongs_to_collection?: BelongsToCollection;
 	budget: number;
 	genres: Genre[];
@@ -108,7 +109,7 @@ export interface LatestMovie {
 	original_title: string;
 	overview: string;
 	popularity: number;
-	poster_path: string;
+	poster_path: Nullable<string>;
 	production_companies: ProductionCompany[];
 	production_countries: ProductionCountry[];
 	release_date: string;

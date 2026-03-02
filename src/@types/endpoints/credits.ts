@@ -1,8 +1,9 @@
 import type { Image, Person } from "..";
+import type { Nullable } from "../wire";
 
 export interface CreditSeason {
 	air_date?: string;
-	poster_path?: string;
+	poster_path: Nullable<string>;
 	season_number?: number;
 }
 
@@ -13,11 +14,11 @@ export interface Media {
 	vote_count?: number;
 	overview?: string;
 	vote_average?: number;
-	backdrop_path?: string;
+	backdrop_path: Nullable<string>;
 	genre_ids?: number[];
 	original_name?: string;
 	origin_country?: string[];
-	poster_path?: string;
+	poster_path: Nullable<string>;
 	original_language?: string;
 	popularity?: number;
 	character?: string;
@@ -54,7 +55,7 @@ export interface Cast {
 	name: string;
 	original_name: string;
 	popularity: number;
-	profile_path: string;
+	profile_path: Nullable<string>;
 	cast_id: number;
 	character: string;
 	credit_id: string;
@@ -69,7 +70,7 @@ export interface Crew {
 	name: string;
 	original_name: string;
 	popularity: number;
-	profile_path: string;
+	profile_path: Nullable<string>;
 	credit_id: string;
 	department: string;
 	job: string;
@@ -122,7 +123,7 @@ export interface AggregateCast {
 	name: string;
 	original_name: string;
 	popularity: number;
-	profile_path: string;
+	profile_path: Nullable<string>;
 	roles: CastRole[];
 	total_episode_count: number;
 	order: number;
@@ -142,7 +143,7 @@ export interface AggregateCrew {
 	name: string;
 	original_name: string;
 	popularity: number;
-	profile_path: string;
+	profile_path: Nullable<string>;
 	jobs: CrewJob[];
 	department: string;
 	total_episode_count: number;

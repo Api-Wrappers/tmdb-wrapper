@@ -1,4 +1,5 @@
 import type { Episode, LanguageOption } from "..";
+import type { Nullable } from "../wire";
 
 export interface SeasonSelection {
 	tvShowID: number;
@@ -11,7 +12,7 @@ export interface SeasonDetails {
 	name: string;
 	overview: string;
 	id: number;
-	poster_path: string | null;
+	poster_path: Nullable<string>;
 	season_number: number;
 }
 
