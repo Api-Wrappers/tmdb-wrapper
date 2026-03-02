@@ -2,96 +2,37 @@ import type { ErrorResponse, TokenType } from "../@types";
 
 const BASE_URL_V3 = "https://api.themoviedb.org/3";
 
-/**
- * Lightweight TMDB v3 API client.
- *
- * - Sends requests to `https://api.themoviedb.org/3`.
- * - Supports authentication via:
- *   - v4 API Read Access Token (Bearer), and/or
- *   - v3 API key via `api_key` query parameter.
- *
- * Notes:
- * - Many endpoints accept either method depending on your TMDB settings.
- * - When an API key is present, it is appended as `api_key` in the query string.
- */
-export class API {
-	/**
-	 * Optional v3 API key (sent as `api_key` query param).
-	 */
-	private apiKey?: string;
+export type Primitive = string | number | boolean;
 
-	/**
-	 * Optional v4 read access token (sent as `Authorization: Bearer ...`).
-	 */
-	private accessToken?: string;
+export type QueryValue =
+	| Primitive
+	| null
+	| undefined
+	| Array<Primitive | null | undefined>;
 
-	/**
-	 * Create a new API client.
-	 *
-	 * @param {TokenType} auth - Authentication information.
-	 */
-	constructor(auth: TokenType) {
-		if (typeof auth === "string") {
-			this.accessToken = auth;
-		} else {
-			this.apiKey = auth.apiKey;
-			this.accessToken = auth.accessToken;
-		}
-	}
+export type Query = Record<string, QueryValue>;
 
-	/**
-	 * Generic HTTP GET request.
-	 *
-	 * @template T - Response JSON type.
-	 * @template O - Query options (query params) type.
-	 *
-	 * @param {string} path - The TMDB path beginning with `/`, e.g. `/movie/550`.
-	 * @param {O} [options] - Query parameters to serialize.
-	 *
-	 * @returns {Promise<T>} Resolves with parsed JSON typed as `T`.
-	 * @throws {ErrorResponse} Rejects with parsed TMDB error payload when `response.ok` is false.
-	 */
-	async get<T, O extends Record<string, unknown> = Record<string, unknown>>(
-		path: string,
-		options?: O,
-	): Promise<T> {
-		const rawOptions = {
-			...(options ?? {}),
-			...(this.apiKey ? { api_key: this.apiKey } : {}),
-		};
+export interface RequestOptions<Q extends object = object> {
+	query?: Q;
+	signal?: AbortSignal;
+	timeoutMs?: number;
+	retries?: number;
+	retryDelayMs?: number;
+}
 
-		const params = parseOptions(rawOptions);
-
-		const response = await fetch(`${BASE_URL_V3}${path}?${params}`, {
-			method: "GET",
-			headers: {
-				...(this.accessToken
-					? { Authorization: `Bearer ${this.accessToken}` }
-					: {}),
-				"Content-Type": "application/json;charset=utf-8",
-			},
-		});
-
-		if (!response.ok) {
-			const error = (await response.json()) as ErrorResponse;
-			return Promise.reject(error);
-		}
-
-		return (await response.json()) as T;
+export class TMDBError extends Error {
+	constructor(
+		message: string,
+		public readonly status: number,
+		public readonly url: string,
+		public readonly payload?: unknown,
+	) {
+		super(message);
+		this.name = "TMDBError";
 	}
 }
 
-/**
- * Serializes an options object into a query string.
- *
- * - Skips `undefined` and `null`.
- * - Arrays are expanded into repeated keys:
- *   `{ with_genres: ["12", "16"] }` -> `with_genres=12&with_genres=16`
- *
- * @param {Record<string, unknown>} [options] - Options to serialize.
- * @returns {string} Query string without the leading `?`.
- */
-export const parseOptions = (options?: Record<string, unknown>): string => {
+export const parseOptions = (options?: Query): string => {
 	if (!options) return "";
 
 	const entries: [string, string][] = [];
@@ -101,6 +42,7 @@ export const parseOptions = (options?: Record<string, unknown>): string => {
 
 		if (Array.isArray(value)) {
 			for (const item of value) {
+				if (item === undefined || item === null) continue;
 				entries.push([key, String(item)]);
 			}
 		} else {
@@ -110,3 +52,117 @@ export const parseOptions = (options?: Record<string, unknown>): string => {
 
 	return new URLSearchParams(entries).toString();
 };
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const shouldRetry = (status: number) =>
+	status === 429 || status === 502 || status === 503 || status === 504;
+
+const readRetryAfterMs = (res: Response): number | undefined => {
+	const raw = res.headers.get("retry-after");
+	if (!raw) return undefined;
+
+	const asSeconds = Number(raw);
+	if (Number.isFinite(asSeconds)) return Math.max(0, asSeconds * 1000);
+
+	const asDate = Date.parse(raw);
+	if (!Number.isNaN(asDate)) return Math.max(0, asDate - Date.now());
+
+	return undefined;
+};
+
+export class API {
+	private apiKey?: string;
+	private accessToken?: string;
+
+	constructor(auth: TokenType) {
+		if (typeof auth === "string") {
+			this.accessToken = auth;
+		} else {
+			this.apiKey = auth.apiKey;
+			this.accessToken = auth.accessToken;
+		}
+	}
+
+	async get<T, Q extends object = object>(
+		path: string,
+		opts: RequestOptions<Q> = {},
+	): Promise<T> {
+		const query: Query = {
+			...(opts.query
+				? (opts.query as unknown as Record<string, QueryValue>)
+				: {}),
+			...(this.apiKey ? { api_key: this.apiKey } : {}),
+		};
+
+		const qs = parseOptions(query);
+		const url = `${BASE_URL_V3}${path}${qs ? `?${qs}` : ""}`;
+
+		const retries = opts.retries ?? 2;
+		const retryDelayMs = opts.retryDelayMs ?? 300;
+		const timeoutMs = opts.timeoutMs ?? 30_000;
+
+		const controller = new AbortController();
+		const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+		if (opts.signal) {
+			if (opts.signal.aborted) controller.abort();
+			else
+				opts.signal.addEventListener("abort", () => controller.abort(), {
+					once: true,
+				});
+		}
+
+		try {
+			for (let attempt = 0; attempt <= retries; attempt++) {
+				const res = await fetch(url, {
+					method: "GET",
+					signal: controller.signal,
+					headers: {
+						...(this.accessToken
+							? { Authorization: `Bearer ${this.accessToken}` }
+							: {}),
+						Accept: "application/json",
+					},
+				});
+
+				if (res.ok) {
+					return (await res.json()) as T;
+				}
+
+				let payload: unknown;
+				let message = `${res.status} ${res.statusText}`;
+
+				try {
+					payload = (await res.json()) as ErrorResponse;
+					if (
+						payload &&
+						typeof payload === "object" &&
+						"status_message" in payload
+					) {
+						message = String((payload as ErrorResponse).status_message);
+					}
+				} catch {
+					try {
+						payload = await res.text();
+					} catch {
+						// ignore
+					}
+				}
+
+				if (attempt < retries && shouldRetry(res.status)) {
+					const retryAfter = readRetryAfterMs(res);
+					const delay = retryAfter ?? retryDelayMs * 2 ** attempt;
+					await sleep(delay);
+					continue;
+				}
+
+				throw new TMDBError(message, res.status, url, payload);
+			}
+
+			throw new TMDBError("Request failed", 0, url);
+		} finally {
+			clearTimeout(timeout);
+		}
+	}
+}

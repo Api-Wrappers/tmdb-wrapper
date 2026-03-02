@@ -52,3 +52,14 @@ export interface WatchProviders {
 	id: number;
 	results: WatchLocale;
 }
+
+export interface WatchProviderListItem {
+	display_priority: number;
+	logo_path: string | null;
+	provider_id: number;
+	provider_name: string;
+}
+
+export interface WatchProviderListResponse {
+	results: WatchProviderListItem[];
+}

@@ -57,7 +57,7 @@ export class MoviesEndpoint extends BaseEndpoint {
 		appendToResponse?: T,
 		language?: string,
 	) {
-		const options = {
+		const query = {
 			append_to_response: appendToResponse
 				? appendToResponse.join(",")
 				: undefined,
@@ -66,7 +66,7 @@ export class MoviesEndpoint extends BaseEndpoint {
 
 		return await this.api.get<AppendToResponse<MovieDetails, T, "movie">>(
 			`${BASE_MOVIE}/${id}`,
-			options,
+			{ query },
 		);
 	}
 
@@ -93,8 +93,7 @@ export class MoviesEndpoint extends BaseEndpoint {
 	): Promise<Changes<MovieChangeValue>> {
 		return await this.api.get<Changes<MovieChangeValue>>(
 			`${BASE_MOVIE}/${id}/changes`,
-
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 
@@ -105,10 +104,9 @@ export class MoviesEndpoint extends BaseEndpoint {
 	 * @returns {Promise<Credits>} A Promise that resolves with the credits of the movie.
 	 */
 	async credits(id: number, options?: LanguageOption): Promise<Credits> {
-		return await this.api.get<Credits>(
-			`${BASE_MOVIE}/${id}/credits`,
-			options as Record<string, unknown>,
-		);
+		return await this.api.get<Credits>(`${BASE_MOVIE}/${id}/credits`, {
+			query: options,
+		});
 	}
 
 	/**
@@ -134,10 +132,9 @@ export class MoviesEndpoint extends BaseEndpoint {
 			include_image_language: options?.include_image_language?.join(","),
 			language: options?.language,
 		};
-		return await this.api.get<Images>(
-			`${BASE_MOVIE}/${id}/images`,
-			computedOptions,
-		);
+		return await this.api.get<Images>(`${BASE_MOVIE}/${id}/images`, {
+			query: computedOptions,
+		});
 	}
 
 	/**
@@ -159,10 +156,9 @@ export class MoviesEndpoint extends BaseEndpoint {
 		id: number,
 		options?: LanguageOption & PageOption,
 	): Promise<MovieLists> {
-		return await this.api.get<MovieLists>(
-			`${BASE_MOVIE}/${id}/lists`,
-			options as Record<string, unknown>,
-		);
+		return await this.api.get<MovieLists>(`${BASE_MOVIE}/${id}/lists`, {
+			query: options,
+		});
 	}
 
 	/**
@@ -177,8 +173,7 @@ export class MoviesEndpoint extends BaseEndpoint {
 	): Promise<Recommendations> {
 		return await this.api.get<Recommendations>(
 			`${BASE_MOVIE}/${id}/recommendations`,
-
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 
@@ -203,10 +198,9 @@ export class MoviesEndpoint extends BaseEndpoint {
 		id: number,
 		options?: LanguageOption & PageOption,
 	): Promise<Reviews> {
-		return await this.api.get<Reviews>(
-			`${BASE_MOVIE}/${id}/reviews`,
-			options as Record<string, unknown>,
-		);
+		return await this.api.get<Reviews>(`${BASE_MOVIE}/${id}/reviews`, {
+			query: options,
+		});
 	}
 
 	/**
@@ -219,11 +213,9 @@ export class MoviesEndpoint extends BaseEndpoint {
 		id: number,
 		options?: LanguageOption & PageOption,
 	): Promise<SimilarMovies> {
-		return await this.api.get<SimilarMovies>(
-			`${BASE_MOVIE}/${id}/similar`,
-
-			options as Record<string, unknown>,
-		);
+		return await this.api.get<SimilarMovies>(`${BASE_MOVIE}/${id}/similar`, {
+			query: options,
+		});
 	}
 
 	/**
@@ -242,10 +234,9 @@ export class MoviesEndpoint extends BaseEndpoint {
 	 * @returns {Promise<Videos>} A Promise that resolves with the videos of the movie.
 	 */
 	async videos(id: number, options?: LanguageOption): Promise<Videos> {
-		return await this.api.get<Videos>(
-			`${BASE_MOVIE}/${id}/videos`,
-			options as Record<string, unknown>,
-		);
+		return await this.api.get<Videos>(`${BASE_MOVIE}/${id}/videos`, {
+			query: options,
+		});
 	}
 
 	/**
@@ -275,11 +266,9 @@ export class MoviesEndpoint extends BaseEndpoint {
 	async nowPlaying(
 		options?: PageOption & LanguageOption & RegionOption,
 	): Promise<MoviesPlayingNow> {
-		return await this.api.get<MoviesPlayingNow>(
-			`${BASE_MOVIE}/now_playing`,
-
-			options as Record<string, unknown>,
-		);
+		return await this.api.get<MoviesPlayingNow>(`${BASE_MOVIE}/now_playing`, {
+			query: options,
+		});
 	}
 
 	/**
@@ -288,10 +277,9 @@ export class MoviesEndpoint extends BaseEndpoint {
 	 * @returns {Promise<PopularMovies>} A Promise that resolves with the popular movies.
 	 */
 	async popular(options?: LanguageOption & PageOption): Promise<PopularMovies> {
-		return await this.api.get<PopularMovies>(
-			`${BASE_MOVIE}/popular`,
-			options as Record<string, unknown>,
-		);
+		return await this.api.get<PopularMovies>(`${BASE_MOVIE}/popular`, {
+			query: options,
+		});
 	}
 
 	/**
@@ -302,11 +290,9 @@ export class MoviesEndpoint extends BaseEndpoint {
 	async topRated(
 		options?: PageOption & LanguageOption & RegionOption,
 	): Promise<TopRatedMovies> {
-		return await this.api.get<TopRatedMovies>(
-			`${BASE_MOVIE}/top_rated`,
-
-			options as Record<string, unknown>,
-		);
+		return await this.api.get<TopRatedMovies>(`${BASE_MOVIE}/top_rated`, {
+			query: options,
+		});
 	}
 
 	/**
@@ -317,10 +303,8 @@ export class MoviesEndpoint extends BaseEndpoint {
 	async upcoming(
 		options?: PageOption & LanguageOption & RegionOption,
 	): Promise<UpcomingMovies> {
-		return await this.api.get<UpcomingMovies>(
-			`${BASE_MOVIE}/upcoming`,
-
-			options as Record<string, unknown>,
-		);
+		return await this.api.get<UpcomingMovies>(`${BASE_MOVIE}/upcoming`, {
+			query: options,
+		});
 	}
 }

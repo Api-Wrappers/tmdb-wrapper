@@ -1,8 +1,7 @@
 import {
 	BaseEndpoint,
 	type TokenType,
-	type WatchProviders,
-	type WatchRegionsResponse,
+	type WatchProviderListResponse,
 } from "../@types";
 
 /**
@@ -18,34 +17,30 @@ export class WatchProvidersEndpoint extends BaseEndpoint {
 	}
 
 	/**
-	 * Retrieves a list of all available watch providers (streaming services).
-	 * @returns {Promise<WatchProviders>} A Promise that resolves with the list of watch providers.
-	 */
-	async available(): Promise<WatchProviders> {
-		return await this.api.get<WatchProviders>("/watch/providers/movie");
-	}
-
-	/**
-	 * Retrieves a list of available regions for watch providers.
-	 * @returns {Promise<WatchRegionsResponse>} A Promise that resolves with the list of available regions.
-	 */
-	async regions(): Promise<WatchRegionsResponse> {
-		return await this.api.get<WatchRegionsResponse>("/watch/providers/regions");
-	}
-
-	/**
 	 * Retrieves a list of watch providers for movies.
-	 * @returns {Promise<WatchProviders>} A Promise that resolves with the list of movie watch providers.
+	 * @returns {Promise<WatchProviderListResponse>} A Promise that resolves with the list of movie watch providers.
 	 */
-	async movie(): Promise<WatchProviders> {
-		return await this.api.get<WatchProviders>("/watch/providers/movie");
+	async movie(): Promise<WatchProviderListResponse> {
+		return await this.api.get<WatchProviderListResponse>(
+			"/watch/providers/movie",
+		);
 	}
 
 	/**
 	 * Retrieves a list of watch providers for TV shows.
-	 * @returns {Promise<WatchProviders>} A Promise that resolves with the list of TV watch providers.
+	 * @returns {Promise<WatchProviderListResponse>} A Promise that resolves with the list of TV watch providers.
 	 */
-	async tv(): Promise<WatchProviders> {
-		return await this.api.get<WatchProviders>("/watch/providers/tv");
+	async tv(): Promise<WatchProviderListResponse> {
+		return await this.api.get<WatchProviderListResponse>("/watch/providers/tv");
+	}
+
+	/**
+	 * Retrieves a list of available regions for watch providers.
+	 * @returns {Promise<WatchProviderListResponse>} A Promise that resolves with the list of available regions.
+	 */
+	async regions(): Promise<WatchProviderListResponse> {
+		return await this.api.get<WatchProviderListResponse>(
+			"/watch/providers/regions",
+		);
 	}
 }

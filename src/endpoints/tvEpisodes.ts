@@ -56,7 +56,7 @@ export class TvEpisodesEndpoint extends BaseEndpoint {
 
 		return await this.api.get<
 			AppendToResponse<Omit<Episode, "show_id">, T, "tvEpisode">
-		>(`${BASE_EPISODE(episodeSelection)}`, combinedOptions);
+		>(`${BASE_EPISODE(episodeSelection)}`, { query: combinedOptions });
 	}
 
 	/**
@@ -68,7 +68,7 @@ export class TvEpisodesEndpoint extends BaseEndpoint {
 	async changes(episodeID: number, options?: ChangeOption) {
 		return await this.api.get<Changes<TvEpisodeChangeValue>>(
 			`/tv/episode/${episodeID}/changes`,
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 
@@ -81,7 +81,7 @@ export class TvEpisodesEndpoint extends BaseEndpoint {
 	async credits(episodeSelection: EpisodeSelection, options?: LanguageOption) {
 		return await this.api.get<TvEpisodeCredit>(
 			`${BASE_EPISODE(episodeSelection)}/credits`,
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 
@@ -112,7 +112,7 @@ export class TvEpisodesEndpoint extends BaseEndpoint {
 		};
 		return await this.api.get<Images>(
 			`${BASE_EPISODE(episodeSelection)}/images`,
-			computedOptions,
+			{ query: computedOptions },
 		);
 	}
 
@@ -143,7 +143,7 @@ export class TvEpisodesEndpoint extends BaseEndpoint {
 		};
 		return await this.api.get<Videos>(
 			`${BASE_EPISODE(episodeSelection)}/videos`,
-			computedOptions,
+			{ query: computedOptions },
 		);
 	}
 }

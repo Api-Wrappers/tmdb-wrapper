@@ -57,7 +57,7 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 
 		return await this.api.get<AppendToResponse<SeasonDetails, T, "tvSeason">>(
 			`${BASE_SEASON(seasonSelection)}`,
-			combinedOptions,
+			{ query: combinedOptions },
 		);
 	}
 
@@ -73,7 +73,7 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 	) {
 		return await this.api.get<AggregateCredits>(
 			`${BASE_SEASON(seasonSelection)}/aggregate_credits`,
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 
@@ -86,7 +86,7 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 	async changes(seasonId: number, options?: ChangeOption) {
 		return await this.api.get<Changes<TvSeasonChangeValue>>(
 			`/tv/season/${seasonId}/changes`,
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 
@@ -99,7 +99,7 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 	async credits(seasonSelection: SeasonSelection, options?: LanguageOption) {
 		return await this.api.get<Credits>(
 			`${BASE_SEASON(seasonSelection)}/credits`,
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 
@@ -115,7 +115,7 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 	) {
 		return await this.api.get<ExternalIds>(
 			`${BASE_SEASON(seasonSelection)}/external_ids`,
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 
@@ -135,7 +135,7 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 		};
 		return await this.api.get<Images>(
 			`${BASE_SEASON(seasonSelection)}/images`,
-			computedOptions,
+			{ query: computedOptions },
 		);
 	}
 
@@ -155,7 +155,7 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 		};
 		return await this.api.get<Videos>(
 			`${BASE_SEASON(seasonSelection)}/videos`,
-			computedOptions,
+			{ query: computedOptions },
 		);
 	}
 
@@ -171,7 +171,7 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 	) {
 		return await this.api.get<Translations>(
 			`${BASE_SEASON(seasonSelection)}/translations`,
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 }

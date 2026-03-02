@@ -35,7 +35,7 @@ export class TrendingEndpoint extends BaseEndpoint {
 	): Promise<TrendingResults<T>> {
 		return await this.api.get<TrendingResults<T>>(
 			`/trending/${mediaType}/${timeWindow}`,
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 }

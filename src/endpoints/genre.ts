@@ -23,10 +23,7 @@ export class GenreEndpoint extends BaseEndpoint {
 	 * @returns {Promise<Genres>} A Promise that resolves with the genre information for movies.
 	 */
 	async movies(options?: LanguageOption): Promise<Genres> {
-		return await this.api.get<Genres>(
-			"/genre/movie/list",
-			options as Record<string, unknown>,
-		);
+		return await this.api.get<Genres>("/genre/movie/list", { query: options });
 	}
 
 	/**
@@ -35,9 +32,6 @@ export class GenreEndpoint extends BaseEndpoint {
 	 * @returns {Promise<Genres>} A Promise that resolves with the genre information for TV shows.
 	 */
 	async tv(options?: LanguageOption): Promise<Genres> {
-		return await this.api.get<Genres>(
-			"/genre/tv/list",
-			options as Record<string, unknown>,
-		);
+		return await this.api.get<Genres>("/genre/tv/list", { query: options });
 	}
 }

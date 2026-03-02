@@ -42,7 +42,7 @@ export class KeywordsEndpoint extends BaseEndpoint {
 		return await this.api.get<BelongingMovies>(
 			`${BASE_KEYWORD}/${keywordId}/movies`,
 
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 }

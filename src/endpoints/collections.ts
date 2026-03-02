@@ -35,7 +35,7 @@ export class CollectionsEndpoint extends BaseEndpoint {
 		return await this.api.get<DetailedCollection>(
 			`${BASE_COLLECTION}/${id}`,
 
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 
@@ -55,7 +55,7 @@ export class CollectionsEndpoint extends BaseEndpoint {
 		};
 		return await this.api.get<ImageCollection>(
 			`${BASE_COLLECTION}/${id}/images`,
-			computedOptions,
+			{ query: computedOptions },
 		);
 	}
 
@@ -72,7 +72,7 @@ export class CollectionsEndpoint extends BaseEndpoint {
 		return await this.api.get<Translations>(
 			`${BASE_COLLECTION}/${id}/translations`,
 
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 }

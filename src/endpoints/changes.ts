@@ -32,10 +32,7 @@ export class ChangeEndpoint extends BaseEndpoint {
 	 * @returns {Promise<MediaChanges>} A Promise that resolves with the changes in movies.
 	 */
 	movies(options?: ChangeOption): Promise<MediaChanges> {
-		return this.api.get<MediaChanges>(
-			"/movie/changes",
-			options as Record<string, unknown>,
-		);
+		return this.api.get<MediaChanges>("/movie/changes", { query: options });
 	}
 
 	/**
@@ -47,10 +44,7 @@ export class ChangeEndpoint extends BaseEndpoint {
 	 * @returns {Promise<MediaChanges>} A Promise that resolves with the changes in TV shows.
 	 */
 	tv(options?: ChangeOption): Promise<MediaChanges> {
-		return this.api.get<MediaChanges>(
-			"/tv/changes",
-			options as Record<string, unknown>,
-		);
+		return this.api.get<MediaChanges>("/tv/changes", { query: options });
 	}
 
 	/**
@@ -62,9 +56,6 @@ export class ChangeEndpoint extends BaseEndpoint {
 	 * @returns {Promise<MediaChanges>} A Promise that resolves with the changes related to persons.
 	 */
 	person(options?: ChangeOption): Promise<MediaChanges> {
-		return this.api.get<MediaChanges>(
-			"/person/changes",
-			options as Record<string, unknown>,
-		);
+		return this.api.get<MediaChanges>("/person/changes", { query: options });
 	}
 }

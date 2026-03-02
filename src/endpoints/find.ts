@@ -27,9 +27,8 @@ export class FindEndpoint extends BaseEndpoint {
 		externalId: string,
 		options: ExternalIdOptions,
 	): Promise<FindResult> {
-		return await this.api.get<FindResult>(
-			`/find/${externalId}`,
-			options as unknown as Record<string, unknown>,
-		);
+		return await this.api.get<FindResult>(`/find/${externalId}`, {
+			query: options,
+		});
 	}
 }

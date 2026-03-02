@@ -35,10 +35,9 @@ export class DiscoverEndpoint extends BaseEndpoint {
 	 * @returns {Promise<MovieDiscoverResult>} A Promise that resolves with the movie discovery results.
 	 */
 	movie(options?: MovieQueryOptions): Promise<MovieDiscoverResult> {
-		return this.api.get<MovieDiscoverResult>(
-			`${BASE_DISCOVER}/movie`,
-			options as Record<string, unknown>,
-		);
+		return this.api.get<MovieDiscoverResult>(`${BASE_DISCOVER}/movie`, {
+			query: options,
+		});
 	}
 
 	/**
@@ -50,9 +49,8 @@ export class DiscoverEndpoint extends BaseEndpoint {
 	 * @returns {Promise<TvShowDiscoverResult>} A Promise that resolves with the TV show discovery results.
 	 */
 	tvShow(options?: TvShowQueryOptions): Promise<TvShowDiscoverResult> {
-		return this.api.get<TvShowDiscoverResult>(
-			`${BASE_DISCOVER}/tv`,
-			options as Record<string, unknown>,
-		);
+		return this.api.get<TvShowDiscoverResult>(`${BASE_DISCOVER}/tv`, {
+			query: options,
+		});
 	}
 }

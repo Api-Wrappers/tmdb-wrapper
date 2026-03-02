@@ -53,7 +53,7 @@ export class PeopleEndpoint extends BaseEndpoint {
 		};
 		return await this.api.get<AppendToResponse<PersonDetails, T, "person">>(
 			`${BASE_PERSON}/${id}`,
-			options,
+			{ query: options },
 		);
 	}
 
@@ -69,8 +69,7 @@ export class PeopleEndpoint extends BaseEndpoint {
 	): Promise<Changes<PersonChangeValue>> {
 		return await this.api.get<Changes<PersonChangeValue>>(
 			`${BASE_PERSON}/${id}/changes`,
-
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 
@@ -86,7 +85,7 @@ export class PeopleEndpoint extends BaseEndpoint {
 	): Promise<PersonMovieCredit> {
 		return await this.api.get<PersonMovieCredit>(
 			`${BASE_PERSON}/${id}/movie_credits`,
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 
@@ -102,7 +101,7 @@ export class PeopleEndpoint extends BaseEndpoint {
 	): Promise<PersonTvShowCredit> {
 		return await this.api.get<PersonTvShowCredit>(
 			`${BASE_PERSON}/${id}/tv_credits`,
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 
@@ -118,7 +117,7 @@ export class PeopleEndpoint extends BaseEndpoint {
 	): Promise<PersonCombinedCredits> {
 		return await this.api.get<PersonCombinedCredits>(
 			`${BASE_PERSON}/${id}/combined_credits`,
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 
@@ -149,7 +148,7 @@ export class PeopleEndpoint extends BaseEndpoint {
 	async taggedImages(id: number, options?: PageOption): Promise<TaggedImages> {
 		return await this.api.get<TaggedImages>(
 			`${BASE_PERSON}/${id}/tagged_images`,
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 
@@ -180,9 +179,8 @@ export class PeopleEndpoint extends BaseEndpoint {
 	async popular(
 		options?: LanguageOption & PageOption,
 	): Promise<PopularPersons> {
-		return await this.api.get<PopularPersons>(
-			`${BASE_PERSON}/popular`,
-			options as Record<string, unknown>,
-		);
+		return await this.api.get<PopularPersons>(`${BASE_PERSON}/popular`, {
+			query: options,
+		});
 	}
 }

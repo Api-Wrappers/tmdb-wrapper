@@ -71,7 +71,7 @@ export class TvShowsEndpoint extends BaseEndpoint {
 		return await this.api.get<AppendToResponse<TvShowDetails, T, "tvShow">>(
 			`${BASE_TV}/${id}`,
 
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 
@@ -99,7 +99,7 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	): Promise<Changes<TvShowChangeValue>> {
 		return await this.api.get<Changes<TvShowChangeValue>>(
 			`${BASE_TV}/${id}/changes`,
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 
@@ -127,7 +127,7 @@ export class TvShowsEndpoint extends BaseEndpoint {
 		return await this.api.get<AggregateCredits>(
 			`${BASE_TV}/${id}/aggregate_credits`,
 
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 
@@ -138,10 +138,9 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 * @returns {Promise<Credits>} A Promise that resolves with the credits of the TV show.
 	 */
 	async credits(id: number, options?: LanguageOption): Promise<Credits> {
-		return await this.api.get<Credits>(
-			`${BASE_TV}/${id}/credits`,
-			options as Record<string, unknown>,
-		);
+		return await this.api.get<Credits>(`${BASE_TV}/${id}/credits`, {
+			query: options,
+		});
 	}
 
 	/**
@@ -185,10 +184,9 @@ export class TvShowsEndpoint extends BaseEndpoint {
 			include_image_language: options?.include_image_language?.join(","),
 			language: options?.language,
 		};
-		return await this.api.get<Images>(
-			`${BASE_TV}/${id}/images`,
-			computedOptions,
-		);
+		return await this.api.get<Images>(`${BASE_TV}/${id}/images`, {
+			query: computedOptions,
+		});
 	}
 
 	/**
@@ -213,7 +211,7 @@ export class TvShowsEndpoint extends BaseEndpoint {
 		return await this.api.get<Recommendations>(
 			`${BASE_TV}/${id}/recommendations`,
 
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 
@@ -227,10 +225,9 @@ export class TvShowsEndpoint extends BaseEndpoint {
 		id: number,
 		options?: LanguageOption & PageOption,
 	): Promise<Reviews> {
-		return await this.api.get<Reviews>(
-			`${BASE_TV}/${id}/reviews`,
-			options as Record<string, unknown>,
-		);
+		return await this.api.get<Reviews>(`${BASE_TV}/${id}/reviews`, {
+			query: options,
+		});
 	}
 
 	/**
@@ -254,10 +251,9 @@ export class TvShowsEndpoint extends BaseEndpoint {
 		id: number,
 		options?: LanguageOption & PageOption,
 	): Promise<Similartv> {
-		return await this.api.get<Similartv>(
-			`${BASE_TV}/${id}/similar`,
-			options as Record<string, unknown>,
-		);
+		return await this.api.get<Similartv>(`${BASE_TV}/${id}/similar`, {
+			query: options,
+		});
 	}
 
 	/**
@@ -280,10 +276,9 @@ export class TvShowsEndpoint extends BaseEndpoint {
 			include_video_language: options?.include_video_language?.join(","),
 			language: options?.language,
 		};
-		return await this.api.get<Videos>(
-			`${BASE_TV}/${id}/videos`,
-			computedOptions,
-		);
+		return await this.api.get<Videos>(`${BASE_TV}/${id}/videos`, {
+			query: computedOptions,
+		});
 	}
 
 	/**
@@ -314,10 +309,9 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	async onTheAir(
 		options?: PageOption & LanguageOption & TimezoneOption,
 	): Promise<OnTheAir> {
-		return await this.api.get<OnTheAir>(
-			`${BASE_TV}/on_the_air`,
-			options as Record<string, unknown>,
-		);
+		return await this.api.get<OnTheAir>(`${BASE_TV}/on_the_air`, {
+			query: options,
+		});
 	}
 
 	/**
@@ -331,7 +325,7 @@ export class TvShowsEndpoint extends BaseEndpoint {
 		return await this.api.get<tvAiringToday>(
 			`${BASE_TV}/airing_today`,
 
-			options as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 
@@ -341,10 +335,9 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 * @returns {Promise<Populartv>} A Promise that resolves with popular TV shows.
 	 */
 	async popular(options?: PageOption & LanguageOption): Promise<Populartv> {
-		return await this.api.get<Populartv>(
-			`${BASE_TV}/popular`,
-			options as Record<string, unknown>,
-		);
+		return await this.api.get<Populartv>(`${BASE_TV}/popular`, {
+			query: options,
+		});
 	}
 
 	/**
@@ -353,9 +346,8 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 * @returns {Promise<TopRatedtv>} A Promise that resolves with top-rated TV shows.
 	 */
 	async topRated(options?: PageOption & LanguageOption): Promise<TopRatedtv> {
-		return await this.api.get<TopRatedtv>(
-			`${BASE_TV}/top_rated`,
-			options as Record<string, unknown>,
-		);
+		return await this.api.get<TopRatedtv>(`${BASE_TV}/top_rated`, {
+			query: options,
+		});
 	}
 }

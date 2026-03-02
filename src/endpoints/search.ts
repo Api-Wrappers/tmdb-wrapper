@@ -35,11 +35,9 @@ export class SearchEndpoint extends BaseEndpoint {
 	 * @returns {Promise<Search<Company>>} A Promise that resolves with the search results for companies.
 	 */
 	async companies(options: SearchOptions): Promise<Search<Company>> {
-		return await this.api.get<Search<Company>>(
-			`${BASE_SEARCH}/company`,
-
-			options as unknown as Record<string, unknown>,
-		);
+		return await this.api.get<Search<Company>>(`${BASE_SEARCH}/company`, {
+			query: options,
+		});
 	}
 
 	/**
@@ -48,11 +46,9 @@ export class SearchEndpoint extends BaseEndpoint {
 	 * @returns {Promise<Search<Collection>>} A Promise that resolves with the search results for collections.
 	 */
 	async collections(options: SearchOptions): Promise<Search<Collection>> {
-		return await this.api.get<Search<Collection>>(
-			`${BASE_SEARCH}/collection`,
-
-			options as unknown as Record<string, unknown>,
-		);
+		return await this.api.get<Search<Collection>>(`${BASE_SEARCH}/collection`, {
+			query: options,
+		});
 	}
 
 	/**
@@ -65,8 +61,7 @@ export class SearchEndpoint extends BaseEndpoint {
 	): Promise<Search<{ id: string; name: string }>> {
 		return await this.api.get<Search<{ id: string; name: string }>>(
 			`${BASE_SEARCH}/keyword`,
-
-			options as unknown as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 
@@ -76,11 +71,9 @@ export class SearchEndpoint extends BaseEndpoint {
 	 * @returns {Promise<Search<Movie>>} A Promise that resolves with the search results for movies.
 	 */
 	async movies(options: MovieSearchOptions): Promise<Search<Movie>> {
-		return await this.api.get<Search<Movie>>(
-			`${BASE_SEARCH}/movie`,
-
-			options as unknown as Record<string, unknown>,
-		);
+		return await this.api.get<Search<Movie>>(`${BASE_SEARCH}/movie`, {
+			query: options,
+		});
 	}
 
 	/**
@@ -89,11 +82,9 @@ export class SearchEndpoint extends BaseEndpoint {
 	 * @returns {Promise<Search<Person>>} A Promise that resolves with the search results for people.
 	 */
 	async people(options: PeopleSearchOptions): Promise<Search<Person>> {
-		return await this.api.get<Search<Person>>(
-			`${BASE_SEARCH}/person`,
-
-			options as unknown as Record<string, unknown>,
-		);
+		return await this.api.get<Search<Person>>(`${BASE_SEARCH}/person`, {
+			query: options,
+		});
 	}
 
 	/**
@@ -102,11 +93,9 @@ export class SearchEndpoint extends BaseEndpoint {
 	 * @returns {Promise<Search<TV>>} A Promise that resolves with the search results for TV shows.
 	 */
 	async tv(options: TvSearchOptions): Promise<Search<TV>> {
-		return await this.api.get<Search<TV>>(
-			`${BASE_SEARCH}/tv`,
-
-			options as unknown as Record<string, unknown>,
-		);
+		return await this.api.get<Search<TV>>(`${BASE_SEARCH}/tv`, {
+			query: options,
+		});
 	}
 
 	/**
@@ -117,8 +106,7 @@ export class SearchEndpoint extends BaseEndpoint {
 	async multi(options: MultiSearchOptions): Promise<Search<MultiSearchResult>> {
 		return await this.api.get<Search<MultiSearchResult>>(
 			`${BASE_SEARCH}/multi`,
-
-			options as unknown as Record<string, unknown>,
+			{ query: options },
 		);
 	}
 }
