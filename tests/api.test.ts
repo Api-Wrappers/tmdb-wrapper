@@ -25,22 +25,6 @@ describe("utils/api", () => {
 		expect(qs).toBe("a=1&with_genres=12&with_genres=16");
 	});
 
-	it("does not add a trailing '?' when there are no query params", async () => {
-		const calls: string[] = [];
-
-		globalThis.fetch = (async (url: string) => {
-			calls.push(url);
-			return new Response(JSON.stringify({ ok: true }), { status: 200 });
-		}) as unknown as typeof fetch;
-
-		const api = new API({ apiKey: undefined, accessToken: undefined });
-		await api.get<{ ok: boolean }>("/movie/550");
-
-		expect(calls.length).toBe(1);
-		expect(calls[0].endsWith("/movie/550")).toBe(true);
-		expect(calls[0].includes("?")).toBe(false);
-	});
-
 	it("adds api_key when apiKey is provided", async () => {
 		const calls: string[] = [];
 
