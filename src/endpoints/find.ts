@@ -11,23 +11,24 @@ import {
 export class FindEndpoint extends BaseEndpoint {
 	/**
 	 * Constructs a new FindEndpoint instance.
-	 * @param {string} access_token - The access token used for authentication.
+	 *
+	 * @param {TokenType} auth - The authentication configuration.
 	 */
-	constructor(protected readonly access_token: TokenType) {
-		super(access_token);
+	constructor(protected readonly auth: TokenType) {
+		super(auth);
 	}
 
 	/**
 	 * Retrieves media by external ID asynchronously.
+	 *
 	 * @param {string} externalId - The external ID of the media.
-	 * @param {ExternalIdOptions} options - Options for finding media by external ID.
-	 * @returns {Promise<FindResult>} A Promise that resolves with the result of the find operation.
+	 * @param {ExternalIdOptions} options - Options for finding media by external
+	 * ID.
+	 * @returns {Promise<FindResult>} A Promise that resolves with the result of
+	 * the find operation.
 	 */
-	async byId(
-		externalId: string,
-		options: ExternalIdOptions,
-	): Promise<FindResult> {
-		return await this.api.get<FindResult>(`/find/${externalId}`, {
+	byId(externalId: string, options: ExternalIdOptions): Promise<FindResult> {
+		return this.api.get<FindResult>(`/find/${externalId}`, {
 			query: options,
 		});
 	}

@@ -18,12 +18,12 @@ export interface BelongsToCollection {
 export interface MovieDetails {
 	adult: boolean;
 	backdrop_path: Nullable<string>;
-	belongs_to_collection?: BelongsToCollection;
+	belongs_to_collection?: Nullable<BelongsToCollection>;
 	budget: number;
 	genres: Genre[];
-	homepage: string;
+	homepage: Nullable<string>;
 	id: number;
-	imdb_id: string;
+	imdb_id: Nullable<string>;
 	original_language: string;
 	original_title: string;
 	overview: string;
@@ -33,10 +33,10 @@ export interface MovieDetails {
 	production_countries: ProductionCountry[];
 	release_date: string;
 	revenue: number;
-	runtime: number;
+	runtime: Nullable<number>;
 	spoken_languages: SpokenLanguage[];
 	status: string;
-	tagline: string;
+	tagline: Nullable<string>;
 	title: string;
 	video: boolean;
 	vote_average: number;
@@ -99,12 +99,12 @@ export interface MovieLists {
 export interface LatestMovie {
 	adult: boolean;
 	backdrop_path: Nullable<string>;
-	belongs_to_collection?: BelongsToCollection;
+	belongs_to_collection?: Nullable<BelongsToCollection>;
 	budget: number;
 	genres: Genre[];
-	homepage: string;
+	homepage: Nullable<string>;
 	id: number;
-	imdb_id: string;
+	imdb_id: Nullable<string>;
 	original_language: string;
 	original_title: string;
 	overview: string;
@@ -114,10 +114,10 @@ export interface LatestMovie {
 	production_countries: ProductionCountry[];
 	release_date: string;
 	revenue: number;
-	runtime: number;
+	runtime: Nullable<number>;
 	spoken_languages: SpokenLanguage[];
 	status: string;
-	tagline: string;
+	tagline: Nullable<string>;
 	title: string;
 	video: boolean;
 	vote_average: number;

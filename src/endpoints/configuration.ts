@@ -6,17 +6,20 @@ import { BaseEndpoint, type Configuration, type TokenType } from "../@types";
 export class ConfigurationEndpoint extends BaseEndpoint {
 	/**
 	 * Constructs a new ConfigurationEndpoint instance.
-	 * @param {string} access_token - The access token used for authentication.
+	 *
+	 * @param {TokenType} auth - The authentication configuration.
 	 */
-	constructor(protected readonly access_token: TokenType) {
-		super(access_token);
+	constructor(protected readonly auth: TokenType) {
+		super(auth);
 	}
 
 	/**
 	 * Retrieves the current system configuration asynchronously.
-	 * @returns {Promise<Configuration>} A Promise that resolves with the current system configuration.
+	 *
+	 * @returns {Promise<Configuration>} A Promise that resolves with the current
+	 * system configuration.
 	 */
-	async getCurrent(): Promise<Configuration> {
-		return await this.api.get<Configuration>("/configuration");
+	getCurrent(): Promise<Configuration> {
+		return this.api.get<Configuration>("/configuration");
 	}
 }

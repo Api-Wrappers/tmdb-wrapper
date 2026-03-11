@@ -6,18 +6,21 @@ import { BaseEndpoint, type CreditResponse, type TokenType } from "../@types";
 export class CreditsEndpoint extends BaseEndpoint {
 	/**
 	 * Constructs a new CreditsEndpoint instance.
-	 * @param {string} access_token - The access token used for authentication.
+	 *
+	 * @param {TokenType} auth - The authentication configuration.
 	 */
-	constructor(protected readonly access_token: TokenType) {
-		super(access_token);
+	constructor(protected readonly auth: TokenType) {
+		super(auth);
 	}
 
 	/**
 	 * Retrieves credit details by ID asynchronously.
+	 *
 	 * @param {string} id - The ID of the credit.
-	 * @returns {Promise<CreditResponse>} A Promise that resolves with the credit details.
+	 * @returns {Promise<CreditResponse>} A Promise that resolves with the credit
+	 * details.
 	 */
-	async getById(id: string): Promise<CreditResponse> {
-		return await this.api.get<CreditResponse>(`/credit/${id}`);
+	getById(id: string): Promise<CreditResponse> {
+		return this.api.get<CreditResponse>(`/credit/${id}`);
 	}
 }

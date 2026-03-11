@@ -24,7 +24,7 @@ export interface NextEpisodeToAir {
 	air_date: string;
 	episode_number: number;
 	production_code: string;
-	runtime: number;
+	runtime: Nullable<number>;
 	season_number: number;
 	show_id: number;
 	still_path: Nullable<string>;
@@ -44,9 +44,9 @@ export interface LastEpisodeToAir {
 }
 
 export interface Network {
-	name: string;
 	id: number;
 	logo_path: Nullable<string>;
+	name: string;
 	origin_country: string;
 }
 
@@ -66,14 +66,14 @@ export interface TvShowDetails {
 	episode_run_time: number[];
 	first_air_date: string;
 	genres: Genre[];
-	homepage: string;
+	homepage: Nullable<string>;
 	id: number;
 	in_production: boolean;
 	languages: string[];
 	last_air_date: string;
-	last_episode_to_air: LastEpisodeToAir;
+	last_episode_to_air: Nullable<LastEpisodeToAir>;
 	name: string;
-	next_episode_to_air?: NextEpisodeToAir;
+	next_episode_to_air?: Nullable<NextEpisodeToAir>;
 	networks: Network[];
 	number_of_episodes: number;
 	number_of_seasons: number;
@@ -88,17 +88,10 @@ export interface TvShowDetails {
 	seasons: Season[];
 	spoken_languages: SpokenLanguage[];
 	status: string;
-	tagline: string;
+	tagline: Nullable<string>;
 	type: string;
 	vote_average: number;
 	vote_count: number;
-}
-
-export interface Network {
-	id: number;
-	logo_path: Nullable<string>;
-	name: string;
-	origin_country: string;
 }
 
 export interface EpisodeGroup {
@@ -156,7 +149,7 @@ export interface Latesttv {
 	episode_run_time: number[];
 	first_air_date: string;
 	genres: Genre[];
-	homepage: string;
+	homepage: Nullable<string>;
 	id: number;
 	in_production: boolean;
 	languages: string[];
@@ -168,7 +161,7 @@ export interface Latesttv {
 	origin_country: string[];
 	original_language: string;
 	original_name: string;
-	overview?: string;
+	overview?: Nullable<string>;
 	popularity: number;
 	poster_path: Nullable<string>;
 	production_companies: ProductionCompany[];

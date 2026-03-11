@@ -14,35 +14,42 @@ const BASE_KEYWORD = "/keyword";
 export class KeywordsEndpoint extends BaseEndpoint {
 	/**
 	 * Constructs a new KeywordsEndpoint instance.
-	 * @param {string} access_token - The access token used for authentication.
+	 *
+	 * @param {TokenType} auth - The authentication configuration.
 	 */
-	constructor(protected readonly access_token: TokenType) {
-		super(access_token);
+	constructor(protected readonly auth: TokenType) {
+		super(auth);
 	}
 
 	/**
 	 * Retrieves details of a specific keyword asynchronously.
+	 *
 	 * @param {number} keywordId - The ID of the keyword.
-	 * @returns {Promise<Keyword>} A Promise that resolves with the details of the keyword.
+	 * @returns {Promise<Keyword>} A Promise that resolves with the details of
+	 * the keyword.
 	 */
-	async details(keywordId: number): Promise<Keyword> {
-		return await this.api.get<Keyword>(`${BASE_KEYWORD}/${keywordId}`);
+	details(keywordId: number): Promise<Keyword> {
+		return this.api.get<Keyword>(`${BASE_KEYWORD}/${keywordId}`);
 	}
 
 	/**
 	 * Retrieves movies belonging to a specific keyword asynchronously.
+	 *
 	 * @param {number} keywordId - The ID of the keyword.
-	 * @param {KeywordsOptions} [options] - Optional parameters for refining the search.
-	 * @returns {Promise<BelongingMovies>} A Promise that resolves with the movies belonging to the keyword.
+	 * @param {KeywordsOptions} [options] - Optional parameters for refining the
+	 * search.
+	 * @returns {Promise<BelongingMovies>} A Promise that resolves with the
+	 * movies belonging to the keyword.
 	 */
-	async belongingMovies(
+	belongingMovies(
 		keywordId: number,
 		options?: KeywordsOptions,
 	): Promise<BelongingMovies> {
-		return await this.api.get<BelongingMovies>(
+		return this.api.get<BelongingMovies>(
 			`${BASE_KEYWORD}/${keywordId}/movies`,
-
-			{ query: options },
+			{
+				query: options,
+			},
 		);
 	}
 }

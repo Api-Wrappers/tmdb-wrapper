@@ -12,38 +12,43 @@ import {
 export class NetworksEndpoint extends BaseEndpoint {
 	/**
 	 * Constructs a new NetworksEndpoint instance.
-	 * @param {string} access_token - The access token used for authentication.
+	 *
+	 * @param {TokenType} auth - The authentication configuration.
 	 */
-	constructor(protected readonly access_token: TokenType) {
-		super(access_token);
+	constructor(protected readonly auth: TokenType) {
+		super(auth);
 	}
 
 	/**
 	 * Retrieves details of a specific network asynchronously.
+	 *
 	 * @param {number} id - The ID of the network.
-	 * @returns {Promise<NetworkDetails>} A Promise that resolves with the details of the network.
+	 * @returns {Promise<NetworkDetails>} A Promise that resolves with the
+	 * details of the network.
 	 */
-	async details(id: number): Promise<NetworkDetails> {
-		return await this.api.get<NetworkDetails>(`/network/${id}`);
+	details(id: number): Promise<NetworkDetails> {
+		return this.api.get<NetworkDetails>(`/network/${id}`);
 	}
 
 	/**
 	 * Retrieves alternative names of a specific network asynchronously.
+	 *
 	 * @param {number} id - The ID of the network.
-	 * @returns {Promise<AlternativeNames>} A Promise that resolves with the alternative names of the network.
+	 * @returns {Promise<AlternativeNames>} A Promise that resolves with the
+	 * alternative names of the network.
 	 */
-	async alternativeNames(id: number): Promise<AlternativeNames> {
-		return await this.api.get<AlternativeNames>(
-			`/network/${id}/alternative_names`,
-		);
+	alternativeNames(id: number): Promise<AlternativeNames> {
+		return this.api.get<AlternativeNames>(`/network/${id}/alternative_names`);
 	}
 
 	/**
 	 * Retrieves images of a specific network asynchronously.
+	 *
 	 * @param {number} id - The ID of the network.
-	 * @returns {Promise<NetworkImages>} A Promise that resolves with the images of the network.
+	 * @returns {Promise<NetworkImages>} A Promise that resolves with the images
+	 * of the network.
 	 */
-	async images(id: number): Promise<NetworkImages> {
-		return await this.api.get<NetworkImages>(`/network/${id}/images`);
+	images(id: number): Promise<NetworkImages> {
+		return this.api.get<NetworkImages>(`/network/${id}/images`);
 	}
 }

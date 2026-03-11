@@ -39,32 +39,37 @@ const BASE_MOVIE = "/movie";
 export class MoviesEndpoint extends BaseEndpoint {
 	/**
 	 * Constructs a new MoviesEndpoint instance.
-	 * @param {string} access_token - The access token used for authentication.
+	 *
+	 * @param {TokenType} auth - The authentication configuration.
 	 */
-	constructor(protected readonly access_token: TokenType) {
-		super(access_token);
+	constructor(protected readonly auth: TokenType) {
+		super(auth);
 	}
 
 	/**
 	 * Retrieves details of a specific movie asynchronously.
+	 *
 	 * @param {number} id - The ID of the movie.
-	 * @param {AppendToResponseMovieKey[]} [appendToResponse] - Optional keys to append to the response.
-	 * @param {string} [language] - Optional parameter for specifying the language.
-	 * @returns {Promise<AppendToResponse<MovieDetails, AppendToResponseMovieKey[], 'movie'>>} A Promise that resolves with the details of the movie.
+	 * @param {AppendToResponseMovieKey[]} [appendToResponse] - Optional keys to
+	 * append to the response.
+	 * @param {string} [language] - Optional parameter for specifying the
+	 * language.
+	 * @returns {Promise<AppendToResponse<MovieDetails, T, "movie">>} A Promise
+	 * that resolves with the details of the movie.
 	 */
-	async details<T extends AppendToResponseMovieKey[] | undefined>(
+	details<T extends AppendToResponseMovieKey[] | undefined>(
 		id: number,
 		appendToResponse?: T,
 		language?: string,
-	) {
+	): Promise<AppendToResponse<MovieDetails, T, "movie">> {
 		const query = {
 			append_to_response: appendToResponse
 				? appendToResponse.join(",")
 				: undefined,
-			language: language,
+			language,
 		};
 
-		return await this.api.get<AppendToResponse<MovieDetails, T, "movie">>(
+		return this.api.get<AppendToResponse<MovieDetails, T, "movie">>(
 			`${BASE_MOVIE}/${id}`,
 			{ query },
 		);
@@ -72,26 +77,31 @@ export class MoviesEndpoint extends BaseEndpoint {
 
 	/**
 	 * Retrieves alternative titles of a specific movie asynchronously.
+	 *
 	 * @param {number} id - The ID of the movie.
-	 * @returns {Promise<AlternativeTitles>} A Promise that resolves with the alternative titles of the movie.
+	 * @returns {Promise<AlternativeTitles>} A Promise that resolves with the
+	 * alternative titles of the movie.
 	 */
-	async alternativeTitles(id: number): Promise<AlternativeTitles> {
-		return await this.api.get<AlternativeTitles>(
+	alternativeTitles(id: number): Promise<AlternativeTitles> {
+		return this.api.get<AlternativeTitles>(
 			`${BASE_MOVIE}/${id}/alternative_titles`,
 		);
 	}
 
 	/**
 	 * Retrieves changes made to a specific movie asynchronously.
+	 *
 	 * @param {number} id - The ID of the movie.
-	 * @param {ChangeOption} [options] - Optional parameters for filtering changes.
-	 * @returns {Promise<Changes<MovieChangeValue>>} A Promise that resolves with the changes made to the movie.
+	 * @param {ChangeOption} [options] - Optional parameters for filtering
+	 * changes.
+	 * @returns {Promise<Changes<MovieChangeValue>>} A Promise that resolves with
+	 * the changes made to the movie.
 	 */
-	async changes(
+	changes(
 		id: number,
 		options?: ChangeOption,
 	): Promise<Changes<MovieChangeValue>> {
-		return await this.api.get<Changes<MovieChangeValue>>(
+		return this.api.get<Changes<MovieChangeValue>>(
 			`${BASE_MOVIE}/${id}/changes`,
 			{ query: options },
 		);
@@ -99,79 +109,93 @@ export class MoviesEndpoint extends BaseEndpoint {
 
 	/**
 	 * Retrieves credits of a specific movie asynchronously.
+	 *
 	 * @param {number} id - The ID of the movie.
-	 * @param {LanguageOption} [options] - Optional parameters for specifying the language.
-	 * @returns {Promise<Credits>} A Promise that resolves with the credits of the movie.
+	 * @param {LanguageOption} [options] - Optional parameters for specifying the
+	 * language.
+	 * @returns {Promise<Credits>} A Promise that resolves with the credits of
+	 * the movie.
 	 */
-	async credits(id: number, options?: LanguageOption): Promise<Credits> {
-		return await this.api.get<Credits>(`${BASE_MOVIE}/${id}/credits`, {
+	credits(id: number, options?: LanguageOption): Promise<Credits> {
+		return this.api.get<Credits>(`${BASE_MOVIE}/${id}/credits`, {
 			query: options,
 		});
 	}
 
 	/**
 	 * Retrieves external IDs of a specific movie asynchronously.
+	 *
 	 * @param {number} id - The ID of the movie.
-	 * @returns {Promise<ExternalIds>} A Promise that resolves with the external IDs of the movie.
+	 * @returns {Promise<ExternalIds>} A Promise that resolves with the external
+	 * IDs of the movie.
 	 */
-	async externalIds(id: number): Promise<ExternalIds> {
-		return await this.api.get<ExternalIds>(`${BASE_MOVIE}/${id}/external_ids`);
+	externalIds(id: number): Promise<ExternalIds> {
+		return this.api.get<ExternalIds>(`${BASE_MOVIE}/${id}/external_ids`);
 	}
 
 	/**
 	 * Retrieves images of a specific movie asynchronously.
+	 *
 	 * @param {number} id - The ID of the movie.
-	 * @param {MoviesImageSearchOptions} [options] - Optional parameters for specifying image search options.
-	 * @returns {Promise<Images>} A Promise that resolves with the images of the movie.
+	 * @param {MoviesImageSearchOptions} [options] - Optional parameters for
+	 * specifying image search options.
+	 * @returns {Promise<Images>} A Promise that resolves with the images of the
+	 * movie.
 	 */
-	async images(
-		id: number,
-		options?: MoviesImageSearchOptions,
-	): Promise<Images> {
+	images(id: number, options?: MoviesImageSearchOptions): Promise<Images> {
 		const computedOptions = {
 			include_image_language: options?.include_image_language?.join(","),
 			language: options?.language,
 		};
-		return await this.api.get<Images>(`${BASE_MOVIE}/${id}/images`, {
+
+		return this.api.get<Images>(`${BASE_MOVIE}/${id}/images`, {
 			query: computedOptions,
 		});
 	}
 
 	/**
 	 * Retrieves keywords of a specific movie asynchronously.
+	 *
 	 * @param {number} id - The ID of the movie.
-	 * @returns {Promise<Keywords>} A Promise that resolves with the keywords of the movie.
+	 * @returns {Promise<Keywords>} A Promise that resolves with the keywords of
+	 * the movie.
 	 */
-	async keywords(id: number): Promise<Keywords> {
-		return await this.api.get<Keywords>(`${BASE_MOVIE}/${id}/keywords`);
+	keywords(id: number): Promise<Keywords> {
+		return this.api.get<Keywords>(`${BASE_MOVIE}/${id}/keywords`);
 	}
 
 	/**
 	 * Retrieves lists containing a specific movie asynchronously.
+	 *
 	 * @param {number} id - The ID of the movie.
-	 * @param {LanguageOption & PageOption} [options] - Optional parameters for specifying language and pagination options.
-	 * @returns {Promise<MovieLists>} A Promise that resolves with the lists containing the movie.
+	 * @param {LanguageOption & PageOption} [options] - Optional parameters for
+	 * specifying language and pagination options.
+	 * @returns {Promise<MovieLists>} A Promise that resolves with the lists
+	 * containing the movie.
 	 */
-	async lists(
+	lists(
 		id: number,
 		options?: LanguageOption & PageOption,
 	): Promise<MovieLists> {
-		return await this.api.get<MovieLists>(`${BASE_MOVIE}/${id}/lists`, {
+		return this.api.get<MovieLists>(`${BASE_MOVIE}/${id}/lists`, {
 			query: options,
 		});
 	}
 
 	/**
 	 * Retrieves recommendations for a specific movie asynchronously.
+	 *
 	 * @param {number} id - The ID of the movie.
-	 * @param {LanguageOption & PageOption} [options] - Optional parameters for specifying language and pagination options.
-	 * @returns {Promise<Recommendations>} A Promise that resolves with the recommendations for the movie.
+	 * @param {LanguageOption & PageOption} [options] - Optional parameters for
+	 * specifying language and pagination options.
+	 * @returns {Promise<Recommendations>} A Promise that resolves with the
+	 * recommendations for the movie.
 	 */
-	async recommendations(
+	recommendations(
 		id: number,
 		options?: LanguageOption & PageOption,
 	): Promise<Recommendations> {
-		return await this.api.get<Recommendations>(
+		return this.api.get<Recommendations>(
 			`${BASE_MOVIE}/${id}/recommendations`,
 			{ query: options },
 		);
@@ -179,131 +203,153 @@ export class MoviesEndpoint extends BaseEndpoint {
 
 	/**
 	 * Retrieves release dates of a specific movie asynchronously.
+	 *
 	 * @param {number} id - The ID of the movie.
-	 * @returns {Promise<ReleaseDates>} A Promise that resolves with the release dates of the movie.
+	 * @returns {Promise<ReleaseDates>} A Promise that resolves with the release
+	 * dates of the movie.
 	 */
-	async releaseDates(id: number): Promise<ReleaseDates> {
-		return await this.api.get<ReleaseDates>(
-			`${BASE_MOVIE}/${id}/release_dates`,
-		);
+	releaseDates(id: number): Promise<ReleaseDates> {
+		return this.api.get<ReleaseDates>(`${BASE_MOVIE}/${id}/release_dates`);
 	}
 
 	/**
 	 * Retrieves reviews for a specific movie asynchronously.
+	 *
 	 * @param {number} id - The ID of the movie.
-	 * @param {LanguageOption & PageOption} [options] - Optional parameters for specifying language and pagination options.
-	 * @returns {Promise<Reviews>} A Promise that resolves with the reviews for the movie.
+	 * @param {LanguageOption & PageOption} [options] - Optional parameters for
+	 * specifying language and pagination options.
+	 * @returns {Promise<Reviews>} A Promise that resolves with the reviews for
+	 * the movie.
 	 */
-	async reviews(
-		id: number,
-		options?: LanguageOption & PageOption,
-	): Promise<Reviews> {
-		return await this.api.get<Reviews>(`${BASE_MOVIE}/${id}/reviews`, {
+	reviews(id: number, options?: LanguageOption & PageOption): Promise<Reviews> {
+		return this.api.get<Reviews>(`${BASE_MOVIE}/${id}/reviews`, {
 			query: options,
 		});
 	}
 
 	/**
 	 * Retrieves similar movies for a specific movie asynchronously.
+	 *
 	 * @param {number} id - The ID of the movie.
-	 * @param {LanguageOption & PageOption} [options] - Optional parameters for specifying language and pagination options.
-	 * @returns {Promise<SimilarMovies>} A Promise that resolves with the similar movies for the movie.
+	 * @param {LanguageOption & PageOption} [options] - Optional parameters for
+	 * specifying language and pagination options.
+	 * @returns {Promise<SimilarMovies>} A Promise that resolves with the similar
+	 * movies for the movie.
 	 */
-	async similar(
+	similar(
 		id: number,
 		options?: LanguageOption & PageOption,
 	): Promise<SimilarMovies> {
-		return await this.api.get<SimilarMovies>(`${BASE_MOVIE}/${id}/similar`, {
+		return this.api.get<SimilarMovies>(`${BASE_MOVIE}/${id}/similar`, {
 			query: options,
 		});
 	}
 
 	/**
 	 * Retrieves translations of a specific movie asynchronously.
+	 *
 	 * @param {number} id - The ID of the movie.
-	 * @returns {Promise<Translations>} A Promise that resolves with the translations of the movie.
+	 * @returns {Promise<Translations>} A Promise that resolves with the
+	 * translations of the movie.
 	 */
-	async translations(id: number): Promise<Translations> {
-		return await this.api.get<Translations>(`${BASE_MOVIE}/${id}/translations`);
+	translations(id: number): Promise<Translations> {
+		return this.api.get<Translations>(`${BASE_MOVIE}/${id}/translations`);
 	}
 
 	/**
 	 * Retrieves videos of a specific movie asynchronously.
+	 *
 	 * @param {number} id - The ID of the movie.
-	 * @param {LanguageOption} [options] - Optional parameters for specifying the language.
-	 * @returns {Promise<Videos>} A Promise that resolves with the videos of the movie.
+	 * @param {LanguageOption} [options] - Optional parameters for specifying the
+	 * language.
+	 * @returns {Promise<Videos>} A Promise that resolves with the videos of the
+	 * movie.
 	 */
-	async videos(id: number, options?: LanguageOption): Promise<Videos> {
-		return await this.api.get<Videos>(`${BASE_MOVIE}/${id}/videos`, {
+	videos(id: number, options?: LanguageOption): Promise<Videos> {
+		return this.api.get<Videos>(`${BASE_MOVIE}/${id}/videos`, {
 			query: options,
 		});
 	}
 
 	/**
 	 * Retrieves watch providers of a specific movie asynchronously.
+	 *
 	 * @param {number} id - The ID of the movie.
-	 * @returns {Promise<WatchProviders>} A Promise that resolves with the watch providers of the movie.
+	 * @returns {Promise<WatchProviders>} A Promise that resolves with the watch
+	 * providers of the movie.
 	 */
-	async watchProviders(id: number): Promise<WatchProviders> {
-		return await this.api.get<WatchProviders>(
-			`${BASE_MOVIE}/${id}/watch/providers`,
-		);
+	watchProviders(id: number): Promise<WatchProviders> {
+		return this.api.get<WatchProviders>(`${BASE_MOVIE}/${id}/watch/providers`);
 	}
 
 	/**
 	 * Retrieves details of the latest movie asynchronously.
-	 * @returns {Promise<LatestMovie>} A Promise that resolves with the details of the latest movie.
+	 *
+	 * @returns {Promise<LatestMovie>} A Promise that resolves with the details
+	 * of the latest movie.
 	 */
-	async latest(): Promise<LatestMovie> {
-		return await this.api.get<LatestMovie>(`${BASE_MOVIE}/latest`);
+	latest(): Promise<LatestMovie> {
+		return this.api.get<LatestMovie>(`${BASE_MOVIE}/latest`);
 	}
 
 	/**
 	 * Retrieves movies playing now asynchronously.
-	 * @param {PageOption & LanguageOption & RegionOption} [options] - Optional parameters for specifying language, region, and pagination options.
-	 * @returns {Promise<MoviesPlayingNow>} A Promise that resolves with the movies playing now.
+	 *
+	 * @param {PageOption & LanguageOption & RegionOption} [options] - Optional
+	 * parameters for specifying language, region, and pagination options.
+	 * @returns {Promise<MoviesPlayingNow>} A Promise that resolves with the
+	 * movies playing now.
 	 */
-	async nowPlaying(
+	nowPlaying(
 		options?: PageOption & LanguageOption & RegionOption,
 	): Promise<MoviesPlayingNow> {
-		return await this.api.get<MoviesPlayingNow>(`${BASE_MOVIE}/now_playing`, {
+		return this.api.get<MoviesPlayingNow>(`${BASE_MOVIE}/now_playing`, {
 			query: options,
 		});
 	}
 
 	/**
 	 * Retrieves popular movies asynchronously.
-	 * @param {LanguageOption & PageOption} [options] - Optional parameters for specifying language and pagination options.
-	 * @returns {Promise<PopularMovies>} A Promise that resolves with the popular movies.
+	 *
+	 * @param {LanguageOption & PageOption} [options] - Optional parameters for
+	 * specifying language and pagination options.
+	 * @returns {Promise<PopularMovies>} A Promise that resolves with the popular
+	 * movies.
 	 */
-	async popular(options?: LanguageOption & PageOption): Promise<PopularMovies> {
-		return await this.api.get<PopularMovies>(`${BASE_MOVIE}/popular`, {
+	popular(options?: LanguageOption & PageOption): Promise<PopularMovies> {
+		return this.api.get<PopularMovies>(`${BASE_MOVIE}/popular`, {
 			query: options,
 		});
 	}
 
 	/**
 	 * Retrieves top rated movies asynchronously.
-	 * @param {PageOption & LanguageOption & RegionOption} [options] - Optional parameters for specifying language, region, and pagination options.
-	 * @returns {Promise<TopRatedMovies>} A Promise that resolves with the top rated movies.
+	 *
+	 * @param {PageOption & LanguageOption & RegionOption} [options] - Optional
+	 * parameters for specifying language, region, and pagination options.
+	 * @returns {Promise<TopRatedMovies>} A Promise that resolves with the top
+	 * rated movies.
 	 */
-	async topRated(
+	topRated(
 		options?: PageOption & LanguageOption & RegionOption,
 	): Promise<TopRatedMovies> {
-		return await this.api.get<TopRatedMovies>(`${BASE_MOVIE}/top_rated`, {
+		return this.api.get<TopRatedMovies>(`${BASE_MOVIE}/top_rated`, {
 			query: options,
 		});
 	}
 
 	/**
 	 * Retrieves upcoming movies asynchronously.
-	 * @param {PageOption & LanguageOption & RegionOption} [options] - Optional parameters for specifying language, region, and pagination options.
-	 * @returns {Promise<UpcomingMovies>} A Promise that resolves with the upcoming movies.
+	 *
+	 * @param {PageOption & LanguageOption & RegionOption} [options] - Optional
+	 * parameters for specifying language, region, and pagination options.
+	 * @returns {Promise<UpcomingMovies>} A Promise that resolves with the
+	 * upcoming movies.
 	 */
-	async upcoming(
+	upcoming(
 		options?: PageOption & LanguageOption & RegionOption,
 	): Promise<UpcomingMovies> {
-		return await this.api.get<UpcomingMovies>(`${BASE_MOVIE}/upcoming`, {
+		return this.api.get<UpcomingMovies>(`${BASE_MOVIE}/upcoming`, {
 			query: options,
 		});
 	}

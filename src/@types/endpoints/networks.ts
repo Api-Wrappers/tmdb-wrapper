@@ -1,10 +1,11 @@
 import type { Image } from "..";
+import type { Nullable } from "../wire";
 
 export interface NetworkDetails {
 	headquarters: string;
-	homepage: string;
+	homepage: Nullable<string>;
 	id: number;
-	logo_path: string;
+	logo_path: Nullable<string>;
 	name: string;
 	origin_country: string;
 }

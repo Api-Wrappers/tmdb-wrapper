@@ -11,8 +11,8 @@ export type MediaType = "movie" | "tv" | "person";
 export interface AuthorDetails {
 	name: string;
 	username: string;
-	avatar_path: string;
-	rating?: number;
+	avatar_path: Nullable<string>;
+	rating?: Nullable<number>;
 }
 
 export type KnownFor = MovieWithMediaType | TVWithMediaType;
@@ -21,7 +21,7 @@ export interface Person {
 	id: number;
 	name: string;
 	known_for: KnownFor[];
-	profile_path: string;
+	profile_path: Nullable<string>;
 	adult: boolean;
 	known_for_department: string;
 	gender: number;
@@ -55,7 +55,7 @@ export interface MovieWithMediaType extends Movie {
 
 export interface Company {
 	id: number;
-	logo_path: string;
+	logo_path: Nullable<string>;
 	name: string;
 	origin_country: string;
 }
@@ -86,16 +86,16 @@ export interface Genre {
 }
 
 export interface ExternalIds {
-	imdb_id: string;
-	facebook_id: string;
-	instagram_id: string;
-	twitter_id: string;
+	imdb_id: Nullable<string>;
+	facebook_id: Nullable<string>;
+	instagram_id: Nullable<string>;
+	twitter_id: Nullable<string>;
 	id: number;
 }
 
 export interface ProductionCompany {
 	id: number;
-	logo_path: string;
+	logo_path: Nullable<string>;
 	name: string;
 	origin_country: string;
 }
@@ -187,7 +187,7 @@ export interface Image {
 	aspect_ratio: number;
 	file_path: string;
 	height: number;
-	iso_639_1: string;
+	iso_639_1: Nullable<string>;
 	vote_average: number;
 	vote_count: number;
 	width: number;

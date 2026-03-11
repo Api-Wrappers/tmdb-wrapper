@@ -1,5 +1,20 @@
 import type { Episode, Movie, Person, Season, TV } from "..";
 
+export type ExternalSource =
+	| "imdb_id"
+	| "freebase_mid"
+	| "freebase_id"
+	| "tvdb_id"
+	| "tvrage_id"
+	| "facebook_id"
+	| "twitter_id"
+	| "instagram_id";
+
+export interface ExternalIdOptions {
+	external_source: ExternalSource;
+	language?: string;
+}
+
 type MediaTagged<T, TMediaType extends string> = T & {
 	media_type: TMediaType;
 };

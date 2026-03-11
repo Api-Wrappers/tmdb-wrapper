@@ -29,25 +29,30 @@ const BASE_SEASON = (seasonSelection: SeasonSelection): string => {
 export class TvSeasonsEndpoint extends BaseEndpoint {
 	/**
 	 * Constructs a new TvSeasonsEndpoint instance.
-	 * @param {string} access_token - The access token used for authentication.
+	 *
+	 * @param {TokenType} auth - The authentication configuration.
 	 */
-	constructor(protected readonly access_token: TokenType) {
-		super(access_token);
+	constructor(protected readonly auth: TokenType) {
+		super(auth);
 	}
 
 	/**
 	 * Retrieves details of a specific TV season asynchronously.
-	 * @param {SeasonSelection} seasonSelection - The selection criteria for the TV season.
-	 * @param {AppendToResponseTvSeasonKey[]} [appendToResponse] - Additional data to append to the response.
-	 * @param {LanguageOption} [options] - Optional parameters for specifying the language.
-	 * @returns {Promise<AppendToResponse<SeasonDetails, AppendToResponseTvSeasonKey[], 'tvSeason'>>}
-	 * A Promise that resolves with the details of the TV season.
+	 *
+	 * @param {SeasonSelection} seasonSelection - The selection criteria for the
+	 * TV season.
+	 * @param {AppendToResponseTvSeasonKey[]} [appendToResponse] - Additional
+	 * data to append to the response.
+	 * @param {LanguageOption} [options] - Optional parameters for specifying the
+	 * language.
+	 * @returns {Promise<AppendToResponse<SeasonDetails, T, "tvSeason">>} A
+	 * Promise that resolves with the details of the TV season.
 	 */
-	async details<T extends AppendToResponseTvSeasonKey[] | undefined>(
+	details<T extends AppendToResponseTvSeasonKey[] | undefined>(
 		seasonSelection: SeasonSelection,
 		appendToResponse?: T,
 		options?: LanguageOption,
-	) {
+	): Promise<AppendToResponse<SeasonDetails, T, "tvSeason">> {
 		const combinedOptions = {
 			append_to_response: appendToResponse
 				? appendToResponse.join(",")
@@ -55,23 +60,27 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 			...options,
 		};
 
-		return await this.api.get<AppendToResponse<SeasonDetails, T, "tvSeason">>(
-			`${BASE_SEASON(seasonSelection)}`,
+		return this.api.get<AppendToResponse<SeasonDetails, T, "tvSeason">>(
+			BASE_SEASON(seasonSelection),
 			{ query: combinedOptions },
 		);
 	}
 
 	/**
 	 * Retrieves aggregate credits for a specific TV season asynchronously.
-	 * @param {SeasonSelection} seasonSelection - The selection criteria for the TV season.
-	 * @param {LanguageOption} [options] - Optional parameters for specifying the language.
-	 * @returns {Promise<AggregateCredits>} A Promise that resolves with the aggregate credits for the TV season.
+	 *
+	 * @param {SeasonSelection} seasonSelection - The selection criteria for the
+	 * TV season.
+	 * @param {LanguageOption} [options] - Optional parameters for specifying the
+	 * language.
+	 * @returns {Promise<AggregateCredits>} A Promise that resolves with the
+	 * aggregate credits for the TV season.
 	 */
-	async aggregateCredits(
+	aggregateCredits(
 		seasonSelection: SeasonSelection,
 		options?: LanguageOption,
-	) {
-		return await this.api.get<AggregateCredits>(
+	): Promise<AggregateCredits> {
+		return this.api.get<AggregateCredits>(
 			`${BASE_SEASON(seasonSelection)}/aggregate_credits`,
 			{ query: options },
 		);
@@ -79,12 +88,18 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 
 	/**
 	 * Retrieves changes related to a specific TV season asynchronously.
+	 *
 	 * @param {number} seasonId - The ID of the TV season.
-	 * @param {ChangeOption} [options] - Optional parameters for specifying changes.
-	 * @returns {Promise<Changes<TvSeasonChangeValue>>} A Promise that resolves with the changes related to the TV season.
+	 * @param {ChangeOption} [options] - Optional parameters for specifying
+	 * changes.
+	 * @returns {Promise<Changes<TvSeasonChangeValue>>} A Promise that resolves
+	 * with the changes related to the TV season.
 	 */
-	async changes(seasonId: number, options?: ChangeOption) {
-		return await this.api.get<Changes<TvSeasonChangeValue>>(
+	changes(
+		seasonId: number,
+		options?: ChangeOption,
+	): Promise<Changes<TvSeasonChangeValue>> {
+		return this.api.get<Changes<TvSeasonChangeValue>>(
 			`/tv/season/${seasonId}/changes`,
 			{ query: options },
 		);
@@ -92,28 +107,38 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 
 	/**
 	 * Retrieves credits for a specific TV season asynchronously.
-	 * @param {SeasonSelection} seasonSelection - The selection criteria for the TV season.
-	 * @param {LanguageOption} [options] - Optional parameters for specifying the language.
-	 * @returns {Promise<Credits>} A Promise that resolves with the credits for the TV season.
+	 *
+	 * @param {SeasonSelection} seasonSelection - The selection criteria for the
+	 * TV season.
+	 * @param {LanguageOption} [options] - Optional parameters for specifying the
+	 * language.
+	 * @returns {Promise<Credits>} A Promise that resolves with the credits for
+	 * the TV season.
 	 */
-	async credits(seasonSelection: SeasonSelection, options?: LanguageOption) {
-		return await this.api.get<Credits>(
-			`${BASE_SEASON(seasonSelection)}/credits`,
-			{ query: options },
-		);
+	credits(
+		seasonSelection: SeasonSelection,
+		options?: LanguageOption,
+	): Promise<Credits> {
+		return this.api.get<Credits>(`${BASE_SEASON(seasonSelection)}/credits`, {
+			query: options,
+		});
 	}
 
 	/**
 	 * Retrieves external IDs for a specific TV season asynchronously.
-	 * @param {SeasonSelection} seasonSelection - The selection criteria for the TV season.
-	 * @param {LanguageOption} [options] - Optional parameters for specifying the language.
-	 * @returns {Promise<ExternalIds>} A Promise that resolves with the external IDs for the TV season.
+	 *
+	 * @param {SeasonSelection} seasonSelection - The selection criteria for the
+	 * TV season.
+	 * @param {LanguageOption} [options] - Optional parameters for specifying the
+	 * language.
+	 * @returns {Promise<ExternalIds>} A Promise that resolves with the external
+	 * IDs for the TV season.
 	 */
-	async externalIds(
+	externalIds(
 		seasonSelection: SeasonSelection,
 		options?: LanguageOption,
-	) {
-		return await this.api.get<ExternalIds>(
+	): Promise<ExternalIds> {
+		return this.api.get<ExternalIds>(
 			`${BASE_SEASON(seasonSelection)}/external_ids`,
 			{ query: options },
 		);
@@ -121,55 +146,67 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 
 	/**
 	 * Retrieves images for a specific TV season asynchronously.
-	 * @param {SeasonSelection} seasonSelection - The selection criteria for the TV season.
-	 * @param {TvSeasonImageSearchOptions} [options] - Optional parameters for specifying image search options.
-	 * @returns {Promise<Images>} A Promise that resolves with the images for the TV season.
+	 *
+	 * @param {SeasonSelection} seasonSelection - The selection criteria for the
+	 * TV season.
+	 * @param {TvSeasonImageSearchOptions} [options] - Optional parameters for
+	 * specifying image search options.
+	 * @returns {Promise<Images>} A Promise that resolves with the images for the
+	 * TV season.
 	 */
-	async images(
+	images(
 		seasonSelection: SeasonSelection,
 		options?: TvSeasonImageSearchOptions,
-	) {
+	): Promise<Images> {
 		const computedOptions = {
 			include_image_language: options?.include_image_language?.join(","),
 			language: options?.language,
 		};
-		return await this.api.get<Images>(
-			`${BASE_SEASON(seasonSelection)}/images`,
-			{ query: computedOptions },
-		);
+
+		return this.api.get<Images>(`${BASE_SEASON(seasonSelection)}/images`, {
+			query: computedOptions,
+		});
 	}
 
 	/**
 	 * Retrieves videos for a specific TV season asynchronously.
-	 * @param {SeasonSelection} seasonSelection - The selection criteria for the TV season.
-	 * @param {TvSeasonVideoSearchOptions} [options] - Optional parameters for specifying video search options.
-	 * @returns {Promise<Videos>} A Promise that resolves with the videos for the TV season.
+	 *
+	 * @param {SeasonSelection} seasonSelection - The selection criteria for the
+	 * TV season.
+	 * @param {TvSeasonVideoSearchOptions} [options] - Optional parameters for
+	 * specifying video search options.
+	 * @returns {Promise<Videos>} A Promise that resolves with the videos for the
+	 * TV season.
 	 */
-	async videos(
+	videos(
 		seasonSelection: SeasonSelection,
 		options?: TvSeasonVideoSearchOptions,
-	) {
+	): Promise<Videos> {
 		const computedOptions = {
 			include_video_language: options?.include_video_language?.join(","),
 			language: options?.language,
 		};
-		return await this.api.get<Videos>(
-			`${BASE_SEASON(seasonSelection)}/videos`,
-			{ query: computedOptions },
-		);
+
+		return this.api.get<Videos>(`${BASE_SEASON(seasonSelection)}/videos`, {
+			query: computedOptions,
+		});
 	}
 
 	/**
 	 * Retrieves translations for a specific TV season asynchronously.
-	 * @param {SeasonSelection} seasonSelection - The selection criteria for the TV season.
-	 * @param {LanguageOption} [options] - Optional parameters for specifying the language.
-	 * @returns {Promise<Translations>} A Promise that resolves with the translations for the TV season.
+	 *
+	 * @param {SeasonSelection} seasonSelection - The selection criteria for the
+	 * TV season.
+	 * @param {LanguageOption} [options] - Optional parameters for specifying the
+	 * language.
+	 * @returns {Promise<Translations>} A Promise that resolves with the
+	 * translations for the TV season.
 	 */
-	async translations(
+	translations(
 		seasonSelection: SeasonSelection,
 		options?: LanguageOption,
-	) {
-		return await this.api.get<Translations>(
+	): Promise<Translations> {
+		return this.api.get<Translations>(
 			`${BASE_SEASON(seasonSelection)}/translations`,
 			{ query: options },
 		);
