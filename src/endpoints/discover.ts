@@ -6,11 +6,13 @@ import {
 	type TvShowDiscoverResult,
 	type TvShowQueryOptions,
 } from "../@types";
+import { type RequestConfig, withQuery } from "../utils";
 
 const BASE_DISCOVER = "/discover";
 
 /**
- * Represents an endpoint for discovering movies and TV shows based on various criteria.
+ * Represents an endpoint for discovering movies and TV shows based on various
+ * criteria.
  *
  * TMDB v3 reference:
  * - GET /discover/movie
@@ -27,30 +29,42 @@ export class DiscoverEndpoint extends BaseEndpoint {
 	}
 
 	/**
-	 * Retrieves a list of movies based on the provided query options asynchronously.
+	 * Retrieves a list of movies based on the provided query options
+	 * asynchronously.
 	 *
-	 * TMDB: GET /discover/movie
-	 *
-	 * @param {MovieQueryOptions} [options] - Optional parameters for refining the movie discovery.
-	 * @returns {Promise<MovieDiscoverResult>} A Promise that resolves with the movie discovery results.
+	 * @param {MovieQueryOptions} [options] - Optional parameters for refining the
+	 * movie discovery.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
+	 * @returns {Promise<MovieDiscoverResult>} A Promise that resolves with the
+	 * movie discovery results.
 	 */
-	movie(options?: MovieQueryOptions): Promise<MovieDiscoverResult> {
-		return this.api.get<MovieDiscoverResult>(`${BASE_DISCOVER}/movie`, {
-			query: options,
-		});
+	movie(
+		options?: MovieQueryOptions,
+		request?: RequestConfig,
+	): Promise<MovieDiscoverResult> {
+		return this.api.get<MovieDiscoverResult>(
+			`${BASE_DISCOVER}/movie`,
+			withQuery(options, request),
+		);
 	}
 
 	/**
-	 * Retrieves a list of TV shows based on the provided query options asynchronously.
+	 * Retrieves a list of TV shows based on the provided query options
+	 * asynchronously.
 	 *
-	 * TMDB: GET /discover/tv
-	 *
-	 * @param {TvShowQueryOptions} [options] - Optional parameters for refining the TV show discovery.
-	 * @returns {Promise<TvShowDiscoverResult>} A Promise that resolves with the TV show discovery results.
+	 * @param {TvShowQueryOptions} [options] - Optional parameters for refining
+	 * the TV show discovery.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
+	 * @returns {Promise<TvShowDiscoverResult>} A Promise that resolves with the
+	 * TV show discovery results.
 	 */
-	tvShow(options?: TvShowQueryOptions): Promise<TvShowDiscoverResult> {
-		return this.api.get<TvShowDiscoverResult>(`${BASE_DISCOVER}/tv`, {
-			query: options,
-		});
+	tvShow(
+		options?: TvShowQueryOptions,
+		request?: RequestConfig,
+	): Promise<TvShowDiscoverResult> {
+		return this.api.get<TvShowDiscoverResult>(
+			`${BASE_DISCOVER}/tv`,
+			withQuery(options, request),
+		);
 	}
 }

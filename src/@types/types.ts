@@ -200,9 +200,8 @@ export interface Images {
 	posters: Image[];
 }
 
-export interface TMDBConfig {
-	apiKey?: string;
-	accessToken?: string;
-}
+export type TMDBConfig =
+	| { accessToken: string; apiKey?: string }
+	| { apiKey: string; accessToken?: string };
 
 export type TokenType = string | TMDBConfig;

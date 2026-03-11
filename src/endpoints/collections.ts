@@ -7,6 +7,7 @@ import {
 	type TokenType,
 	type Translations,
 } from "../@types";
+import { csv, type RequestConfig, withQuery } from "../utils";
 
 const BASE_COLLECTION = "/collection";
 
@@ -29,13 +30,19 @@ export class CollectionsEndpoint extends BaseEndpoint {
 	 * @param {number} id - The ID of the collection.
 	 * @param {LanguageOption} [options] - Optional parameters for specifying the
 	 * language.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
 	 * @returns {Promise<DetailedCollection>} A Promise that resolves with the
 	 * detailed information of the collection.
 	 */
-	details(id: number, options?: LanguageOption): Promise<DetailedCollection> {
-		return this.api.get<DetailedCollection>(`${BASE_COLLECTION}/${id}`, {
-			query: options,
-		});
+	details(
+		id: number,
+		options?: LanguageOption,
+		request?: RequestConfig,
+	): Promise<DetailedCollection> {
+		return this.api.get<DetailedCollection>(
+			`${BASE_COLLECTION}/${id}`,
+			withQuery(options, request),
+		);
 	}
 
 	/**
@@ -44,21 +51,24 @@ export class CollectionsEndpoint extends BaseEndpoint {
 	 * @param {number} id - The ID of the collection.
 	 * @param {CollectionImageOptions} [options] - Optional parameters for
 	 * specifying image options.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
 	 * @returns {Promise<ImageCollection>} A Promise that resolves with the
 	 * collection images.
 	 */
 	images(
 		id: number,
 		options?: CollectionImageOptions,
+		request?: RequestConfig,
 	): Promise<ImageCollection> {
-		const computedOptions = {
-			include_image_language: options?.include_image_language?.join(","),
+		const query = {
+			include_image_language: csv(options?.include_image_language),
 			language: options?.language,
 		};
 
-		return this.api.get<ImageCollection>(`${BASE_COLLECTION}/${id}/images`, {
-			query: computedOptions,
-		});
+		return this.api.get<ImageCollection>(
+			`${BASE_COLLECTION}/${id}/images`,
+			withQuery(query, request),
+		);
 	}
 
 	/**
@@ -67,12 +77,18 @@ export class CollectionsEndpoint extends BaseEndpoint {
 	 * @param {number} id - The ID of the collection.
 	 * @param {LanguageOption} [options] - Optional parameters for specifying the
 	 * language.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
 	 * @returns {Promise<Translations>} A Promise that resolves with the
 	 * translations of the collection.
 	 */
-	translations(id: number, options?: LanguageOption): Promise<Translations> {
-		return this.api.get<Translations>(`${BASE_COLLECTION}/${id}/translations`, {
-			query: options,
-		});
+	translations(
+		id: number,
+		options?: LanguageOption,
+		request?: RequestConfig,
+	): Promise<Translations> {
+		return this.api.get<Translations>(
+			`${BASE_COLLECTION}/${id}/translations`,
+			withQuery(options, request),
+		);
 	}
 }

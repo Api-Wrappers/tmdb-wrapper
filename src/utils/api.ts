@@ -20,6 +20,13 @@ export interface RequestOptions<Q extends object = object> {
 	retryDelayMs?: number;
 }
 
+export interface RequestConfig {
+	signal?: AbortSignal;
+	timeoutMs?: number;
+	retries?: number;
+	retryDelayMs?: number;
+}
+
 export class TMDBError extends Error {
 	constructor(
 		message: string,
@@ -52,6 +59,28 @@ export const parseOptions = (options?: Query): string => {
 
 	return new URLSearchParams(entries).toString();
 };
+
+export const csv = (
+	values?: ReadonlyArray<Primitive | null | undefined>,
+): string | undefined => {
+	if (!values) return undefined;
+
+	const normalized = values
+		.filter(
+			(value): value is Primitive => value !== undefined && value !== null,
+		)
+		.map(String);
+
+	return normalized.length > 0 ? normalized.join(",") : undefined;
+};
+
+export const withQuery = <Q extends object>(
+	query?: Q,
+	config?: RequestConfig,
+): RequestOptions<Q> => ({
+	...config,
+	query,
+});
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -88,6 +117,14 @@ export class API {
 		path: string,
 		opts: RequestOptions<Q> = {},
 	): Promise<T> {
+		if (!this.apiKey && !this.accessToken) {
+			throw new TMDBError(
+				"No TMDB authentication provided",
+				0,
+				`${BASE_URL_V3}${path}`,
+			);
+		}
+
 		const query: Query = {
 			...(opts.query
 				? (opts.query as unknown as Record<string, QueryValue>)
@@ -105,12 +142,16 @@ export class API {
 		const controller = new AbortController();
 		const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
+		const abortFromSignal = () => controller.abort();
+
 		if (opts.signal) {
-			if (opts.signal.aborted) controller.abort();
-			else
-				opts.signal.addEventListener("abort", () => controller.abort(), {
+			if (opts.signal.aborted) {
+				controller.abort();
+			} else {
+				opts.signal.addEventListener("abort", abortFromSignal, {
 					once: true,
 				});
+			}
 		}
 
 		try {
@@ -163,6 +204,10 @@ export class API {
 			throw new TMDBError("Request failed", 0, url);
 		} finally {
 			clearTimeout(timeout);
+
+			if (opts.signal) {
+				opts.signal.removeEventListener("abort", abortFromSignal);
+			}
 		}
 	}
 }

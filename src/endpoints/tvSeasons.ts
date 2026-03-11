@@ -18,6 +18,7 @@ import {
 	type TvSeasonVideoSearchOptions,
 	type Videos,
 } from "../@types";
+import { csv, type RequestConfig, withQuery } from "../utils";
 
 const BASE_SEASON = (seasonSelection: SeasonSelection): string => {
 	return `/tv/${seasonSelection.tvShowID}/season/${seasonSelection.seasonNumber}`;
@@ -45,6 +46,7 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 	 * data to append to the response.
 	 * @param {LanguageOption} [options] - Optional parameters for specifying the
 	 * language.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
 	 * @returns {Promise<AppendToResponse<SeasonDetails, T, "tvSeason">>} A
 	 * Promise that resolves with the details of the TV season.
 	 */
@@ -52,17 +54,16 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 		seasonSelection: SeasonSelection,
 		appendToResponse?: T,
 		options?: LanguageOption,
+		request?: RequestConfig,
 	): Promise<AppendToResponse<SeasonDetails, T, "tvSeason">> {
-		const combinedOptions = {
-			append_to_response: appendToResponse
-				? appendToResponse.join(",")
-				: undefined,
+		const query = {
+			append_to_response: csv(appendToResponse),
 			...options,
 		};
 
 		return this.api.get<AppendToResponse<SeasonDetails, T, "tvSeason">>(
 			BASE_SEASON(seasonSelection),
-			{ query: combinedOptions },
+			withQuery(query, request),
 		);
 	}
 
@@ -73,16 +74,18 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 	 * TV season.
 	 * @param {LanguageOption} [options] - Optional parameters for specifying the
 	 * language.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
 	 * @returns {Promise<AggregateCredits>} A Promise that resolves with the
 	 * aggregate credits for the TV season.
 	 */
 	aggregateCredits(
 		seasonSelection: SeasonSelection,
 		options?: LanguageOption,
+		request?: RequestConfig,
 	): Promise<AggregateCredits> {
 		return this.api.get<AggregateCredits>(
 			`${BASE_SEASON(seasonSelection)}/aggregate_credits`,
-			{ query: options },
+			withQuery(options, request),
 		);
 	}
 
@@ -92,16 +95,18 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 	 * @param {number} seasonId - The ID of the TV season.
 	 * @param {ChangeOption} [options] - Optional parameters for specifying
 	 * changes.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
 	 * @returns {Promise<Changes<TvSeasonChangeValue>>} A Promise that resolves
 	 * with the changes related to the TV season.
 	 */
 	changes(
 		seasonId: number,
 		options?: ChangeOption,
+		request?: RequestConfig,
 	): Promise<Changes<TvSeasonChangeValue>> {
 		return this.api.get<Changes<TvSeasonChangeValue>>(
 			`/tv/season/${seasonId}/changes`,
-			{ query: options },
+			withQuery(options, request),
 		);
 	}
 
@@ -112,16 +117,19 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 	 * TV season.
 	 * @param {LanguageOption} [options] - Optional parameters for specifying the
 	 * language.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
 	 * @returns {Promise<Credits>} A Promise that resolves with the credits for
 	 * the TV season.
 	 */
 	credits(
 		seasonSelection: SeasonSelection,
 		options?: LanguageOption,
+		request?: RequestConfig,
 	): Promise<Credits> {
-		return this.api.get<Credits>(`${BASE_SEASON(seasonSelection)}/credits`, {
-			query: options,
-		});
+		return this.api.get<Credits>(
+			`${BASE_SEASON(seasonSelection)}/credits`,
+			withQuery(options, request),
+		);
 	}
 
 	/**
@@ -131,16 +139,18 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 	 * TV season.
 	 * @param {LanguageOption} [options] - Optional parameters for specifying the
 	 * language.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
 	 * @returns {Promise<ExternalIds>} A Promise that resolves with the external
 	 * IDs for the TV season.
 	 */
 	externalIds(
 		seasonSelection: SeasonSelection,
 		options?: LanguageOption,
+		request?: RequestConfig,
 	): Promise<ExternalIds> {
 		return this.api.get<ExternalIds>(
 			`${BASE_SEASON(seasonSelection)}/external_ids`,
-			{ query: options },
+			withQuery(options, request),
 		);
 	}
 
@@ -151,21 +161,24 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 	 * TV season.
 	 * @param {TvSeasonImageSearchOptions} [options] - Optional parameters for
 	 * specifying image search options.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
 	 * @returns {Promise<Images>} A Promise that resolves with the images for the
 	 * TV season.
 	 */
 	images(
 		seasonSelection: SeasonSelection,
 		options?: TvSeasonImageSearchOptions,
+		request?: RequestConfig,
 	): Promise<Images> {
-		const computedOptions = {
-			include_image_language: options?.include_image_language?.join(","),
+		const query = {
+			include_image_language: csv(options?.include_image_language),
 			language: options?.language,
 		};
 
-		return this.api.get<Images>(`${BASE_SEASON(seasonSelection)}/images`, {
-			query: computedOptions,
-		});
+		return this.api.get<Images>(
+			`${BASE_SEASON(seasonSelection)}/images`,
+			withQuery(query, request),
+		);
 	}
 
 	/**
@@ -175,21 +188,24 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 	 * TV season.
 	 * @param {TvSeasonVideoSearchOptions} [options] - Optional parameters for
 	 * specifying video search options.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
 	 * @returns {Promise<Videos>} A Promise that resolves with the videos for the
 	 * TV season.
 	 */
 	videos(
 		seasonSelection: SeasonSelection,
 		options?: TvSeasonVideoSearchOptions,
+		request?: RequestConfig,
 	): Promise<Videos> {
-		const computedOptions = {
-			include_video_language: options?.include_video_language?.join(","),
+		const query = {
+			include_video_language: csv(options?.include_video_language),
 			language: options?.language,
 		};
 
-		return this.api.get<Videos>(`${BASE_SEASON(seasonSelection)}/videos`, {
-			query: computedOptions,
-		});
+		return this.api.get<Videos>(
+			`${BASE_SEASON(seasonSelection)}/videos`,
+			withQuery(query, request),
+		);
 	}
 
 	/**
@@ -199,16 +215,18 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 	 * TV season.
 	 * @param {LanguageOption} [options] - Optional parameters for specifying the
 	 * language.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
 	 * @returns {Promise<Translations>} A Promise that resolves with the
 	 * translations for the TV season.
 	 */
 	translations(
 		seasonSelection: SeasonSelection,
 		options?: LanguageOption,
+		request?: RequestConfig,
 	): Promise<Translations> {
 		return this.api.get<Translations>(
 			`${BASE_SEASON(seasonSelection)}/translations`,
-			{ query: options },
+			withQuery(options, request),
 		);
 	}
 }

@@ -24,6 +24,28 @@ import {
 } from "./endpoints";
 
 class TMDB {
+	readonly account: AccountEndpoint;
+	readonly certification: CertificationEndpoint;
+	readonly changes: ChangeEndpoint;
+	readonly collections: CollectionsEndpoint;
+	readonly companies: CompaniesEndpoint;
+	readonly configuration: ConfigurationEndpoint;
+	readonly credits: CreditsEndpoint;
+	readonly discover: DiscoverEndpoint;
+	readonly find: FindEndpoint;
+	readonly genre: GenreEndpoint;
+	readonly keywords: KeywordsEndpoint;
+	readonly movies: MoviesEndpoint;
+	readonly networks: NetworksEndpoint;
+	readonly people: PeopleEndpoint;
+	readonly review: ReviewEndpoint;
+	readonly search: SearchEndpoint;
+	readonly trending: TrendingEndpoint;
+	readonly tvEpisodes: TvEpisodesEndpoint;
+	readonly tvSeasons: TvSeasonsEndpoint;
+	readonly tvShows: TvShowsEndpoint;
+	readonly watchProviders: WatchProvidersEndpoint;
+
 	constructor(auth: TokenType) {
 		this.account = new AccountEndpoint(auth);
 		this.certification = new CertificationEndpoint(auth);
@@ -47,28 +69,6 @@ class TMDB {
 		this.tvShows = new TvShowsEndpoint(auth);
 		this.watchProviders = new WatchProvidersEndpoint(auth);
 	}
-
-	account: AccountEndpoint;
-	certification: CertificationEndpoint;
-	changes: ChangeEndpoint;
-	collections: CollectionsEndpoint;
-	companies: CompaniesEndpoint;
-	configuration: ConfigurationEndpoint;
-	credits: CreditsEndpoint;
-	discover: DiscoverEndpoint;
-	find: FindEndpoint;
-	genre: GenreEndpoint;
-	keywords: KeywordsEndpoint;
-	movies: MoviesEndpoint;
-	networks: NetworksEndpoint;
-	people: PeopleEndpoint;
-	review: ReviewEndpoint;
-	search: SearchEndpoint;
-	trending: TrendingEndpoint;
-	tvEpisodes: TvEpisodesEndpoint;
-	tvSeasons: TvSeasonsEndpoint;
-	tvShows: TvShowsEndpoint;
-	watchProviders: WatchProvidersEndpoint;
 }
 
 export * from "./@types";

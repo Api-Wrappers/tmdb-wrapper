@@ -7,6 +7,7 @@ import {
 	type TrendingMediaType,
 	type TrendingResults,
 } from "../@types";
+import { type RequestConfig, withQuery } from "../utils";
 
 /**
  * Represents an endpoint for retrieving trending content.
@@ -29,6 +30,7 @@ export class TrendingEndpoint extends BaseEndpoint {
 	 * @param {TimeWindow} timeWindow - The time window for trending content.
 	 * @param {LanguageOption & PageOption} [options] - Optional parameters for
 	 * specifying the language and pagination.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
 	 * @returns {Promise<TrendingResults<T>>} A Promise that resolves with the
 	 * trending results.
 	 * @template T - The type of media being searched for.
@@ -37,10 +39,11 @@ export class TrendingEndpoint extends BaseEndpoint {
 		mediaType: T,
 		timeWindow: TimeWindow,
 		options?: LanguageOption & PageOption,
+		request?: RequestConfig,
 	): Promise<TrendingResults<T>> {
 		return this.api.get<TrendingResults<T>>(
 			`/trending/${mediaType}/${timeWindow}`,
-			{ query: options },
+			withQuery(options, request),
 		);
 	}
 }

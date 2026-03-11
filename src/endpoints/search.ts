@@ -15,6 +15,7 @@ import {
 	type TV,
 	type TvSearchOptions,
 } from "../@types";
+import { type RequestConfig, withQuery } from "../utils";
 
 const BASE_SEARCH = "/search";
 
@@ -35,41 +36,53 @@ export class SearchEndpoint extends BaseEndpoint {
 	 * Searches for companies asynchronously.
 	 *
 	 * @param {SearchOptions} options - The search options.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
 	 * @returns {Promise<Search<Company>>} A Promise that resolves with the
 	 * search results for companies.
 	 */
-	companies(options: SearchOptions): Promise<Search<Company>> {
-		return this.api.get<Search<Company>>(`${BASE_SEARCH}/company`, {
-			query: options,
-		});
+	companies(
+		options: SearchOptions,
+		request?: RequestConfig,
+	): Promise<Search<Company>> {
+		return this.api.get<Search<Company>>(
+			`${BASE_SEARCH}/company`,
+			withQuery(options, request),
+		);
 	}
 
 	/**
 	 * Searches for collections asynchronously.
 	 *
 	 * @param {CollectionSearchOptions} options - The search options.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
 	 * @returns {Promise<Search<Collection>>} A Promise that resolves with the
 	 * search results for collections.
 	 */
-	collections(options: CollectionSearchOptions): Promise<Search<Collection>> {
-		return this.api.get<Search<Collection>>(`${BASE_SEARCH}/collection`, {
-			query: options,
-		});
+	collections(
+		options: CollectionSearchOptions,
+		request?: RequestConfig,
+	): Promise<Search<Collection>> {
+		return this.api.get<Search<Collection>>(
+			`${BASE_SEARCH}/collection`,
+			withQuery(options, request),
+		);
 	}
 
 	/**
 	 * Searches for keywords asynchronously.
 	 *
 	 * @param {SearchOptions} options - The search options.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
 	 * @returns {Promise<Search<{ id: string; name: string }>>} A Promise that
 	 * resolves with the search results for keywords.
 	 */
 	keywords(
 		options: SearchOptions,
+		request?: RequestConfig,
 	): Promise<Search<{ id: string; name: string }>> {
 		return this.api.get<Search<{ id: string; name: string }>>(
 			`${BASE_SEARCH}/keyword`,
-			{ query: options },
+			withQuery(options, request),
 		);
 	}
 
@@ -77,51 +90,68 @@ export class SearchEndpoint extends BaseEndpoint {
 	 * Searches for movies asynchronously.
 	 *
 	 * @param {MovieSearchOptions} options - The search options.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
 	 * @returns {Promise<Search<Movie>>} A Promise that resolves with the search
 	 * results for movies.
 	 */
-	movies(options: MovieSearchOptions): Promise<Search<Movie>> {
-		return this.api.get<Search<Movie>>(`${BASE_SEARCH}/movie`, {
-			query: options,
-		});
+	movies(
+		options: MovieSearchOptions,
+		request?: RequestConfig,
+	): Promise<Search<Movie>> {
+		return this.api.get<Search<Movie>>(
+			`${BASE_SEARCH}/movie`,
+			withQuery(options, request),
+		);
 	}
 
 	/**
 	 * Searches for people asynchronously.
 	 *
 	 * @param {PeopleSearchOptions} options - The search options.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
 	 * @returns {Promise<Search<Person>>} A Promise that resolves with the search
 	 * results for people.
 	 */
-	people(options: PeopleSearchOptions): Promise<Search<Person>> {
-		return this.api.get<Search<Person>>(`${BASE_SEARCH}/person`, {
-			query: options,
-		});
+	people(
+		options: PeopleSearchOptions,
+		request?: RequestConfig,
+	): Promise<Search<Person>> {
+		return this.api.get<Search<Person>>(
+			`${BASE_SEARCH}/person`,
+			withQuery(options, request),
+		);
 	}
 
 	/**
 	 * Searches for TV shows asynchronously.
 	 *
 	 * @param {TvSearchOptions} options - The search options.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
 	 * @returns {Promise<Search<TV>>} A Promise that resolves with the search
 	 * results for TV shows.
 	 */
-	tv(options: TvSearchOptions): Promise<Search<TV>> {
-		return this.api.get<Search<TV>>(`${BASE_SEARCH}/tv`, {
-			query: options,
-		});
+	tv(options: TvSearchOptions, request?: RequestConfig): Promise<Search<TV>> {
+		return this.api.get<Search<TV>>(
+			`${BASE_SEARCH}/tv`,
+			withQuery(options, request),
+		);
 	}
 
 	/**
 	 * Performs a multi-search asynchronously.
 	 *
 	 * @param {MultiSearchOptions} options - The search options.
+	 * @param {RequestConfig} [request] - Optional request behavior overrides.
 	 * @returns {Promise<Search<MultiSearchResult>>} A Promise that resolves with
 	 * the multi-search results.
 	 */
-	multi(options: MultiSearchOptions): Promise<Search<MultiSearchResult>> {
-		return this.api.get<Search<MultiSearchResult>>(`${BASE_SEARCH}/multi`, {
-			query: options,
-		});
+	multi(
+		options: MultiSearchOptions,
+		request?: RequestConfig,
+	): Promise<Search<MultiSearchResult>> {
+		return this.api.get<Search<MultiSearchResult>>(
+			`${BASE_SEARCH}/multi`,
+			withQuery(options, request),
+		);
 	}
 }
