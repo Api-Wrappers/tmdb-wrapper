@@ -1,4 +1,5 @@
 import type { Credits, Crew, LanguageOption } from "..";
+import type { Nullable } from "../wire";
 
 export interface EpisodeSelection {
 	tvShowID: number;
@@ -16,7 +17,7 @@ export interface Episode {
 	overview: string;
 	production_code: string;
 	season_number: number;
-	still_path: string;
+	still_path: Nullable<string>;
 	vote_average: number;
 	vote_count: number;
 	runtime: number;
@@ -43,7 +44,7 @@ export interface TvEpisodeCredit extends Credits {
 
 export interface TvEpisodeTranslations {
 	id: number;
-	translations: {
+	translations: Array<{
 		iso_3166_1: string;
 		iso_639_1: string;
 		name: string;
@@ -52,7 +53,7 @@ export interface TvEpisodeTranslations {
 			name: string;
 			overview: string;
 		};
-	};
+	}>;
 }
 
 export type TvEpisodeChangeValue = string | unknown;

@@ -1,6 +1,7 @@
 import {
 	BaseEndpoint,
 	type Collection,
+	type CollectionSearchOptions,
 	type Company,
 	type Movie,
 	type MovieSearchOptions,
@@ -23,7 +24,8 @@ const BASE_SEARCH = "/search";
 export class SearchEndpoint extends BaseEndpoint {
 	/**
 	 * Constructs a new SearchEndpoint instance.
-	 * @param {string} access_token - The access token used for authentication.
+	 *
+	 * @param {TokenType} access_token - The access token used for authentication.
 	 */
 	constructor(protected readonly access_token: TokenType) {
 		super(access_token);
@@ -31,35 +33,41 @@ export class SearchEndpoint extends BaseEndpoint {
 
 	/**
 	 * Searches for companies asynchronously.
+	 *
 	 * @param {SearchOptions} options - The search options.
-	 * @returns {Promise<Search<Company>>} A Promise that resolves with the search results for companies.
+	 * @returns {Promise<Search<Company>>} A Promise that resolves with the
+	 * search results for companies.
 	 */
-	async companies(options: SearchOptions): Promise<Search<Company>> {
-		return await this.api.get<Search<Company>>(`${BASE_SEARCH}/company`, {
+	companies(options: SearchOptions): Promise<Search<Company>> {
+		return this.api.get<Search<Company>>(`${BASE_SEARCH}/company`, {
 			query: options,
 		});
 	}
 
 	/**
 	 * Searches for collections asynchronously.
-	 * @param {SearchOptions} options - The search options.
-	 * @returns {Promise<Search<Collection>>} A Promise that resolves with the search results for collections.
+	 *
+	 * @param {CollectionSearchOptions} options - The search options.
+	 * @returns {Promise<Search<Collection>>} A Promise that resolves with the
+	 * search results for collections.
 	 */
-	async collections(options: SearchOptions): Promise<Search<Collection>> {
-		return await this.api.get<Search<Collection>>(`${BASE_SEARCH}/collection`, {
+	collections(options: CollectionSearchOptions): Promise<Search<Collection>> {
+		return this.api.get<Search<Collection>>(`${BASE_SEARCH}/collection`, {
 			query: options,
 		});
 	}
 
 	/**
 	 * Searches for keywords asynchronously.
+	 *
 	 * @param {SearchOptions} options - The search options.
-	 * @returns {Promise<Search<{ id: string; name: string }>>} A Promise that resolves with the search results for keywords.
+	 * @returns {Promise<Search<{ id: string; name: string }>>} A Promise that
+	 * resolves with the search results for keywords.
 	 */
-	async keywords(
+	keywords(
 		options: SearchOptions,
 	): Promise<Search<{ id: string; name: string }>> {
-		return await this.api.get<Search<{ id: string; name: string }>>(
+		return this.api.get<Search<{ id: string; name: string }>>(
 			`${BASE_SEARCH}/keyword`,
 			{ query: options },
 		);
@@ -67,46 +75,53 @@ export class SearchEndpoint extends BaseEndpoint {
 
 	/**
 	 * Searches for movies asynchronously.
+	 *
 	 * @param {MovieSearchOptions} options - The search options.
-	 * @returns {Promise<Search<Movie>>} A Promise that resolves with the search results for movies.
+	 * @returns {Promise<Search<Movie>>} A Promise that resolves with the search
+	 * results for movies.
 	 */
-	async movies(options: MovieSearchOptions): Promise<Search<Movie>> {
-		return await this.api.get<Search<Movie>>(`${BASE_SEARCH}/movie`, {
+	movies(options: MovieSearchOptions): Promise<Search<Movie>> {
+		return this.api.get<Search<Movie>>(`${BASE_SEARCH}/movie`, {
 			query: options,
 		});
 	}
 
 	/**
 	 * Searches for people asynchronously.
+	 *
 	 * @param {PeopleSearchOptions} options - The search options.
-	 * @returns {Promise<Search<Person>>} A Promise that resolves with the search results for people.
+	 * @returns {Promise<Search<Person>>} A Promise that resolves with the search
+	 * results for people.
 	 */
-	async people(options: PeopleSearchOptions): Promise<Search<Person>> {
-		return await this.api.get<Search<Person>>(`${BASE_SEARCH}/person`, {
+	people(options: PeopleSearchOptions): Promise<Search<Person>> {
+		return this.api.get<Search<Person>>(`${BASE_SEARCH}/person`, {
 			query: options,
 		});
 	}
 
 	/**
 	 * Searches for TV shows asynchronously.
+	 *
 	 * @param {TvSearchOptions} options - The search options.
-	 * @returns {Promise<Search<TV>>} A Promise that resolves with the search results for TV shows.
+	 * @returns {Promise<Search<TV>>} A Promise that resolves with the search
+	 * results for TV shows.
 	 */
-	async tv(options: TvSearchOptions): Promise<Search<TV>> {
-		return await this.api.get<Search<TV>>(`${BASE_SEARCH}/tv`, {
+	tv(options: TvSearchOptions): Promise<Search<TV>> {
+		return this.api.get<Search<TV>>(`${BASE_SEARCH}/tv`, {
 			query: options,
 		});
 	}
 
 	/**
 	 * Performs a multi-search asynchronously.
+	 *
 	 * @param {MultiSearchOptions} options - The search options.
-	 * @returns {Promise<Search<MultiSearchResult>>} A Promise that resolves with the multi-search results.
+	 * @returns {Promise<Search<MultiSearchResult>>} A Promise that resolves with
+	 * the multi-search results.
 	 */
-	async multi(options: MultiSearchOptions): Promise<Search<MultiSearchResult>> {
-		return await this.api.get<Search<MultiSearchResult>>(
-			`${BASE_SEARCH}/multi`,
-			{ query: options },
-		);
+	multi(options: MultiSearchOptions): Promise<Search<MultiSearchResult>> {
+		return this.api.get<Search<MultiSearchResult>>(`${BASE_SEARCH}/multi`, {
+			query: options,
+		});
 	}
 }

@@ -1,20 +1,21 @@
 import type { Image } from "..";
+import type { Nullable } from "../wire";
 
 export interface CompanyDetails {
 	description: string;
 	headquarters: string;
-	homepage: string;
+	homepage: Nullable<string>;
 	id: number;
-	logo_path: string;
+	logo_path: Nullable<string>;
 	name: string;
 	origin_country: string;
-	parent_company: ParentCompany;
+	parent_company: Nullable<ParentCompany>;
 }
 
 export interface ParentCompany {
 	name: string;
 	id: number;
-	logo_path: string;
+	logo_path: Nullable<string>;
 }
 
 export interface AlternativeNames {

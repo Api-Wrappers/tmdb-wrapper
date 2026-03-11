@@ -75,26 +75,26 @@ export interface PersonTvShowCredit {
 }
 
 export interface PersonCombinedCredits {
-	cast: (PersonMovieCast & PersonTvShowCast)[];
-	crew: (PersonMovieCrew & PersonTvShowCrew)[];
+	cast: Array<PersonMovieCast | PersonTvShowCast>;
+	crew: Array<PersonMovieCrew | PersonTvShowCrew>;
 	id: number;
 }
 
 export interface PersonDetails {
-	birthday: string;
+	birthday: Nullable<string>;
 	known_for_department: string;
-	deathday: string;
+	deathday: Nullable<string>;
 	id: number;
 	name: string;
 	also_known_as: string[];
 	gender: number;
 	biography: string;
 	popularity: number;
-	place_of_birth: string;
+	place_of_birth: Nullable<string>;
 	profile_path: Nullable<string>;
 	adult: boolean;
-	imdb_id: string;
-	homepage: string;
+	imdb_id: Nullable<string>;
+	homepage: Nullable<string>;
 }
 
 export type PersonChangeValue =
@@ -122,12 +122,12 @@ export interface TaggedImage {
 	file_path: Nullable<string>;
 	height: number;
 	id: string;
-	iso_639_1: string;
+	iso_639_1: Nullable<string>;
 	vote_average: number;
 	vote_count: number;
 	width: number;
 	image_type: string;
-	media_type: string;
+	media_type: "movie" | "tv";
 	media: Movie | TV;
 }
 

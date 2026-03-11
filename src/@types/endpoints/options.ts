@@ -1,4 +1,5 @@
 import type {
+	AggregateCredits,
 	AlternativeTitles,
 	Changes,
 	ContentRatings,
@@ -50,7 +51,7 @@ export interface PageOption {
 }
 
 export interface ChangeOption extends PageOption {
-	start_date?: TMDBDate; // "YYYY-MM-DD"
+	start_date?: TMDBDate;
 	end_date?: TMDBDate;
 }
 
@@ -206,7 +207,7 @@ export type AppendToResponse<
 						? { "watch/providers": Omit<WatchProviders, "id"> }
 						: object) &
 					("aggregate_credits" extends T[number]
-						? { aggregate_credits: Omit<Credits, "id"> }
+						? { aggregate_credits: Omit<AggregateCredits, "id"> }
 						: object) &
 					("episode_groups" extends T[number]
 						? { episode_groups: Omit<EpisodeGroups, "id"> }

@@ -8,7 +8,7 @@ export interface CreditSeason {
 }
 
 export interface Media {
-	i?: number;
+	id?: number;
 	name?: string;
 	first_air_date?: string;
 	vote_count?: number;
@@ -87,6 +87,7 @@ export interface ImageCollection {
 	backdrops: Image[];
 	posters: Image[];
 }
+
 export interface Video {
 	id: string;
 	iso_639_1: string;
