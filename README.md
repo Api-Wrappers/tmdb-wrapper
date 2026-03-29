@@ -3,9 +3,9 @@
 </h1>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@tdanks2000/tmdb-wrapper"><img alt="npm version" src="https://img.shields.io/npm/v/@tdanks2000/tmdb-wrapper"></a>
-  <a href="https://github.com/tdanks2000/tmdb-wrapper/blob/master/LICENSE"><img alt="license" src="https://img.shields.io/npm/l/@tdanks2000/tmdb-wrapper"></a>
-  <a href="https://github.com/tdanks2000/tmdb-wrapper"><img alt="GitHub stars" src="https://img.shields.io/github/stars/tdanks2000/tmdb-wrapper?style=social"></a>
+  <a href="https://www.npmjs.com/package/@api-wrappers/tmdb-wrapper"><img alt="npm version" src="https://img.shields.io/npm/v/@api-wrappers/tmdb-wrapper"></a>
+  <a href="https://github.com/api-wrappers/tmdb-wrapper/blob/master/LICENSE"><img alt="license" src="https://img.shields.io/npm/l/@api-wrappers/tmdb-wrapper"></a>
+  <a href="https://github.com/api-wrappers/tmdb-wrapper"><img alt="GitHub stars" src="https://img.shields.io/github/stars/api-wrappers/tmdb-wrapper?style=social"></a>
 </p>
 
 <br />
@@ -44,13 +44,13 @@ To install the TMDB TypeScript Wrapper, follow these steps:
 
 ```typescript
 // npm
-npm install @tdanks2000/tmdb-wrapper
+npm install @api-wrappers/tmdb-wrapper
 // yarn
-yarn add @tdanks2000/tmdb-wrapper
+yarn add @api-wrappers/tmdb-wrapper
 // pnpm
-pnpm i @tdanks2000/tmdb-wrapper
+pnpm i @api-wrappers/tmdb-wrapper
 // bun
-bun add @tdanks2000/tmdb-wrapper
+bun add @api-wrappers/tmdb-wrapper
 ```
 
 ## Usage
@@ -58,7 +58,7 @@ bun add @tdanks2000/tmdb-wrapper
 To use the TMDB TypeScript API Wrapper in your TypeScript project, import the necessary classes and functions:
 
 ```typescript
-import { TMDB } from '@tdanks2000/tmdb-wrapper';
+import { TMDB } from '@api-wrappers/tmdb-wrapper';
 ```
 
 Then, create an instance of the TMDB class, optionally providing an access token. Access tokens can be obtained from [TMDb API Settings](https://www.themoviedb.org/settings/api) under read access token.
@@ -202,7 +202,7 @@ import {
 	getFullImagePath,
 	ImageSizes,
 	ImageFormats,
-} from "@tdanks2000/tmdb-wrapper";
+} from "@api-wrappers/tmdb-wrapper";
 ```
 
 ### `getFullImagePath(...)`
@@ -372,7 +372,7 @@ This wrapper aims to provide a 1:1 mapping to the official TMDB API, with TypeSc
 
 ## Contributing
 
-Contributions are welcome! For bug reports, feature requests, or any other questions, please open an issue on the [GitHub repository](https://github.com/tdanks2000/tmdb-wrapper).
+Contributions are welcome! For bug reports, feature requests, or any other questions, please open an issue on the [GitHub repository](https://github.com/api-wrappers/tmdb-wrapper).
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
@@ -382,7 +382,7 @@ Contributions are welcome! For bug reports, feature requests, or any other quest
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/tdanks2000/tmdb-wrapper/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/api-wrappers/tmdb-wrapper/blob/main/LICENSE) file for details.
 
 <br/>
 

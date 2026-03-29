@@ -82,7 +82,7 @@ describe("Package Build", () => {
 				readFileSync(packageJsonPath, "utf-8"),
 			);
 
-			expect(packageJson.name).toBe("@tdanks2000/tmdb-wrapper");
+			expect(packageJson.name).toBe("@api-wrappers/tmdb-wrapper");
 			expect(packageJson.version).toBeDefined();
 			expect(packageJson.description).toBeDefined();
 

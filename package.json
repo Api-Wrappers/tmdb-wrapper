@@ -1,5 +1,5 @@
 {
-  "name": "@tdanks2000/tmdb-wrapper",
+  "name": "@api-wrappers/tmdb-wrapper",
   "version": "2.0.0",
   "description": "A powerful and easy-to-use TypeScript wrapper for The Movie Database (TMDb) API",
   "module": "./dist/index.mjs",
@@ -18,11 +18,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tdanks2000/tmdb-wrapper.git"
+    "url": "git+https://github.com/api-wrappers/tmdb-wrapper.git"
   },
-  "homepage": "https://github.com/tdanks2000/tmdb-wrapper#readme",
+  "homepage": "https://github.com/api-wrappers/tmdb-wrapper#readme",
   "bugs": {
-    "url": "https://github.com/tdanks2000/tmdb-wrapper/issues"
+    "url": "https://github.com/api-wrappers/tmdb-wrapper/issues"
   },
   "files": [
     "dist/**/*",
@@ -47,7 +47,7 @@
   "engines": {
     "node": ">=16"
   },
-  "author": "TDanks2000",
+  "author": "api-wrappers",
   "license": "MIT",
   "private": false,
   "scripts": {
