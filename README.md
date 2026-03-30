@@ -4,8 +4,8 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@api-wrappers/tmdb-wrapper"><img alt="npm version" src="https://img.shields.io/npm/v/@api-wrappers/tmdb-wrapper"></a>
-  <a href="https://github.com/api-wrappers/tmdb-wrapper/blob/master/LICENSE"><img alt="license" src="https://img.shields.io/npm/l/@api-wrappers/tmdb-wrapper"></a>
-  <a href="https://github.com/api-wrappers/tmdb-wrapper"><img alt="GitHub stars" src="https://img.shields.io/github/stars/api-wrappers/tmdb-wrapper?style=social"></a>
+  <a href="https://github.com/Api-Wrappers/tmdb-wrapper/blob/master/LICENSE"><img alt="license" src="https://img.shields.io/npm/l/@api-wrappers/tmdb-wrapper"></a>
+  <a href="https://github.com/Api-Wrappers/tmdb-wrapper"><img alt="GitHub stars" src="https://img.shields.io/github/stars/api-wrappers/tmdb-wrapper?style=social"></a>
 </p>
 
 <br />
@@ -372,7 +372,7 @@ This wrapper aims to provide a 1:1 mapping to the official TMDB API, with TypeSc
 
 ## Contributing
 
-Contributions are welcome! For bug reports, feature requests, or any other questions, please open an issue on the [GitHub repository](https://github.com/api-wrappers/tmdb-wrapper).
+Contributions are welcome! For bug reports, feature requests, or any other questions, please open an issue on the [GitHub repository](https://github.com/Api-Wrappers/tmdb-wrapper).
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
@@ -382,7 +382,7 @@ Contributions are welcome! For bug reports, feature requests, or any other quest
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/api-wrappers/tmdb-wrapper/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/Api-Wrappers/tmdb-wrapper/blob/main/LICENSE) file for details.
 
 <br/>
 

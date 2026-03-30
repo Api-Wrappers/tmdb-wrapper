@@ -18,11 +18,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/api-wrappers/tmdb-wrapper.git"
+    "url": "git+https://github.com/Api-Wrappers/tmdb-wrapper.git"
   },
-  "homepage": "https://github.com/api-wrappers/tmdb-wrapper#readme",
+  "homepage": "https://github.com/Api-Wrappers/tmdb-wrapper#readme",
   "bugs": {
-    "url": "https://github.com/api-wrappers/tmdb-wrapper/issues"
+    "url": "https://github.com/Api-Wrappers/tmdb-wrapper/issues"
   },
   "files": [
     "dist/**/*",
