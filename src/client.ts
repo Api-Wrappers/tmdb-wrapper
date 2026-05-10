@@ -10,11 +10,6 @@ import type { TMDBClientConfig, TokenType } from "./@types/types";
 
 const BASE_URL_V3 = "https://api.themoviedb.org/3";
 
-type FetchFn = NonNullable<ClientConfig["fetch"]>;
-
-const defaultFetch: FetchFn = (...args: Parameters<FetchFn>) =>
-	(globalThis as typeof globalThis & { fetch: FetchFn }).fetch(...args);
-
 interface TMDBRequestOptions extends Omit<RequestOptions, "query"> {
 	query?: object;
 }
@@ -44,7 +39,7 @@ export class TMDBApiClient extends BaseHttpClient {
 			...normalized.client,
 			baseUrl: normalized.client?.baseUrl ?? BASE_URL_V3,
 			defaultHeaders,
-			fetch: normalized.client?.fetch ?? defaultFetch,
+			fetch: normalized.client?.fetch,
 			retry: normalized.client?.retry ?? {
 				maxAttempts: 3,
 				delayMs: 300,

@@ -5,7 +5,7 @@
     "": {
       "name": "@api-wrappers/tmdb-wrapper",
       "dependencies": {
-        "@api-wrappers/api-core": "^0.0.1",
+        "@api-wrappers/api-core": "^0.0.3",
       },
       "devDependencies": {
         "@biomejs/biome": "^2.4.14",
@@ -18,7 +18,7 @@
     },
   },
   "packages": {
-    "@api-wrappers/api-core": ["@api-wrappers/api-core@0.0.1", "", { "peerDependencies": { "typescript": "^5" } }, "sha512-ALNhAQImmFS+g6IB6z1R7elpkgtASiCDRCxNiIm7ra0bCmv/kTIG3dtfmqanuwcwSdP5kNTGUC0CPFkem6DXkQ=="],
+    "@api-wrappers/api-core": ["@api-wrappers/api-core@0.0.3", "", { "peerDependencies": { "typescript": "^5" } }, "sha512-YUbdgNaNwDvs+uKDxlNjdmrsPnIL2S8lNO6FBLTjrtImZfmxX7/OjB0ByUNVKiq428repafWKaqqo6JYt6m2kA=="],
 
     "@babel/generator": ["@babel/generator@8.0.0-rc.4", "", { "dependencies": { "@babel/parser": "^8.0.0-rc.4", "@babel/types": "^8.0.0-rc.4", "@jridgewell/gen-mapping": "^0.3.12", "@jridgewell/trace-mapping": "^0.3.28", "@types/jsesc": "^2.5.0", "jsesc": "^3.0.2" } }, "sha512-YZ+FuIgkj7KrIb2a2X1XiY0QYgDxAbVbYP64SjwJzOK3euCsUerzenh2oqdsmKuPSlhzmFOOklnxzHAzXagvpw=="],
 
