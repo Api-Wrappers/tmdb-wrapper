@@ -1,9 +1,33 @@
+import type { ClientConfig } from "@api-wrappers/api-core";
 import type { Nullable, TMDBDateTime } from "./wire";
 
 export interface ErrorResponse {
 	status_code: number;
 	status_message: string;
 	success: boolean;
+}
+
+export interface StatusResponse {
+	status_code: number;
+	status_message: string;
+	success?: boolean;
+}
+
+export interface RatingBody {
+	value: number;
+}
+
+export interface RatedValue {
+	value: number;
+}
+
+export type RatingState = false | RatedValue;
+
+export interface MediaAccountStates {
+	id: number;
+	favorite: boolean;
+	rated: RatingState;
+	watchlist: boolean;
 }
 
 export type MediaType = "movie" | "tv" | "person";
@@ -200,8 +224,18 @@ export interface Images {
 	posters: Image[];
 }
 
-export type TMDBConfig =
-	| { accessToken: string; apiKey?: string }
-	| { apiKey: string; accessToken?: string };
+export type TMDBClientConfig = Omit<
+	ClientConfig,
+	"baseUrl" | "defaultHeaders"
+> & {
+	baseUrl?: string;
+	defaultHeaders?: Record<string, string>;
+};
+
+export interface TMDBConfig {
+	accessToken?: string;
+	apiKey?: string;
+	client?: TMDBClientConfig;
+}
 
 export type TokenType = string | TMDBConfig;

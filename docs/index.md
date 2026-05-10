@@ -29,6 +29,7 @@ Get your read access token from [TMDB API Settings](https://www.themoviedb.org/s
 | Property | Class | Description |
 |---|---|---|
 | `tmdb.account` | `AccountEndpoint` | Account details |
+| `tmdb.authentication` | `AuthenticationEndpoint` | API key validation and sessions |
 | `tmdb.certification` | `CertificationEndpoint` | Movie/TV certifications |
 | `tmdb.changes` | `ChangeEndpoint` | Database changes |
 | `tmdb.collections` | `CollectionsEndpoint` | Movie collections |
@@ -38,13 +39,16 @@ Get your read access token from [TMDB API Settings](https://www.themoviedb.org/s
 | `tmdb.discover` | `DiscoverEndpoint` | Discovery with filters |
 | `tmdb.find` | `FindEndpoint` | Find by external ID |
 | `tmdb.genre` | `GenreEndpoint` | Genre lists |
+| `tmdb.guestSessions` | `GuestSessionsEndpoint` | Guest session ratings |
 | `tmdb.keywords` | `KeywordsEndpoint` | Keyword details |
+| `tmdb.lists` | `ListsEndpoint` | List details and management |
 | `tmdb.movies` | `MoviesEndpoint` | Movies |
 | `tmdb.networks` | `NetworksEndpoint` | TV networks |
 | `tmdb.people` | `PeopleEndpoint` | People |
 | `tmdb.review` | `ReviewEndpoint` | Review details |
 | `tmdb.search` | `SearchEndpoint` | Search |
 | `tmdb.trending` | `TrendingEndpoint` | Trending content |
+| `tmdb.tvEpisodeGroups` | `TvEpisodeGroupsEndpoint` | TV episode groups |
 | `tmdb.tvEpisodes` | `TvEpisodesEndpoint` | TV episodes |
 | `tmdb.tvSeasons` | `TvSeasonsEndpoint` | TV seasons |
 | `tmdb.tvShows` | `TvShowsEndpoint` | TV shows |
@@ -77,4 +81,8 @@ Get your read access token from [TMDB API Settings](https://www.themoviedb.org/s
   - [Configuration](./endpoints/configuration.md)
   - [Credits](./endpoints/credits.md)
   - [Account](./endpoints/account.md)
+  - [Authentication](./endpoints/authentication.md)
+  - [Guest Sessions](./endpoints/guest-sessions.md)
+  - [Lists](./endpoints/lists.md)
+  - [TV Episode Groups](./endpoints/tv-episode-groups.md)
   - [Review](./endpoints/review.md)

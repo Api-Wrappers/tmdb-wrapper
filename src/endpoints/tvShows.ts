@@ -14,14 +14,19 @@ import {
 	type Keywords,
 	type LanguageOption,
 	type Latesttv,
+	type MediaAccountStates,
+	type MovieLists,
 	type OnTheAir,
 	type PageOption,
 	type Populartv,
+	type RatingBody,
 	type Recommendations,
 	type Reviews,
 	type ScreenedTheatrically,
 	type SeasonDetails,
+	type SessionOrGuestSessionOption,
 	type Similartv,
+	type StatusResponse,
 	type TimezoneOption,
 	type TokenType,
 	type TopRatedtv,
@@ -34,7 +39,7 @@ import {
 	type Videos,
 	type WatchProviders,
 } from "../@types";
-import { csv } from "../utils";
+import { csv, type RequestConfig, withQuery } from "../utils";
 
 const BASE_TV = "/tv";
 
@@ -324,6 +329,68 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 */
 	watchProviders(id: number): Promise<WatchProviders> {
 		return this.api.get<WatchProviders>(`${BASE_TV}/${id}/watch/providers`);
+	}
+
+	/**
+	 * Retrieves account states for a TV show.
+	 *
+	 * Requires either `session_id` or `guest_session_id`.
+	 */
+	accountStates(
+		id: number,
+		options?: SessionOrGuestSessionOption,
+		request?: RequestConfig,
+	): Promise<MediaAccountStates> {
+		return this.api.get<MediaAccountStates>(
+			`${BASE_TV}/${id}/account_states`,
+			withQuery(options, request),
+		);
+	}
+
+	/**
+	 * Retrieves lists containing a TV show.
+	 */
+	lists(
+		id: number,
+		options?: LanguageOption & PageOption,
+		request?: RequestConfig,
+	): Promise<MovieLists> {
+		return this.api.get<MovieLists>(
+			`${BASE_TV}/${id}/lists`,
+			withQuery(options, request),
+		);
+	}
+
+	/**
+	 * Adds or updates the authenticated user's rating for a TV show.
+	 */
+	addRating(
+		id: number,
+		input: number | RatingBody,
+		options?: SessionOrGuestSessionOption,
+		request?: RequestConfig,
+	): Promise<StatusResponse> {
+		const body = typeof input === "number" ? { value: input } : input;
+
+		return this.api.post<StatusResponse>(
+			`${BASE_TV}/${id}/rating`,
+			body,
+			withQuery(options, request),
+		);
+	}
+
+	/**
+	 * Deletes the authenticated user's rating for a TV show.
+	 */
+	deleteRating(
+		id: number,
+		options?: SessionOrGuestSessionOption,
+		request?: RequestConfig,
+	): Promise<StatusResponse> {
+		return this.api.delete<StatusResponse>(
+			`${BASE_TV}/${id}/rating`,
+			withQuery(options, request),
+		);
 	}
 
 	/**

@@ -15,7 +15,7 @@
   <b>A powerful and easy-to-use TypeScript wrapper for The Movie Database (TMDb) API</b>
 </p>
 
-The TMDB Api Wrapper simplifies the process of making API requests to The Movie Database (TMDb), a comprehensive database for movies and TV shows. It encapsulates functionality related to various API endpoints, such as account, certifications, changes, collections, configuration, credits, discover, find, genres, keywords, movies, people, reviews, search, trending, TV episodes, TV seasons, TV shows, companies, networks, and watch providers. With this wrapper, developers can quickly integrate TMDB functionality into their TypeScript projects.
+The TMDB Api Wrapper simplifies the process of making API requests to The Movie Database (TMDb), a comprehensive database for movies and TV shows. It encapsulates functionality related to TMDB API v3 endpoints, such as account, authentication, guest sessions, lists, certifications, changes, collections, configuration, credits, discover, find, genres, keywords, movies, people, reviews, search, trending, TV episode groups, TV episodes, TV seasons, TV shows, companies, networks, and watch providers. With this wrapper, developers can quickly integrate TMDB functionality into their TypeScript projects.
 
 ## Table of Contents
 
@@ -92,13 +92,13 @@ Access comprehensive information about movies, including details, credits, revie
 
 ```typescript
 // Get popular movies
-const popularMovies = await tmdb.movies.getPopular();
+const popularMovies = await tmdb.movies.popular();
 
 // Get movie details
-const movieDetails = await tmdb.movies.getDetails(550); // Fight Club
+const movieDetails = await tmdb.movies.details(550); // Fight Club
 
 // Get movie credits
-const movieCredits = await tmdb.movies.getCredits(550);
+const movieCredits = await tmdb.movies.credits(550);
 ```
 
 ### TV Shows
@@ -107,16 +107,23 @@ Retrieve information about TV shows, seasons, and episodes.
 
 ```typescript
 // Get popular TV shows
-const popularShows = await tmdb.tvShows.getPopular();
+const popularShows = await tmdb.tvShows.popular();
 
 // Get TV show details
-const showDetails = await tmdb.tvShows.getDetails(1396); // Breaking Bad
+const showDetails = await tmdb.tvShows.details(1396); // Breaking Bad
 
 // Get season details
-const seasonDetails = await tmdb.tvSeasons.getDetails(1396, 1);
+const seasonDetails = await tmdb.tvSeasons.details({
+	tvShowID: 1396,
+	seasonNumber: 1,
+});
 
 // Get episode details
-const episodeDetails = await tmdb.tvEpisodes.getDetails(1396, 1, 1);
+const episodeDetails = await tmdb.tvEpisodes.details({
+	tvShowID: 1396,
+	seasonNumber: 1,
+	episodeNumber: 1,
+});
 ```
 
 ### People
@@ -125,13 +132,13 @@ Access information about actors, directors, and other people involved in movies 
 
 ```typescript
 // Get popular people
-const popularPeople = await tmdb.people.getPopular();
+const popularPeople = await tmdb.people.popular();
 
 // Get person details
-const personDetails = await tmdb.people.getDetails(287); // Brad Pitt
+const personDetails = await tmdb.people.details(287); // Brad Pitt
 
 // Get person movie credits
-const personMovieCredits = await tmdb.people.getMovieCredits(287);
+const personMovieCredits = await tmdb.people.movieCredits(287);
 ```
 
 ### Companies
@@ -140,10 +147,10 @@ Retrieve information about production companies.
 
 ```typescript
 // Get company details
-const companyDetails = await tmdb.companies.getDetails(1); // Lucasfilm
+const companyDetails = await tmdb.companies.details(1); // Lucasfilm
 
-// Get company movies
-const companyMovies = await tmdb.companies.getMovies(1);
+// Get company images
+const companyImages = await tmdb.companies.images(1);
 ```
 
 ### Networks
@@ -152,10 +159,10 @@ Access information about TV networks.
 
 ```typescript
 // Get network details
-const networkDetails = await tmdb.networks.getDetails(213); // Netflix
+const networkDetails = await tmdb.networks.details(213); // Netflix
 
 // Get alternative names
-const alternativeNames = await tmdb.networks.getAlternativeNames(213);
+const alternativeNames = await tmdb.networks.alternativeNames(213);
 ```
 
 ### Watch Providers
@@ -164,13 +171,13 @@ Retrieve information about streaming platforms and availability.
 
 ```typescript
 // Get available regions
-const regions = await tmdb.watchProviders.getAvailableRegions();
+const regions = await tmdb.watchProviders.regions();
 
 // Get movie providers
-const movieProviders = await tmdb.watchProviders.getMovieProviders();
+const movieProviders = await tmdb.watchProviders.movie();
 
 // Get TV providers
-const tvProviders = await tmdb.watchProviders.getTvProviders();
+const tvProviders = await tmdb.watchProviders.tv();
 ```
 
 ### Other Endpoints
@@ -178,6 +185,9 @@ const tvProviders = await tmdb.watchProviders.getTvProviders();
 The wrapper also provides access to these additional endpoints:
 
 - **Account**: Manage account details and settings
+- **Authentication**: Validate keys and create/delete guest or user sessions
+- **Guest Sessions**: Retrieve guest-session rated movies, TV shows, and episodes
+- **Lists**: Create, read, update, clear, and delete classic TMDB lists
 - **Certifications**: Retrieve certification information for movies and TV shows
 - **Changes**: Get information about changes to the database
 - **Collections**: Access information about movie collections
@@ -190,6 +200,7 @@ The wrapper also provides access to these additional endpoints:
 - **Reviews**: Get reviews for movies and TV shows
 - **Search**: Search for movies, TV shows, and people
 - **Trending**: Get trending movies and TV shows
+- **TV Episode Groups**: Retrieve TV episode group details
 
 ## Image Handling
 

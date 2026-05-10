@@ -1,4 +1,10 @@
-import type { Episode, LanguageOption } from "..";
+import type {
+	Episode,
+	LanguageOption,
+	RatingState,
+	SessionOrGuestSessionOption,
+	WatchProviders,
+} from "..";
 import type { Nullable } from "../wire";
 
 export interface SeasonSelection {
@@ -15,6 +21,20 @@ export interface SeasonDetails {
 	poster_path: Nullable<string>;
 	season_number: number;
 }
+
+export interface TvSeasonAccountStateEpisode {
+	id: number;
+	episode_number: number;
+	rated: RatingState;
+}
+
+export interface TvSeasonAccountStates {
+	id: number;
+	results: TvSeasonAccountStateEpisode[];
+}
+
+export type TvSeasonAccountStateOptions = SessionOrGuestSessionOption;
+export type TvSeasonWatchProviders = WatchProviders;
 
 export type TvSeasonChangeValue =
 	| string

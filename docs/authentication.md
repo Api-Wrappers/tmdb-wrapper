@@ -45,8 +45,11 @@ const tmdb = new TMDB(process.env.TMDB_ACCESS_TOKEN!);
 
 ```typescript
 type TMDBConfig =
-  | { accessToken: string; apiKey?: string }
-  | { apiKey: string; accessToken?: string };
+  {
+    accessToken?: string;
+    apiKey?: string;
+    client?: TMDBClientConfig;
+  };
 
 type TokenType = string | TMDBConfig;
 ```

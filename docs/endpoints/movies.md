@@ -214,6 +214,43 @@ Streaming availability data powered by JustWatch.
 
 ---
 
+### `accountStates`
+
+```typescript
+tmdb.movies.accountStates(
+  id: number,
+  options?: { session_id?: string; guest_session_id?: string },
+  request?: RequestConfig,
+): Promise<MediaAccountStates>
+```
+
+---
+
+### `addRating`
+
+```typescript
+tmdb.movies.addRating(
+  id: number,
+  rating: number | { value: number },
+  options?: { session_id?: string; guest_session_id?: string },
+  request?: RequestConfig,
+): Promise<StatusResponse>
+```
+
+---
+
+### `deleteRating`
+
+```typescript
+tmdb.movies.deleteRating(
+  id: number,
+  options?: { session_id?: string; guest_session_id?: string },
+  request?: RequestConfig,
+): Promise<StatusResponse>
+```
+
+---
+
 ### `latest`
 
 ```typescript

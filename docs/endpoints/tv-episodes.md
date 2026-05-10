@@ -38,7 +38,7 @@ const episode = await tmdb.tvEpisodes.details({
 episode.name; episode.air_date; episode.runtime;
 ```
 
-**`AppendToResponseTvEpisodeKey` values:** `"credits"`, `"external_ids"`, `"images"`, `"translations"`, `"videos"`
+**`AppendToResponseTvEpisodeKey` values:** `"account_states"`, `"credits"`, `"external_ids"`, `"images"`, `"translations"`, `"videos"`
 
 ---
 
@@ -110,4 +110,41 @@ tmdb.tvEpisodes.videos(
   options?: { language?: string; include_video_language?: string[] },
   request?: RequestConfig,
 ): Promise<Videos>
+```
+
+---
+
+### `accountStates`
+
+```typescript
+tmdb.tvEpisodes.accountStates(
+  episodeSelection: EpisodeSelection,
+  options?: { session_id?: string; guest_session_id?: string },
+  request?: RequestConfig,
+): Promise<MediaAccountStates>
+```
+
+---
+
+### `addRating`
+
+```typescript
+tmdb.tvEpisodes.addRating(
+  episodeSelection: EpisodeSelection,
+  rating: number | { value: number },
+  options?: { session_id?: string; guest_session_id?: string },
+  request?: RequestConfig,
+): Promise<StatusResponse>
+```
+
+---
+
+### `deleteRating`
+
+```typescript
+tmdb.tvEpisodes.deleteRating(
+  episodeSelection: EpisodeSelection,
+  options?: { session_id?: string; guest_session_id?: string },
+  request?: RequestConfig,
+): Promise<StatusResponse>
 ```

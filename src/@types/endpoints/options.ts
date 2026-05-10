@@ -50,6 +50,17 @@ export interface PageOption {
 	page?: number;
 }
 
+export interface SessionIdOption {
+	session_id?: string;
+}
+
+export interface GuestSessionIdOption {
+	guest_session_id?: string;
+}
+
+export type SessionOrGuestSessionOption = SessionIdOption &
+	GuestSessionIdOption;
+
 export interface ChangeOption extends PageOption {
 	start_date?: TMDBDate;
 	end_date?: TMDBDate;
@@ -57,6 +68,7 @@ export interface ChangeOption extends PageOption {
 
 // Appendable Response Keys
 export type AppendToResponseMovieKey =
+	| "account_states"
 	| "images"
 	| "videos"
 	| "credits"
@@ -73,6 +85,7 @@ export type AppendToResponseMovieKey =
 	| "keywords";
 
 export type AppendToResponseTvKey =
+	| "account_states"
 	| "content_ratings"
 	| "images"
 	| "videos"
@@ -88,7 +101,8 @@ export type AppendToResponseTvKey =
 	| "aggregate_credits"
 	| "episode_groups"
 	| "screened_theatrically"
-	| "keywords";
+	| "keywords"
+	| "lists";
 
 export type AppendToResponsePersonKey =
 	| "images"
@@ -101,6 +115,7 @@ export type AppendToResponsePersonKey =
 	| "translations";
 
 export type AppendToResponseTvEpisodeKey =
+	| "account_states"
 	| "images"
 	| "credits"
 	| "external_ids"
@@ -108,12 +123,14 @@ export type AppendToResponseTvEpisodeKey =
 	| "translations";
 
 export type AppendToResponseTvSeasonKey =
+	| "account_states"
 	| "images"
 	| "credits"
 	| "external_ids"
 	| "videos"
 	| "aggregate_credits"
-	| "translations";
+	| "translations"
+	| "watch/providers";
 
 type AppendToResponseAllKeys =
 	| AppendToResponseTvKey
@@ -226,6 +243,9 @@ export type AppendToResponse<
 						: object) &
 					("content_ratings" extends T[number]
 						? { content_ratings: Omit<ContentRatings, "id"> }
+						: object) &
+					("account_states" extends T[number]
+						? { account_states: unknown }
 						: object) &
 					("movie_credits" extends T[number]
 						? { movie_credits: Omit<PersonMovieCredit, "id"> }

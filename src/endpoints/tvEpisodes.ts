@@ -9,6 +9,10 @@ import {
 	type ExternalIds,
 	type Images,
 	type LanguageOption,
+	type MediaAccountStates,
+	type RatingBody,
+	type SessionOrGuestSessionOption,
+	type StatusResponse,
 	type TokenType,
 	type TvEpisodeChangeValue,
 	type TvEpisodeCredit,
@@ -198,6 +202,54 @@ export class TvEpisodesEndpoint extends BaseEndpoint {
 		return this.api.get<Videos>(
 			`${BASE_EPISODE(episodeSelection)}/videos`,
 			withQuery(query, request),
+		);
+	}
+
+	/**
+	 * Retrieves account states for a TV episode.
+	 *
+	 * Requires either `session_id` or `guest_session_id`.
+	 */
+	accountStates(
+		episodeSelection: EpisodeSelection,
+		options?: SessionOrGuestSessionOption,
+		request?: RequestConfig,
+	): Promise<MediaAccountStates> {
+		return this.api.get<MediaAccountStates>(
+			`${BASE_EPISODE(episodeSelection)}/account_states`,
+			withQuery(options, request),
+		);
+	}
+
+	/**
+	 * Adds or updates the authenticated user's rating for a TV episode.
+	 */
+	addRating(
+		episodeSelection: EpisodeSelection,
+		input: number | RatingBody,
+		options?: SessionOrGuestSessionOption,
+		request?: RequestConfig,
+	): Promise<StatusResponse> {
+		const body = typeof input === "number" ? { value: input } : input;
+
+		return this.api.post<StatusResponse>(
+			`${BASE_EPISODE(episodeSelection)}/rating`,
+			body,
+			withQuery(options, request),
+		);
+	}
+
+	/**
+	 * Deletes the authenticated user's rating for a TV episode.
+	 */
+	deleteRating(
+		episodeSelection: EpisodeSelection,
+		options?: SessionOrGuestSessionOption,
+		request?: RequestConfig,
+	): Promise<StatusResponse> {
+		return this.api.delete<StatusResponse>(
+			`${BASE_EPISODE(episodeSelection)}/rating`,
+			withQuery(options, request),
 		);
 	}
 }

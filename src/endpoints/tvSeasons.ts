@@ -13,10 +13,13 @@ import {
 	type SeasonSelection,
 	type TokenType,
 	type Translations,
+	type TvSeasonAccountStateOptions,
+	type TvSeasonAccountStates,
 	type TvSeasonChangeValue,
 	type TvSeasonImageSearchOptions,
 	type TvSeasonVideoSearchOptions,
 	type Videos,
+	type WatchProviders,
 } from "../@types";
 import { csv, type RequestConfig, withQuery } from "../utils";
 
@@ -226,6 +229,34 @@ export class TvSeasonsEndpoint extends BaseEndpoint {
 	): Promise<Translations> {
 		return this.api.get<Translations>(
 			`${BASE_SEASON(seasonSelection)}/translations`,
+			withQuery(options, request),
+		);
+	}
+
+	/**
+	 * Retrieves account states for all episodes in a TV season.
+	 */
+	accountStates(
+		seasonSelection: SeasonSelection,
+		options?: TvSeasonAccountStateOptions,
+		request?: RequestConfig,
+	): Promise<TvSeasonAccountStates> {
+		return this.api.get<TvSeasonAccountStates>(
+			`${BASE_SEASON(seasonSelection)}/account_states`,
+			withQuery(options, request),
+		);
+	}
+
+	/**
+	 * Retrieves watch providers for a TV season.
+	 */
+	watchProviders(
+		seasonSelection: SeasonSelection,
+		options?: LanguageOption,
+		request?: RequestConfig,
+	): Promise<WatchProviders> {
+		return this.api.get<WatchProviders>(
+			`${BASE_SEASON(seasonSelection)}/watch/providers`,
 			withQuery(options, request),
 		);
 	}

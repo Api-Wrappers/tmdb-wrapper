@@ -1,6 +1,7 @@
 import type { TokenType } from "./@types";
 import {
 	AccountEndpoint,
+	AuthenticationEndpoint,
 	CertificationEndpoint,
 	ChangeEndpoint,
 	CollectionsEndpoint,
@@ -10,13 +11,16 @@ import {
 	DiscoverEndpoint,
 	FindEndpoint,
 	GenreEndpoint,
+	GuestSessionsEndpoint,
 	KeywordsEndpoint,
+	ListsEndpoint,
 	MoviesEndpoint,
 	NetworksEndpoint,
 	PeopleEndpoint,
 	ReviewEndpoint,
 	SearchEndpoint,
 	TrendingEndpoint,
+	TvEpisodeGroupsEndpoint,
 	TvEpisodesEndpoint,
 	TvSeasonsEndpoint,
 	TvShowsEndpoint,
@@ -25,6 +29,7 @@ import {
 
 class TMDB {
 	readonly account: AccountEndpoint;
+	readonly authentication: AuthenticationEndpoint;
 	readonly certification: CertificationEndpoint;
 	readonly changes: ChangeEndpoint;
 	readonly collections: CollectionsEndpoint;
@@ -34,13 +39,16 @@ class TMDB {
 	readonly discover: DiscoverEndpoint;
 	readonly find: FindEndpoint;
 	readonly genre: GenreEndpoint;
+	readonly guestSessions: GuestSessionsEndpoint;
 	readonly keywords: KeywordsEndpoint;
+	readonly lists: ListsEndpoint;
 	readonly movies: MoviesEndpoint;
 	readonly networks: NetworksEndpoint;
 	readonly people: PeopleEndpoint;
 	readonly review: ReviewEndpoint;
 	readonly search: SearchEndpoint;
 	readonly trending: TrendingEndpoint;
+	readonly tvEpisodeGroups: TvEpisodeGroupsEndpoint;
 	readonly tvEpisodes: TvEpisodesEndpoint;
 	readonly tvSeasons: TvSeasonsEndpoint;
 	readonly tvShows: TvShowsEndpoint;
@@ -48,6 +56,7 @@ class TMDB {
 
 	constructor(auth: TokenType) {
 		this.account = new AccountEndpoint(auth);
+		this.authentication = new AuthenticationEndpoint(auth);
 		this.certification = new CertificationEndpoint(auth);
 		this.changes = new ChangeEndpoint(auth);
 		this.collections = new CollectionsEndpoint(auth);
@@ -57,13 +66,16 @@ class TMDB {
 		this.discover = new DiscoverEndpoint(auth);
 		this.find = new FindEndpoint(auth);
 		this.genre = new GenreEndpoint(auth);
+		this.guestSessions = new GuestSessionsEndpoint(auth);
 		this.keywords = new KeywordsEndpoint(auth);
+		this.lists = new ListsEndpoint(auth);
 		this.movies = new MoviesEndpoint(auth);
 		this.networks = new NetworksEndpoint(auth);
 		this.people = new PeopleEndpoint(auth);
 		this.review = new ReviewEndpoint(auth);
 		this.search = new SearchEndpoint(auth);
 		this.trending = new TrendingEndpoint(auth);
+		this.tvEpisodeGroups = new TvEpisodeGroupsEndpoint(auth);
 		this.tvEpisodes = new TvEpisodesEndpoint(auth);
 		this.tvSeasons = new TvSeasonsEndpoint(auth);
 		this.tvShows = new TvShowsEndpoint(auth);

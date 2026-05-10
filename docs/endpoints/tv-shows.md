@@ -23,7 +23,7 @@ const show = await tmdb.tvShows.details(1396, ['credits', 'videos']);
 show.credits.cast;
 ```
 
-**`AppendToResponseTvKey` values:** `"aggregate_credits"`, `"alternative_titles"`, `"changes"`, `"content_ratings"`, `"credits"`, `"episode_groups"`, `"external_ids"`, `"images"`, `"keywords"`, `"recommendations"`, `"reviews"`, `"screened_theatrically"`, `"similar"`, `"translations"`, `"videos"`, `"watch/providers"`
+**`AppendToResponseTvKey` values:** `"account_states"`, `"aggregate_credits"`, `"alternative_titles"`, `"changes"`, `"content_ratings"`, `"credits"`, `"episode_groups"`, `"external_ids"`, `"images"`, `"keywords"`, `"lists"`, `"recommendations"`, `"reviews"`, `"screened_theatrically"`, `"similar"`, `"translations"`, `"videos"`, `"watch/providers"`
 
 ---
 
@@ -195,6 +195,55 @@ tmdb.tvShows.watchProviders(id: number): Promise<WatchProviders>
 ```
 
 Streaming availability powered by JustWatch.
+
+---
+
+### `accountStates`
+
+```typescript
+tmdb.tvShows.accountStates(
+  id: number,
+  options?: { session_id?: string; guest_session_id?: string },
+  request?: RequestConfig,
+): Promise<MediaAccountStates>
+```
+
+---
+
+### `lists`
+
+```typescript
+tmdb.tvShows.lists(
+  id: number,
+  options?: { language?: string; page?: number },
+  request?: RequestConfig,
+): Promise<MovieLists>
+```
+
+---
+
+### `addRating`
+
+```typescript
+tmdb.tvShows.addRating(
+  id: number,
+  rating: number | { value: number },
+  options?: { session_id?: string; guest_session_id?: string },
+  request?: RequestConfig,
+): Promise<StatusResponse>
+```
+
+---
+
+### `deleteRating`
+
+```typescript
+tmdb.tvShows.deleteRating(
+  id: number,
+  options?: { session_id?: string; guest_session_id?: string },
+  request?: RequestConfig,
+): Promise<StatusResponse>
+```
 
 ---
 

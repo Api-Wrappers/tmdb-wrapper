@@ -35,7 +35,7 @@ season.air_date;
 season.name;
 ```
 
-**`AppendToResponseTvSeasonKey` values:** `"aggregate_credits"`, `"credits"`, `"external_ids"`, `"images"`, `"translations"`, `"videos"`
+**`AppendToResponseTvSeasonKey` values:** `"account_states"`, `"aggregate_credits"`, `"credits"`, `"external_ids"`, `"images"`, `"translations"`, `"videos"`, `"watch/providers"`
 
 ---
 
@@ -119,4 +119,28 @@ tmdb.tvSeasons.translations(
   options?: { language?: string },
   request?: RequestConfig,
 ): Promise<Translations>
+```
+
+---
+
+### `accountStates`
+
+```typescript
+tmdb.tvSeasons.accountStates(
+  seasonSelection: SeasonSelection,
+  options?: { session_id?: string; guest_session_id?: string },
+  request?: RequestConfig,
+): Promise<TvSeasonAccountStates>
+```
+
+---
+
+### `watchProviders`
+
+```typescript
+tmdb.tvSeasons.watchProviders(
+  seasonSelection: SeasonSelection,
+  options?: { language?: string },
+  request?: RequestConfig,
+): Promise<WatchProviders>
 ```

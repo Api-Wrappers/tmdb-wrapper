@@ -13,6 +13,28 @@ export interface Configuration {
 	change_keys: ChangeKeys[];
 }
 
+export interface ConfigurationCountry {
+	iso_3166_1: string;
+	english_name: string;
+	native_name: string;
+}
+
+export interface ConfigurationJob {
+	department: string;
+	jobs: string[];
+}
+
+export interface ConfigurationLanguage {
+	iso_639_1: string;
+	english_name: string;
+	name: string;
+}
+
+export interface ConfigurationTimezone {
+	iso_3166_1: string;
+	zones: string[];
+}
+
 export enum BackdropSizes {
 	W300 = "w300",
 	W500 = "w500",

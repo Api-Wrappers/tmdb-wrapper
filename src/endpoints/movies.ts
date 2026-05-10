@@ -11,6 +11,7 @@ import {
 	type Keywords,
 	type LanguageOption,
 	type LatestMovie,
+	type MediaAccountStates,
 	type MovieChangeValue,
 	type MovieDetails,
 	type MovieLists,
@@ -18,11 +19,14 @@ import {
 	type MoviesPlayingNow,
 	type PageOption,
 	type PopularMovies,
+	type RatingBody,
 	type Recommendations,
 	type RegionOption,
 	type ReleaseDates,
 	type Reviews,
+	type SessionOrGuestSessionOption,
 	type SimilarMovies,
+	type StatusResponse,
 	type TokenType,
 	type TopRatedMovies,
 	type Translations,
@@ -336,6 +340,54 @@ export class MoviesEndpoint extends BaseEndpoint {
 		return this.api.get<WatchProviders>(
 			`${BASE_MOVIE}/${id}/watch/providers`,
 			request,
+		);
+	}
+
+	/**
+	 * Retrieves account states for a movie.
+	 *
+	 * Requires either `session_id` or `guest_session_id`.
+	 */
+	accountStates(
+		id: number,
+		options?: SessionOrGuestSessionOption,
+		request?: RequestConfig,
+	): Promise<MediaAccountStates> {
+		return this.api.get<MediaAccountStates>(
+			`${BASE_MOVIE}/${id}/account_states`,
+			withQuery(options, request),
+		);
+	}
+
+	/**
+	 * Adds or updates the authenticated user's rating for a movie.
+	 */
+	addRating(
+		id: number,
+		input: number | RatingBody,
+		options?: SessionOrGuestSessionOption,
+		request?: RequestConfig,
+	): Promise<StatusResponse> {
+		const body = typeof input === "number" ? { value: input } : input;
+
+		return this.api.post<StatusResponse>(
+			`${BASE_MOVIE}/${id}/rating`,
+			body,
+			withQuery(options, request),
+		);
+	}
+
+	/**
+	 * Deletes the authenticated user's rating for a movie.
+	 */
+	deleteRating(
+		id: number,
+		options?: SessionOrGuestSessionOption,
+		request?: RequestConfig,
+	): Promise<StatusResponse> {
+		return this.api.delete<StatusResponse>(
+			`${BASE_MOVIE}/${id}/rating`,
+			withQuery(options, request),
 		);
 	}
 

@@ -2,12 +2,12 @@
 
 Access via `tmdb.configuration` (instance of `ConfigurationEndpoint`).
 
-## Method
+## Methods
 
 ### `getCurrent`
 
 ```typescript
-tmdb.configuration.getCurrent(): Promise<Configuration>
+tmdb.configuration.getCurrent(request?: RequestConfig): Promise<Configuration>
 ```
 
 Returns the API system configuration, including image base URLs and supported sizes.
@@ -26,3 +26,52 @@ config.change_keys;            // string[]
 ```
 
 In most cases you do not need to call this directly — the [image utilities](../image-utilities.md) use the standard `https://image.tmdb.org/t/p/` base URL by default.
+
+---
+
+### `countries`
+
+```typescript
+tmdb.configuration.countries(
+  options?: { language?: string },
+  request?: RequestConfig,
+): Promise<ConfigurationCountry[]>
+```
+
+---
+
+### `jobs`
+
+```typescript
+tmdb.configuration.jobs(request?: RequestConfig): Promise<ConfigurationJob[]>
+```
+
+---
+
+### `languages`
+
+```typescript
+tmdb.configuration.languages(
+  request?: RequestConfig,
+): Promise<ConfigurationLanguage[]>
+```
+
+---
+
+### `primaryTranslations`
+
+```typescript
+tmdb.configuration.primaryTranslations(
+  request?: RequestConfig,
+): Promise<string[]>
+```
+
+---
+
+### `timezones`
+
+```typescript
+tmdb.configuration.timezones(
+  request?: RequestConfig,
+): Promise<ConfigurationTimezone[]>
+```

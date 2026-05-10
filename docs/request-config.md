@@ -6,10 +6,11 @@ Most endpoint methods accept an optional `RequestConfig` as their last parameter
 
 ```typescript
 interface RequestConfig {
-  signal?: AbortSignal;   // Cancel the request
-  timeoutMs?: number;     // Request timeout in milliseconds (default: 30000)
-  retries?: number;       // Number of retry attempts on transient errors (default: 2)
-  retryDelayMs?: number;  // Base delay between retries in ms (default: 300, exponential)
+  headers?: Record<string, string>; // Extra request headers
+  signal?: AbortSignal;             // Cancel the request
+  timeoutMs?: number;               // Request timeout in milliseconds
+  cacheKey?: string;                // Explicit api-core cache key
+  tags?: string[];                  // Request metadata for plugins
 }
 ```
 
@@ -34,24 +35,33 @@ const results = await tmdb.search.movies(
 );
 ```
 
-## Disabling Retries
-
-```typescript
-const movie = await tmdb.movies.details(550, undefined, undefined, {
-  retries: 0,
-});
-```
-
-## Custom Retry Delay
-
-```typescript
-// 1 second base delay, doubles each attempt: 1s, 2s
-const data = await tmdb.movies.popular(undefined, {
-  retries: 2,
-  retryDelayMs: 1000,
-});
-```
-
 ## Retry Behaviour
 
-Retries happen on status codes 429, 502, 503, and 504. For 429 responses the client reads the `Retry-After` header and waits that duration instead of using `retryDelayMs`.
+Retries happen on status codes 429, 502, 503, and 504. For 429 responses the client reads the `Retry-After` header and waits that duration.
+
+The default retry policy is configured on the underlying api-core client:
+
+```typescript
+const tmdb = new TMDB({
+  accessToken: process.env.TMDB_ACCESS_TOKEN,
+  client: {
+    retry: {
+      maxAttempts: 3,
+      delayMs: 300,
+      jitter: false,
+      retriableStatusCodes: [429, 502, 503, 504],
+    },
+  },
+});
+```
+
+Set `maxAttempts` to `1` to disable retries:
+
+```typescript
+const tmdb = new TMDB({
+  accessToken: process.env.TMDB_ACCESS_TOKEN,
+  client: {
+    retry: { maxAttempts: 1 },
+  },
+});
+```
