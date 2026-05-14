@@ -1,6 +1,6 @@
 {
   "name": "@api-wrappers/tmdb-wrapper",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "A powerful and easy-to-use TypeScript wrapper for The Movie Database (TMDb) API",
   "module": "./dist/index.mjs",
   "type": "module",
@@ -71,6 +71,6 @@
     "unrun": "^0.3.0"
   },
   "dependencies": {
-    "@api-wrappers/api-core": "^0.0.3"
+    "@api-wrappers/api-core": "^1.0.1"
   }
 }

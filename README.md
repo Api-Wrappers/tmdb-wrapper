@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@api-wrappers/tmdb-wrapper"><img alt="npm version" src="https://img.shields.io/npm/v/@api-wrappers/tmdb-wrapper"></a>
-  <a href="https://github.com/Api-Wrappers/tmdb-wrapper/blob/master/LICENSE"><img alt="license" src="https://img.shields.io/npm/l/@api-wrappers/tmdb-wrapper"></a>
+  <a href="https://github.com/Api-Wrappers/tmdb-wrapper/blob/main/LICENSE"><img alt="license" src="https://img.shields.io/npm/l/@api-wrappers/tmdb-wrapper"></a>
   <a href="https://github.com/Api-Wrappers/tmdb-wrapper/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/Api-Wrappers/tmdb-wrapper/actions/workflows/ci.yml/badge.svg"></a>
 </p>
 
@@ -11,6 +11,8 @@
 </p>
 
 `@api-wrappers/tmdb-wrapper` gives you one `TMDB` client with endpoint groups for movies, TV, people, search, discover, account sessions, images, watch providers, and the rest of the TMDB v3 API surface. Requests are typed, authenticated consistently, and backed by `@api-wrappers/api-core` for retries, timeouts, and structured errors.
+
+If this package saves you time, [star the repo](https://github.com/Api-Wrappers/tmdb-wrapper) to help other TMDB developers find it.
 
 ## Install
 
