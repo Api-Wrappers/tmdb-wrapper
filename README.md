@@ -1,15 +1,14 @@
 <h1 align="center">@api-wrappers/tmdb-wrapper</h1>
 
 <p align="center">
+  A typed TMDB API v3 client for Node, Bun, and modern TypeScript projects.
+</p>
+
+<p align="center">
   <a href="https://www.npmjs.com/package/@api-wrappers/tmdb-wrapper"><img alt="npm version" src="https://img.shields.io/npm/v/@api-wrappers/tmdb-wrapper"></a>
   <a href="https://github.com/Api-Wrappers/tmdb-wrapper/blob/main/LICENSE"><img alt="license" src="https://img.shields.io/npm/l/@api-wrappers/tmdb-wrapper"></a>
   <a href="https://github.com/Api-Wrappers/tmdb-wrapper/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/Api-Wrappers/tmdb-wrapper/actions/workflows/ci.yml/badge.svg"></a>
-</p>
-
-![GitHub Repo stars](https://img.shields.io/github/stars/api-wrappers/tmdb-wrapper)
-
-<p align="center">
-  A typed TMDB API v3 client for Node, Bun, and modern TypeScript projects.
+  <a href="https://github.com/Api-Wrappers/tmdb-wrapper/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/api-wrappers/tmdb-wrapper"></a>
 </p>
 
 `@api-wrappers/tmdb-wrapper` gives you one `TMDB` client with endpoint groups for movies, TV, people, search, discover, account sessions, images, watch providers, and the rest of the TMDB v3 API surface. Requests are typed, authenticated consistently, and backed by `@api-wrappers/api-core` for retries, timeouts, and structured errors.
