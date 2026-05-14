@@ -6,19 +6,18 @@ Failed HTTP responses throw `ApiError` or one of its subclasses.
 ## Basic Usage
 
 ```typescript
-import { ApiError } from '@api-wrappers/api-core';
-import { TMDB } from '@api-wrappers/tmdb-wrapper';
+import { ApiError } from "@api-wrappers/api-core";
+import { TMDB } from "@api-wrappers/tmdb-wrapper";
 
 const tmdb = new TMDB(process.env.TMDB_ACCESS_TOKEN!);
 
 try {
-  const movie = await tmdb.movies.details(99999999);
+	await tmdb.movies.details(99999999);
 } catch (err) {
-  if (err instanceof ApiError) {
-    console.error(`TMDB error ${err.status}: ${err.message}`);
-    // err.responseBody contains the raw TMDB error body, e.g.:
-    // { status_code: 34, status_message: 'The resource you requested could not be found.', success: false }
-  }
+	if (err instanceof ApiError) {
+		console.error(`TMDB error ${err.status}: ${err.message}`);
+		console.error(err.responseBody);
+	}
 }
 ```
 
@@ -34,9 +33,9 @@ The client automatically retries on transient errors before throwing:
 | 504 Gateway Timeout | Yes |
 | 4xx (other) | No |
 
-Default retry settings: **2 retries**, **300 ms base delay** (exponential backoff), **30 s timeout**.
+The wrapper configures TMDB clients with `maxAttempts: 3`, `delayMs: 300`, `jitter: false`, and retriable status codes `[429, 502, 503, 504]`. `maxAttempts` includes the first request, so this means up to two retries after the initial attempt.
 
-Override retries globally via the constructor `client.retry` option. Override timeouts per request via [RequestConfig](./request-config.md).
+Override retries globally via the constructor `client.retry` option. Override timeouts globally with `client.timeoutMs` or per request via [RequestConfig](./request-config.md).
 
 ## No Authentication
 

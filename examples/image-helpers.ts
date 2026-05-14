@@ -8,16 +8,17 @@
  */
 
 import {
-  ImageFormats,
-  ImageSizes,
-  TMDB,
-  formImage,
-  getFullImagePath,
+	ImageFormats,
+	ImageSizes,
+	TMDB,
+	TMDB_IMAGE_BASE_URL,
+	formImage,
+	getFullImagePath,
 } from "../src/index.ts";
 
 const token = process.env.TMDB_ACCESS_TOKEN;
 if (!token) {
-	console.error("Set the TMDB_ACCESS_TOKEN environment variable first.");
+	console.error("Set TMDB_ACCESS_TOKEN before running this example.");
 	process.exit(1);
 }
 
@@ -25,7 +26,7 @@ const tmdb = new TMDB(token);
 
 // Build a URL manually
 const posterUrl = getFullImagePath(
-	"https://image.tmdb.org/t/p/",
+	TMDB_IMAGE_BASE_URL,
 	ImageSizes.W500,
 	"/wwemzKWzjKYJFfCeiB57q3r4Bcm",
 	ImageFormats.JPG,

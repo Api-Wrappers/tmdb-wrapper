@@ -1,88 +1,73 @@
-# @api-wrappers/tmdb-wrapper
+# @api-wrappers/tmdb-wrapper Docs
 
-A TypeScript wrapper for [The Movie Database (TMDB) API v3](https://developers.themoviedb.org/3).
-
-## Installation
-
-```bash
-npm install @api-wrappers/tmdb-wrapper
-yarn add @api-wrappers/tmdb-wrapper
-pnpm add @api-wrappers/tmdb-wrapper
-bun add @api-wrappers/tmdb-wrapper
-```
-
-## Quick Start
+This package exposes one `TMDB` client. Each property on the client maps to a TMDB API v3 area, and each method returns typed data from the corresponding TMDB endpoint.
 
 ```typescript
-import { TMDB } from '@api-wrappers/tmdb-wrapper';
+import { TMDB } from "@api-wrappers/tmdb-wrapper";
 
-const tmdb = new TMDB('YOUR_READ_ACCESS_TOKEN');
+const tmdb = new TMDB(process.env.TMDB_ACCESS_TOKEN!);
 
-const popular = await tmdb.movies.popular();
-console.log(popular.results);
+const movie = await tmdb.movies.details(550, ["credits", "videos"]);
+const search = await tmdb.search.movies({ query: "Fight Club" });
+const trending = await tmdb.trending.trending("movie", "day");
 ```
 
-Get your read access token from [TMDB API Settings](https://www.themoviedb.org/settings/api).
+## Start Here
 
-## Endpoints
+| Need | Read |
+| --- | --- |
+| Create a client with a token or API key | [Authentication](./authentication.md) |
+| Set timeouts, cancellation, headers, or retry behavior | [Request Config](./request-config.md) |
+| Catch failed TMDB requests | [Error Handling](./error-handling.md) |
+| Convert `poster_path`, `backdrop_path`, or `file_path` values into image URLs | [Image Utilities](./image-utilities.md) |
+| Run real code from this checkout | [Examples](../examples/README.md) |
 
-| Property | Class | Description |
-|---|---|---|
-| `tmdb.account` | `AccountEndpoint` | Account details |
-| `tmdb.authentication` | `AuthenticationEndpoint` | API key validation and sessions |
-| `tmdb.certification` | `CertificationEndpoint` | Movie/TV certifications |
-| `tmdb.changes` | `ChangeEndpoint` | Database changes |
-| `tmdb.collections` | `CollectionsEndpoint` | Movie collections |
-| `tmdb.companies` | `CompaniesEndpoint` | Production companies |
-| `tmdb.configuration` | `ConfigurationEndpoint` | API configuration |
-| `tmdb.credits` | `CreditsEndpoint` | Credit details by ID |
-| `tmdb.discover` | `DiscoverEndpoint` | Discovery with filters |
-| `tmdb.find` | `FindEndpoint` | Find by external ID |
-| `tmdb.genre` | `GenreEndpoint` | Genre lists |
-| `tmdb.guestSessions` | `GuestSessionsEndpoint` | Guest session ratings |
-| `tmdb.keywords` | `KeywordsEndpoint` | Keyword details |
-| `tmdb.lists` | `ListsEndpoint` | List details and management |
-| `tmdb.movies` | `MoviesEndpoint` | Movies |
-| `tmdb.networks` | `NetworksEndpoint` | TV networks |
-| `tmdb.people` | `PeopleEndpoint` | People |
-| `tmdb.review` | `ReviewEndpoint` | Review details |
-| `tmdb.search` | `SearchEndpoint` | Search |
-| `tmdb.trending` | `TrendingEndpoint` | Trending content |
-| `tmdb.tvEpisodeGroups` | `TvEpisodeGroupsEndpoint` | TV episode groups |
-| `tmdb.tvEpisodes` | `TvEpisodesEndpoint` | TV episodes |
-| `tmdb.tvSeasons` | `TvSeasonsEndpoint` | TV seasons |
-| `tmdb.tvShows` | `TvShowsEndpoint` | TV shows |
-| `tmdb.watchProviders` | `WatchProvidersEndpoint` | Streaming providers |
+## Endpoint Reference
 
-## Documentation
+| Client property | Docs | Common calls |
+| --- | --- | --- |
+| `tmdb.movies` | [Movies](./endpoints/movies.md) | `details`, `popular`, `credits`, `images`, `videos`, `watchProviders` |
+| `tmdb.tvShows` | [TV Shows](./endpoints/tv-shows.md) | `details`, `popular`, `season`, `aggregateCredits`, `videos` |
+| `tmdb.tvSeasons` | [TV Seasons](./endpoints/tv-seasons.md) | `details`, `aggregateCredits`, `images`, `videos` |
+| `tmdb.tvEpisodes` | [TV Episodes](./endpoints/tv-episodes.md) | `details`, `credits`, `images`, `videos`, `addRating` |
+| `tmdb.people` | [People](./endpoints/people.md) | `details`, `popular`, `movieCredits`, `combinedCredits`, `images` |
+| `tmdb.search` | [Search](./endpoints/search.md) | `movies`, `tv`, `people`, `multi`, `companies`, `collections` |
+| `tmdb.discover` | [Discover](./endpoints/discover.md) | `movie`, `tvShow` |
+| `tmdb.trending` | [Trending](./endpoints/trending.md) | `trending("movie", "day")`, `trending("all", "week")` |
+| `tmdb.watchProviders` | [Watch Providers](./endpoints/watch-providers.md) | `movie`, `tv`, `regions` |
+| `tmdb.account` | [Account](./endpoints/account.md) | `details`, `favoriteMovies`, `watchlistMovies`, `ratedTv` |
+| `tmdb.authentication` | [Authentication Endpoint](./endpoints/authentication.md) | `validateKey`, `createGuestSession`, `createRequestToken`, `createSession` |
+| `tmdb.lists` | [Lists](./endpoints/lists.md) | `details`, `create`, `addMovie`, `removeMovie`, `clear`, `delete` |
+| `tmdb.collections` | [Collections](./endpoints/collections.md) | `details`, `images`, `translations` |
+| `tmdb.companies` | [Companies](./endpoints/companies.md) | `details`, `alternativeNames`, `images` |
+| `tmdb.networks` | [Networks](./endpoints/networks.md) | `details`, `alternativeNames`, `images` |
+| `tmdb.genre` | [Genre](./endpoints/genre.md) | `movies`, `tv` |
+| `tmdb.keywords` | [Keywords](./endpoints/keywords.md) | `details`, `belongingMovies` |
+| `tmdb.find` | [Find](./endpoints/find.md) | `byId` |
+| `tmdb.configuration` | [Configuration](./endpoints/configuration.md) | `getCurrent`, `countries`, `languages`, `timezones` |
+| `tmdb.certification` | [Certifications](./endpoints/certification.md) | `movies`, `tv` |
+| `tmdb.changes` | [Changes](./endpoints/changes.md) | `movies`, `tv`, `person` |
+| `tmdb.credits` | [Credits](./endpoints/credits.md) | `getById` |
+| `tmdb.review` | [Review](./endpoints/review.md) | `details` |
+| `tmdb.guestSessions` | [Guest Sessions](./endpoints/guest-sessions.md) | `ratedMovies`, `ratedTv`, `ratedTvEpisodes` |
+| `tmdb.tvEpisodeGroups` | [TV Episode Groups](./endpoints/tv-episode-groups.md) | `details` |
 
-- [Authentication](./authentication.md)
-- [Error Handling](./error-handling.md)
-- [Image Utilities](./image-utilities.md)
-- [Request Config](./request-config.md)
-- **Endpoints**
-  - [Movies](./endpoints/movies.md)
-  - [TV Shows](./endpoints/tv-shows.md)
-  - [TV Seasons](./endpoints/tv-seasons.md)
-  - [TV Episodes](./endpoints/tv-episodes.md)
-  - [People](./endpoints/people.md)
-  - [Search](./endpoints/search.md)
-  - [Discover](./endpoints/discover.md)
-  - [Trending](./endpoints/trending.md)
-  - [Watch Providers](./endpoints/watch-providers.md)
-  - [Companies](./endpoints/companies.md)
-  - [Networks](./endpoints/networks.md)
-  - [Collections](./endpoints/collections.md)
-  - [Genre](./endpoints/genre.md)
-  - [Keywords](./endpoints/keywords.md)
-  - [Find](./endpoints/find.md)
-  - [Certifications](./endpoints/certification.md)
-  - [Changes](./endpoints/changes.md)
-  - [Configuration](./endpoints/configuration.md)
-  - [Credits](./endpoints/credits.md)
-  - [Account](./endpoints/account.md)
-  - [Authentication](./endpoints/authentication.md)
-  - [Guest Sessions](./endpoints/guest-sessions.md)
-  - [Lists](./endpoints/lists.md)
-  - [TV Episode Groups](./endpoints/tv-episode-groups.md)
-  - [Review](./endpoints/review.md)
+## API Shape
+
+Endpoint methods follow the same argument order:
+
+```typescript
+tmdb.endpoint.method(requiredIds, options, requestConfig);
+```
+
+- Required IDs come first, for example `movieId` or `{ tvShowID, seasonNumber }`.
+- TMDB query/body options come next, for example `{ language: "en-US", page: 2 }`.
+- Per-request transport options are last, for example `{ timeoutMs: 5_000, signal }`.
+
+Some detail methods accept `append_to_response` keys before language:
+
+```typescript
+const show = await tmdb.tvShows.details(1396, ["credits", "videos"], "en-US");
+```
+
+Some write methods require a TMDB `session_id` or `guest_session_id`; the endpoint docs call that out where it applies.
