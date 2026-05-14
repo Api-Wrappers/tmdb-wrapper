@@ -6,13 +6,13 @@
   <a href="https://github.com/Api-Wrappers/tmdb-wrapper/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/Api-Wrappers/tmdb-wrapper/actions/workflows/ci.yml/badge.svg"></a>
 </p>
 
+![GitHub Repo stars](https://img.shields.io/github/stars/api-wrappers/tmdb-wrapper)
+
 <p align="center">
   A typed TMDB API v3 client for Node, Bun, and modern TypeScript projects.
 </p>
 
 `@api-wrappers/tmdb-wrapper` gives you one `TMDB` client with endpoint groups for movies, TV, people, search, discover, account sessions, images, watch providers, and the rest of the TMDB v3 API surface. Requests are typed, authenticated consistently, and backed by `@api-wrappers/api-core` for retries, timeouts, and structured errors.
-
-If this package saves you time, [star the repo](https://github.com/Api-Wrappers/tmdb-wrapper) to help other TMDB developers find it.
 
 ## Install
 
