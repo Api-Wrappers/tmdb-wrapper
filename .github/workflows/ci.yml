@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  test:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,6 +25,9 @@ jobs:
 
       - name: Lint
         run: bun run check
+
+      - name: Typecheck
+        run: bun run typecheck
 
       - name: Run tests
         run: bun run test

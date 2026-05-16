@@ -11,7 +11,24 @@
   <a href="https://github.com/Api-Wrappers/tmdb-wrapper/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/api-wrappers/tmdb-wrapper"></a>
 </p>
 
-`@api-wrappers/tmdb-wrapper` gives you one `TMDB` client with endpoint groups for movies, TV, people, search, discover, account sessions, images, watch providers, and the rest of the TMDB v3 API surface. Requests are typed, authenticated consistently, and backed by `@api-wrappers/api-core` for retries, timeouts, and structured errors.
+## What Is This?
+
+`@api-wrappers/tmdb-wrapper` is a TypeScript wrapper for The Movie Database (TMDB) API v3. It gives you one `TMDB` client with typed endpoint groups for movies, TV, search, discover, trending, people, account data, watch providers, images, configuration, and other implemented TMDB areas.
+
+Use it when you want TMDB data without hand-writing fetch URLs, query strings, auth headers, response types, retry behavior, and image URL helpers in every app.
+
+## Why Use It Instead Of Raw Fetch?
+
+- **Typed TMDB client:** endpoint methods return typed data and accept typed option objects.
+- **Endpoint groups:** call `tmdb.movies.details(...)`, `tmdb.search.movies(...)`, `tmdb.trending.trending(...)`, and similar grouped APIs instead of assembling paths by hand.
+- **Image helpers:** build poster, backdrop, and TMDB image URLs with `getFullImagePath`, `formImage`, `TMDB_IMAGE_BASE_URL`, and `ImageSizes`.
+- **Retries and timeouts:** requests run through `@api-wrappers/api-core`, including default retry behavior plus global or per-request timeout overrides.
+- **Clean pagination shape:** paginated endpoints keep TMDB's `{ page, results, total_pages, total_results }` response pattern and accept typed `page` options where TMDB supports them.
+- **Bun and Node support:** the package ships ESM/CJS builds, TypeScript declarations, and a Node `>=16` engine target, with Bun used for local development and tests.
+
+## Who Is It For?
+
+This wrapper is for TypeScript developers building movie watchlists, TV trackers, recommendation tools, media dashboards, bots, admin tools, or server-side integrations that need predictable TMDB access with less repeated request code.
 
 ## Install
 
@@ -52,21 +69,31 @@ const configured = new TMDB({
 });
 ```
 
-## Common Recipes
+## Quick Comparison
 
-### Search for a movie
+| Option | What you write | Tradeoff |
+| --- | --- | --- |
+| Raw `fetch` | URLs, auth headers, query serialization, response types, retry/timeout handling, and image URL construction | Maximum control, but repeated boilerplate and more places for TMDB-specific mistakes |
+| Generated clients | Code generated from an API description | Broad automation, but often less ergonomic for app code and harder to tune by hand |
+| `@api-wrappers/tmdb-wrapper` | Typed endpoint calls grouped around TMDB concepts | Smaller hand-maintained surface focused on practical TypeScript usage, with transport behavior handled by `api-core` |
+
+## Practical Examples
+
+### Search Movies
 
 ```typescript
-const results = await tmdb.search.movies({
+const search = await tmdb.search.movies({
 	query: "Inception",
 	include_adult: false,
 	language: "en-US",
+	page: 1,
 });
 
-const first = results.results[0];
+const firstMatch = search.results[0];
+console.log(firstMatch?.title);
 ```
 
-### Fetch details with related data
+### Get Movie Details
 
 Many detail methods support TMDB's `append_to_response` feature. Pass the appended keys as the second argument.
 
@@ -82,40 +109,66 @@ console.log(movie.credits.cast.slice(0, 5));
 console.log(movie.videos.results.find((video) => video.type === "Trailer"));
 ```
 
-### Discover titles by filters
+### Get Trending
 
 ```typescript
-const actionMovies = await tmdb.discover.movie({
-	with_genres: "28",
-	"vote_count.gte": 500,
-	sort_by: "popularity.desc",
-	watch_region: "US",
+const trendingMovies = await tmdb.trending.trending("movie", "week", {
+	language: "en-US",
+	page: 1,
 });
+
+for (const movie of trendingMovies.results.slice(0, 10)) {
+	console.log(movie.title);
+}
 ```
 
-### Build image URLs
+### Build Poster And Backdrop URLs
 
 ```typescript
 import {
 	ImageSizes,
 	TMDB_IMAGE_BASE_URL,
-	formImage,
 	getFullImagePath,
 } from "@api-wrappers/tmdb-wrapper";
 
-const manualUrl = getFullImagePath(
-	TMDB_IMAGE_BASE_URL,
-	ImageSizes.W500,
-	"/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg",
-);
+const movie = await tmdb.movies.details(550);
 
-const images = await tmdb.movies.images(550);
-const posterUrl = images.posters[0]
-	? formImage(images.posters[0], ImageSizes.W500)
+const posterUrl = movie.poster_path
+	? getFullImagePath(TMDB_IMAGE_BASE_URL, ImageSizes.W500, movie.poster_path)
+	: undefined;
+
+const backdropUrl = movie.backdrop_path
+	? getFullImagePath(
+			TMDB_IMAGE_BASE_URL,
+			ImageSizes.ORIGINAL,
+			movie.backdrop_path,
+		)
 	: undefined;
 ```
 
-### Handle API errors
+For image objects returned by image endpoints, use `formImage`:
+
+```typescript
+import { ImageSizes, formImage } from "@api-wrappers/tmdb-wrapper";
+
+const images = await tmdb.movies.images(550);
+const firstPoster = images.posters[0];
+const imageUrl = firstPoster
+	? formImage(firstPoster, ImageSizes.W500)
+	: undefined;
+```
+
+### Get Watch Providers
+
+```typescript
+const providers = await tmdb.movies.watchProviders(550);
+const usProviders = providers.results.US;
+
+console.log(usProviders?.link);
+console.log(usProviders?.flatrate?.map((provider) => provider.provider_name));
+```
+
+### Handle API Errors
 
 ```typescript
 import { ApiError, RateLimitError } from "@api-wrappers/api-core";
@@ -132,7 +185,7 @@ try {
 }
 ```
 
-### Cancel or time out one request
+### Cancel Or Time Out One Request
 
 Most endpoint methods accept a `RequestConfig` as the last argument.
 
@@ -144,6 +197,13 @@ const results = await tmdb.search.movies(
 	{ signal: controller.signal, timeoutMs: 5_000 },
 );
 ```
+
+## Real-World Use Cases
+
+- **Movie watchlist apps:** search titles, fetch details, show posters, and manage account watchlists.
+- **TV tracking apps:** pull show, season, episode, credits, images, and airing data.
+- **Recommendation apps:** combine search, discover filters, trending data, and related titles.
+- **Media dashboards:** display popular, top-rated, upcoming, trending, provider, and configuration data.
 
 ## Endpoint Map
 
@@ -171,10 +231,13 @@ const results = await tmdb.search.movies(
 ## Documentation
 
 - [Docs home](./docs/index.md)
+- [Changelog](./CHANGELOG.md)
+- [Copy-paste examples](./docs/examples.md)
 - [Authentication](./docs/authentication.md)
 - [Request config](./docs/request-config.md)
 - [Error handling](./docs/error-handling.md)
 - [Image utilities](./docs/image-utilities.md)
+- [Contribution ideas](./docs/contributing-ideas.md)
 - [Examples guide](./examples/README.md)
 - Endpoint reference starts at [Movies](./docs/endpoints/movies.md), [Search](./docs/endpoints/search.md), [Discover](./docs/endpoints/discover.md), and [TV Shows](./docs/endpoints/tv-shows.md).
 
@@ -194,10 +257,18 @@ bun examples/search-and-discover.ts
 
 ```bash
 bun install
-bun test
-bun run build
 bun run check
+bun run typecheck
+bun run test
+bun run build
+bun run verify
 ```
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md), [ROADMAP.md](./ROADMAP.md), and [beginner-friendly contribution ideas](./docs/contributing-ideas.md) if you want to help improve the wrapper.
+
+## Release Process
+
+Maintainers add a changeset for user-facing changes with `bun run changeset`. When changesets land on `main`, the release workflow validates the package and opens a version PR. Merging that PR publishes to npm with provenance using `NPM_TOKEN` and creates GitHub release notes.
 
 ## License
 

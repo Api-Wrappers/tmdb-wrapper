@@ -17,9 +17,11 @@ const trending = await tmdb.trending.trending("movie", "day");
 | Need | Read |
 | --- | --- |
 | Create a client with a token or API key | [Authentication](./authentication.md) |
+| Copy-paste common workflows | [Examples](./examples.md) |
 | Set timeouts, cancellation, headers, or retry behavior | [Request Config](./request-config.md) |
 | Catch failed TMDB requests | [Error Handling](./error-handling.md) |
 | Convert `poster_path`, `backdrop_path`, or `file_path` values into image URLs | [Image Utilities](./image-utilities.md) |
+| Find approachable contribution ideas | [Contributing Ideas](./contributing-ideas.md) |
 | Run real code from this checkout | [Examples](../examples/README.md) |
 
 ## Endpoint Reference

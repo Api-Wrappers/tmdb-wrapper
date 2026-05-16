@@ -1,0 +1,41 @@
+name: Documentation Request
+description: Request clearer docs, examples, or troubleshooting guidance.
+title: "docs: "
+labels:
+  - documentation
+body:
+  - type: textarea
+    id: area
+    attributes:
+      label: Documentation Area
+      description: Which file, endpoint, or workflow needs better documentation?
+      placeholder: README quick start, docs/endpoints/movies.md, image helpers, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: confusion
+    attributes:
+      label: What Is Missing Or Confusing?
+      description: Describe what you expected to find and what was hard to understand.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested Improvement
+      description: Add a preferred example, wording change, or docs link if you have one.
+  - type: input
+    id: tmdb-docs
+    attributes:
+      label: Related TMDB Docs
+      placeholder: https://developer.themoviedb.org/reference/intro/getting-started
+  - type: input
+    id: wrapper-source
+    attributes:
+      label: Related Wrapper Method Or File
+      placeholder: tmdb.movies.details / src/endpoints/movies.ts
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any related issue, PR, error message, or app use case.

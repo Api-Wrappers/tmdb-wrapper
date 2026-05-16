@@ -1,0 +1,56 @@
+name: Feature Request
+description: Suggest a new endpoint, helper, or behavior improvement.
+title: "feat: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What would you like to add or improve?
+    validations:
+      required: true
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: What app workflow or developer problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposed-api
+    attributes:
+      label: Proposed API
+      description: Show how you would like to use the wrapper.
+      render: typescript
+      placeholder: |
+        const result = await tmdb.movies.details(550);
+  - type: input
+    id: tmdb-docs
+    attributes:
+      label: TMDB Documentation
+      description: If this maps to a TMDB endpoint, link the official TMDB docs page.
+      placeholder: https://developer.themoviedb.org/reference/intro/getting-started
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: What workaround are you using today?
+  - type: dropdown
+    id: public-api-impact
+    attributes:
+      label: Public API Impact
+      description: Would this require changing an existing method signature or response type?
+      options:
+        - No public API change expected
+        - New method or type only
+        - Existing API change may be needed
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any related issues, PRs, examples, or screenshots.

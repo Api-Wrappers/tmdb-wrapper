@@ -1,0 +1,103 @@
+name: Bug Report
+description: Report a bug or unexpected behavior in the TMDB wrapper.
+title: "bug: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Do not include private TMDB tokens, API keys, session IDs, or account data.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal Reproduction
+      description: Share the smallest TypeScript example that reproduces the issue.
+      render: typescript
+      placeholder: |
+        import { TMDB } from "@api-wrappers/tmdb-wrapper";
+
+        const tmdb = new TMDB("REDACTED_TOKEN");
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps To Reproduce
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What happened instead? Include safe error messages or response shapes.
+    validations:
+      required: true
+  - type: input
+    id: package-version
+    attributes:
+      label: Package Version
+      placeholder: 2.1.2
+    validations:
+      required: true
+  - type: dropdown
+    id: runtime
+    attributes:
+      label: Runtime
+      options:
+        - Bun
+        - Node
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: runtime-version
+    attributes:
+      label: Runtime Version
+      placeholder: Bun 1.3.14 / Node 22.0.0
+    validations:
+      required: true
+  - type: dropdown
+    id: auth-type
+    attributes:
+      label: Auth Type
+      options:
+        - Read access token
+        - API key
+        - Both
+        - Not sure
+    validations:
+      required: true
+  - type: input
+    id: wrapper-method
+    attributes:
+      label: Wrapper Method
+      placeholder: tmdb.movies.details
+  - type: input
+    id: tmdb-docs
+    attributes:
+      label: Related TMDB Docs
+      placeholder: https://developer.themoviedb.org/reference/intro/getting-started
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Add anything else that helps explain the issue.

@@ -1,23 +1,36 @@
 ## Summary
 
-<!-- Describe your changes in a few sentences -->
+<!-- Describe the change in a few sentences. -->
 
-## Type of Change
+## Type Of Change
 
 - [ ] Bug fix
-- [ ] New feature
-- [ ] Breaking change
+- [ ] New endpoint coverage
 - [ ] Documentation update
+- [ ] Test coverage
 - [ ] Refactor / cleanup
+- [ ] Build or release tooling
 
 ## Related Issue
 
 Closes #
 
-## Checklist
+## API Impact
 
-- [ ] Tests pass (`bun test`)
-- [ ] Lint passes (`bun run check`)
-- [ ] Build succeeds (`bun run build`)
-- [ ] Added tests for new functionality (if applicable)
-- [ ] Updated documentation (if applicable)
+- [ ] No public API change
+- [ ] Public API change discussed in an issue
+- [ ] Types updated
+- [ ] Endpoint docs updated
+
+## Validation
+
+- [ ] `bun install`
+- [ ] `bun run check`
+- [ ] `bun run typecheck`
+- [ ] `bun run test`
+- [ ] `bun run build`
+- [ ] `bun run verify`
+
+## Notes For Reviewers
+
+<!-- Add TMDB docs links, behavior notes, or screenshots if useful. -->
