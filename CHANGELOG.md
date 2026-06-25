@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.0
+
+### Minor Changes
+
+- Add universal RequestConfig support across all endpoint methods. Every endpoint method now accepts an optional `request` parameter for per-call overrides (headers, timeout, etc.). Shared transport client is now created once in the TMDB facade and injected into all endpoint groups.
+
 All notable changes to `@api-wrappers/tmdb-wrapper` will be documented in this file.
 
 This project aims to follow [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) style sections and uses package versions from `package.json`.

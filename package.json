@@ -1,6 +1,6 @@
 {
   "name": "@api-wrappers/tmdb-wrapper",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "Typed TMDB API v3 client with endpoint groups, image helpers, and api-core transport for TypeScript apps.",
   "module": "./dist/index.mjs",
   "type": "module",

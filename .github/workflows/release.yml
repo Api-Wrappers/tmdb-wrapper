@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - "release/*"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -55,10 +56,10 @@ jobs:
       - name: Verify npm package contents
         run: npm pack --dry-run --json
 
-      - name: Stop manual publishing outside main
-        if: github.event_name == 'workflow_dispatch' && inputs.dry_run != true && github.ref != 'refs/heads/main'
+      - name: Stop manual publishing outside main or release branches
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run != true && github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/heads/release/')
         run: |
-          echo "Publishing is only allowed from main." >&2
+          echo "Publishing is only allowed from main or release/* branches." >&2
           exit 1
 
       - name: Create release PR or publish to npm
@@ -74,3 +75,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: "true"
+
+      - name: Publish to npm (release branch)
+        if: startsWith(github.ref, 'refs/heads/release/') && !(github.event_name == 'workflow_dispatch' && inputs.dry_run)
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
