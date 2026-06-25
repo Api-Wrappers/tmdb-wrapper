@@ -7,7 +7,7 @@ Access via `tmdb.companies` (instance of `CompaniesEndpoint`).
 ### `details`
 
 ```typescript
-tmdb.companies.details(id: number): Promise<CompanyDetails>
+tmdb.companies.details(id: number, request?: RequestConfig): Promise<CompanyDetails>
 ```
 
 ```typescript
@@ -24,7 +24,10 @@ company.parent_company;
 ### `alternativeNames`
 
 ```typescript
-tmdb.companies.alternativeNames(id: number): Promise<AlternativeNames>
+tmdb.companies.alternativeNames(
+  id: number,
+  request?: RequestConfig,
+): Promise<AlternativeNames>
 ```
 
 ---
@@ -32,7 +35,7 @@ tmdb.companies.alternativeNames(id: number): Promise<AlternativeNames>
 ### `images`
 
 ```typescript
-tmdb.companies.images(id: number): Promise<CompanyImages>
+tmdb.companies.images(id: number, request?: RequestConfig): Promise<CompanyImages>
 ```
 
 ## Types

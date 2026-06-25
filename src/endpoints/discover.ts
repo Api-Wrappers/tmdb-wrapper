@@ -2,7 +2,6 @@ import {
 	BaseEndpoint,
 	type MovieDiscoverResult,
 	type MovieQueryOptions,
-	type TokenType,
 	type TvShowDiscoverResult,
 	type TvShowQueryOptions,
 } from "../@types";
@@ -19,15 +18,6 @@ const BASE_DISCOVER = "/discover";
  * - GET /discover/tv
  */
 export class DiscoverEndpoint extends BaseEndpoint {
-	/**
-	 * Constructs a new DiscoverEndpoint instance.
-	 *
-	 * @param {TokenType} access_token - The access token used for authentication.
-	 */
-	constructor(protected readonly access_token: TokenType) {
-		super(access_token);
-	}
-
 	/**
 	 * Retrieves a list of movies based on the provided query options
 	 * asynchronously.

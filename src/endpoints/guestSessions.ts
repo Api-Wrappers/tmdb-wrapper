@@ -4,7 +4,6 @@ import {
 	type GuestSessionRatedOptions,
 	type GuestSessionRatedTvEpisodes,
 	type GuestSessionRatedTvShows,
-	type TokenType,
 } from "../@types";
 import { type RequestConfig, withQuery } from "../utils";
 
@@ -14,10 +13,6 @@ const BASE_GUEST_SESSION = "/guest_session";
  * Represents TMDB v3 guest session endpoints.
  */
 export class GuestSessionsEndpoint extends BaseEndpoint {
-	constructor(protected readonly auth: TokenType) {
-		super(auth);
-	}
-
 	/**
 	 * Retrieves movies rated by a guest session.
 	 */

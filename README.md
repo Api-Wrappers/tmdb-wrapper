@@ -187,7 +187,7 @@ try {
 
 ### Cancel Or Time Out One Request
 
-Most endpoint methods accept a `RequestConfig` as the last argument.
+All endpoint methods accept a `RequestConfig` as the last argument.
 
 ```typescript
 const controller = new AbortController();

@@ -15,6 +15,7 @@ tmdb.find.byId(
     external_source: ExternalSource;
     language?: string;
   },
+  request?: RequestConfig,
 ): Promise<FindResult>
 ```
 

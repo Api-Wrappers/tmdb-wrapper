@@ -15,6 +15,7 @@ tmdb.changes.movies(
     start_date?: string; // YYYY-MM-DD
     end_date?: string;   // YYYY-MM-DD
   },
+  request?: RequestConfig,
 ): Promise<MediaChanges>
 ```
 
@@ -29,6 +30,7 @@ tmdb.changes.tv(
     start_date?: string;
     end_date?: string;
   },
+  request?: RequestConfig,
 ): Promise<MediaChanges>
 ```
 
@@ -43,6 +45,7 @@ tmdb.changes.person(
     start_date?: string;
     end_date?: string;
   },
+  request?: RequestConfig,
 ): Promise<MediaChanges>
 ```
 

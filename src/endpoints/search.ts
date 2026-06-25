@@ -11,7 +11,6 @@ import {
 	type Person,
 	type Search,
 	type SearchOptions,
-	type TokenType,
 	type TV,
 	type TvSearchOptions,
 } from "../@types";
@@ -23,15 +22,6 @@ const BASE_SEARCH = "/search";
  * Represents an endpoint for performing various search operations.
  */
 export class SearchEndpoint extends BaseEndpoint {
-	/**
-	 * Constructs a new SearchEndpoint instance.
-	 *
-	 * @param {TokenType} access_token - The access token used for authentication.
-	 */
-	constructor(protected readonly access_token: TokenType) {
-		super(access_token);
-	}
-
 	/**
 	 * Searches for companies asynchronously.
 	 *

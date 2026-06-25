@@ -1,4 +1,5 @@
-import { BaseEndpoint, type Certifications, type TokenType } from "../@types";
+import { BaseEndpoint, type Certifications } from "../@types";
+import type { RequestConfig } from "../utils";
 
 /**
  * Represents an endpoint for retrieving certifications for movies and TV shows.
@@ -9,23 +10,14 @@ import { BaseEndpoint, type Certifications, type TokenType } from "../@types";
  */
 export class CertificationEndpoint extends BaseEndpoint {
 	/**
-	 * Constructs a new CertificationEndpoint instance.
-	 *
-	 * @param {TokenType} access_token - The access token used for authentication.
-	 */
-	constructor(protected readonly access_token: TokenType) {
-		super(access_token);
-	}
-
-	/**
 	 * Retrieves certifications for movies asynchronously.
 	 *
 	 * TMDB: GET /certification/movie/list
 	 *
 	 * @returns {Promise<Certifications>} A Promise that resolves with the certifications for movies.
 	 */
-	movies(): Promise<Certifications> {
-		return this.api.get<Certifications>("/certification/movie/list");
+	movies(request?: RequestConfig): Promise<Certifications> {
+		return this.api.get<Certifications>("/certification/movie/list", request);
 	}
 
 	/**
@@ -35,7 +27,7 @@ export class CertificationEndpoint extends BaseEndpoint {
 	 *
 	 * @returns {Promise<Certifications>} A Promise that resolves with the certifications for TV shows.
 	 */
-	tv(): Promise<Certifications> {
-		return this.api.get<Certifications>("/certification/tv/list");
+	tv(request?: RequestConfig): Promise<Certifications> {
+		return this.api.get<Certifications>("/certification/tv/list", request);
 	}
 }

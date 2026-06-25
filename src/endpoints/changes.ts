@@ -1,9 +1,5 @@
-import {
-	BaseEndpoint,
-	type ChangeOption,
-	type MediaChanges,
-	type TokenType,
-} from "../@types";
+import { BaseEndpoint, type ChangeOption, type MediaChanges } from "../@types";
+import { type RequestConfig, withQuery } from "../utils";
 
 /**
  * Represents an endpoint for retrieving changes in movies, TV shows, and persons.
@@ -15,15 +11,6 @@ import {
  */
 export class ChangeEndpoint extends BaseEndpoint {
 	/**
-	 * Constructs a new ChangeEndpoint instance.
-	 *
-	 * @param {TokenType} access_token - The access token used for authentication.
-	 */
-	constructor(protected readonly access_token: TokenType) {
-		super(access_token);
-	}
-
-	/**
 	 * Retrieves changes in movies asynchronously.
 	 *
 	 * TMDB: GET /movie/changes
@@ -31,8 +18,14 @@ export class ChangeEndpoint extends BaseEndpoint {
 	 * @param {ChangeOption} [options] - Optional parameters for filtering the changes.
 	 * @returns {Promise<MediaChanges>} A Promise that resolves with the changes in movies.
 	 */
-	movies(options?: ChangeOption): Promise<MediaChanges> {
-		return this.api.get<MediaChanges>("/movie/changes", { query: options });
+	movies(
+		options?: ChangeOption,
+		request?: RequestConfig,
+	): Promise<MediaChanges> {
+		return this.api.get<MediaChanges>(
+			"/movie/changes",
+			withQuery(options, request),
+		);
 	}
 
 	/**
@@ -43,8 +36,11 @@ export class ChangeEndpoint extends BaseEndpoint {
 	 * @param {ChangeOption} [options] - Optional parameters for filtering the changes.
 	 * @returns {Promise<MediaChanges>} A Promise that resolves with the changes in TV shows.
 	 */
-	tv(options?: ChangeOption): Promise<MediaChanges> {
-		return this.api.get<MediaChanges>("/tv/changes", { query: options });
+	tv(options?: ChangeOption, request?: RequestConfig): Promise<MediaChanges> {
+		return this.api.get<MediaChanges>(
+			"/tv/changes",
+			withQuery(options, request),
+		);
 	}
 
 	/**
@@ -55,7 +51,13 @@ export class ChangeEndpoint extends BaseEndpoint {
 	 * @param {ChangeOption} [options] - Optional parameters for filtering the changes.
 	 * @returns {Promise<MediaChanges>} A Promise that resolves with the changes related to persons.
 	 */
-	person(options?: ChangeOption): Promise<MediaChanges> {
-		return this.api.get<MediaChanges>("/person/changes", { query: options });
+	person(
+		options?: ChangeOption,
+		request?: RequestConfig,
+	): Promise<MediaChanges> {
+		return this.api.get<MediaChanges>(
+			"/person/changes",
+			withQuery(options, request),
+		);
 	}
 }

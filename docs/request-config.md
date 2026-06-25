@@ -1,6 +1,6 @@
 # Request Config
 
-Most endpoint methods accept an optional `RequestConfig` as their last parameter. Use it to override per-request behaviour.
+All endpoint methods accept an optional `RequestConfig` as their last parameter. Use it to override per-request behaviour.
 
 ## Interface
 

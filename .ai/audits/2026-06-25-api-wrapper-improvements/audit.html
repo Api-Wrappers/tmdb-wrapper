@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TMDB Wrapper Improvement Audit</title>
+  <meta name="strategist-type" content="audit">
+  <meta name="strategist-slug" content="api-wrapper-improvements">
+  <meta name="strategist-created" content="2026-06-25">
+  <meta name="strategist-status" content="ready">
+  <meta name="strategist-target" content="@api-wrappers/tmdb-wrapper API client, endpoint classes, docs, and tests">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #ffffff;
+      --fg: #161616;
+      --muted: #555;
+      --border: #d8d8d8;
+      --code: #f5f5f5;
+      --accent: #0f766e;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111;
+        --fg: #eee;
+        --muted: #aaa;
+        --border: #333;
+        --code: #1d1d1d;
+        --accent: #5eead4;
+      }
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 40px 24px 64px;
+    }
+    h1, h2, h3 {
+      line-height: 1.2;
+    }
+    h1 {
+      margin-top: 0;
+      font-size: 2rem;
+    }
+    h2 {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    h3 {
+      margin-top: 1.4rem;
+    }
+    code, pre {
+      background: var(--code);
+      border-radius: 6px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+    code {
+      padding: 0.1em 0.3em;
+    }
+    pre {
+      padding: 16px;
+      overflow-x: auto;
+    }
+    .meta, .muted {
+      color: var(--muted);
+    }
+    .priority {
+      font-weight: 700;
+      color: var(--accent);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      vertical-align: top;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>TMDB Wrapper Improvement Audit</h1>
+  <p class="meta">Created: 2026-06-25 · Status: ready · Target: <code>@api-wrappers/tmdb-wrapper</code></p>
+
+  <section aria-labelledby="tldr">
+    <h2 id="tldr">TL;DR</h2>
+    <p>The wrapper is already in a good state: strict TypeScript, clear endpoint groups, useful docs, package build tests, and path-mapping tests. The best next improvement is not a rewrite; it is a focused internal cleanup that makes all endpoint groups share one transport client and standardizes per-request config support across endpoint methods. After that, tighten type exports and docs/tests so the public package is easier to trust and maintain.</p>
+  </section>
+
+  <section aria-labelledby="goal">
+    <h2 id="goal">1. Goal</h2>
+    <p>Improve the API wrapper in ways that make it safer, easier to maintain, and more reliable for package consumers without changing the current public <code>new TMDB(...)</code> facade or endpoint-group shape.</p>
+  </section>
+
+  <section aria-labelledby="codebase-understanding">
+    <h2 id="codebase-understanding">2. Codebase Understanding</h2>
+    <ul>
+      <li><strong>Stack:</strong> TypeScript ESM package, Bun for local scripts/tests, <code>tsdown</code> for ESM/CJS/declarations, Biome for checks, <code>@api-wrappers/api-core</code> for transport.</li>
+      <li><strong>Package surface:</strong> <code>package.json:5-15</code> exports only the root entrypoint with ESM, CJS, and declaration files.</li>
+      <li><strong>Facade:</strong> <code>src/index.ts:30-84</code> exposes a <code>TMDB</code> class with 25 endpoint-group properties.</li>
+      <li><strong>Transport:</strong> <code>src/client.ts:23-89</code> wraps <code>BaseHttpClient</code>, applies TMDB auth, defaults retries, and checks auth before fetching.</li>
+      <li><strong>Endpoint base:</strong> <code>src/@types/models/baseEndpoint.ts:9-24</code> constructs a new <code>TMDBApiClient</code> for each endpoint instance.</li>
+      <li><strong>Request config pattern:</strong> newer endpoints use <code>RequestConfig</code> and <code>withQuery</code> from <code>src/utils/query.ts:25-31</code>, but older endpoints still pass raw <code>{ query: options }</code> and do not expose request config consistently.</li>
+      <li><strong>Tests:</strong> <code>tests/client.test.ts</code> covers auth, retry, errors, and query serialization. <code>tests/endpoint-coverage.test.ts</code> verifies many endpoint paths, query parameters, methods, and bodies. <code>tests/package-build.test.ts</code> verifies built entrypoints.</li>
+      <li><strong>Validation observed:</strong> <code>bun run typecheck</code> passed. <code>bun run check</code> passed with 64 files checked.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="recommendation">
+    <h2 id="recommendation">3. Recommendation</h2>
+    <p><strong>Do this now as one focused execution task.</strong> The codebase is healthy enough that a broad rewrite would waste effort. The first high-value task should be transport sharing plus request-config parity because it improves runtime behavior, removes duplication, and brings the code in line with the docs claim that most endpoint methods accept request overrides.</p>
+    <p>Do not generate a large TMDB client or redesign the public endpoint API yet. Preserve the current manual endpoint style and add coverage incrementally.</p>
+  </section>
+
+  <section aria-labelledby="findings">
+    <h2 id="findings">Priority Findings</h2>
+
+    <h3><span class="priority">High</span>: Each endpoint group creates its own HTTP client</h3>
+    <p><strong>Evidence:</strong> <code>TMDB</code> constructs every endpoint independently in <code>src/index.ts:57-83</code>. <code>BaseEndpoint</code> then creates a fresh <code>TMDBApiClient</code> in <code>src/@types/models/baseEndpoint.ts:22-24</code>.</p>
+    <p><strong>Why it matters:</strong> One <code>new TMDB(config)</code> currently produces many transport instances. That duplicates normalized auth, default headers, retry config, and injected fetch handling. If <code>api-core</code> caching, plugins, telemetry, or per-client state are used, those behaviors are fragmented by endpoint group.</p>
+    <p><strong>Recommended fix:</strong> Create one <code>TMDBApiClient</code> in <code>TMDB</code> and inject it into all endpoint groups through <code>BaseEndpoint</code>. Keep endpoint constructors source-compatible where practical.</p>
+
+    <h3><span class="priority">High</span>: Request-config support is inconsistent across endpoint methods</h3>
+    <p><strong>Evidence:</strong> <code>docs/request-config.md:1-4</code> says most endpoint methods accept <code>RequestConfig</code>. <code>MoviesEndpoint.details</code> accepts request overrides in <code>src/endpoints/movies.ts:69-80</code>, while <code>TvShowsEndpoint.details</code>, <code>alternativeTitles</code>, <code>changes</code>, <code>contentRatings</code>, and <code>aggregateCredits</code> do not in <code>src/endpoints/tvShows.ts:69-142</code>. <code>GenreEndpoint</code> and <code>ChangeEndpoint</code> also pass raw query objects without request config in <code>src/endpoints/genre.ts:30-43</code> and <code>src/endpoints/changes.ts:34-59</code>.</p>
+    <p><strong>Why it matters:</strong> Consumers cannot reliably use timeout, abort signal, custom headers, cache key, or tags across endpoint groups. The wrapper’s own docs create an expectation the API does not uniformly satisfy.</p>
+    <p><strong>Recommended fix:</strong> Standardize endpoint signatures so every network method accepts optional <code>RequestConfig</code> as its final parameter, then route all query-bearing calls through <code>withQuery</code>.</p>
+
+    <h3><span class="priority">Medium</span>: Query helper uses casts that can hide shape drift</h3>
+    <p><strong>Evidence:</strong> <code>src/utils/query.ts:25-31</code> casts arbitrary objects to <code>QueryParams</code>. <code>src/client.ts:68-85</code> casts request options and query values again.</p>
+    <p><strong>Why it matters:</strong> The project is strict and avoids <code>any</code>, but repeated casts make it easier for endpoint option types to diverge from what <code>api-core</code> can serialize.</p>
+    <p><strong>Recommended fix:</strong> Introduce a narrow local endpoint-query type and helper that accepts only serializable primitives and arrays used by <code>api-core</code>. Keep the implementation tiny and do not add runtime validation unless tests expose a real need.</p>
+
+    <h3><span class="priority">Medium</span>: Published package has only a single root export</h3>
+    <p><strong>Evidence:</strong> <code>package.json:9-15</code> exposes only <code>"."</code>. The README imports both <code>TMDB</code> and helpers from the root, but consumers cannot import subpaths such as image utilities or types directly.</p>
+    <p><strong>Why it matters:</strong> A root-only export is simple, but it makes tree-friendly imports and docs navigation less ergonomic as the wrapper grows.</p>
+    <p><strong>Recommended fix:</strong> Keep the root export, then consider adding stable subpath exports for <code>./utils</code> and <code>./types</code> only after the first transport/request-config cleanup is complete. This may require <code>tsdown</code> entry changes and package-build tests.</p>
+
+    <h3><span class="priority">Low</span>: Roadmap and docs already identify useful next examples, but should follow source parity work</h3>
+    <p><strong>Evidence:</strong> <code>ROADMAP.md</code> already calls out endpoint docs alignment, request-config tests, auth docs, and examples. <code>docs/contributing-ideas.md:5-19</code> lists approachable docs/test improvements.</p>
+    <p><strong>Why it matters:</strong> Docs are good enough to guide users, but docs improvements should not get ahead of inconsistent API signatures.</p>
+    <p><strong>Recommended fix:</strong> After source parity lands, update docs examples for timeout/abort, API key versus token auth, TV season/episode usage, and account watchlists.</p>
+  </section>
+
+  <section aria-labelledby="scope">
+    <h2 id="scope">4. Scope</h2>
+    <h3>In Scope</h3>
+    <ul>
+      <li>Refactor endpoint construction so one <code>TMDBApiClient</code> is shared across all endpoint groups.</li>
+      <li>Standardize <code>RequestConfig</code> as the last argument on endpoint methods that perform network calls.</li>
+      <li>Replace raw <code>{ query: options }</code> call sites with <code>withQuery(options, request)</code> where request config is added.</li>
+      <li>Add or extend tests that prove shared fetch/client behavior and request-config parity.</li>
+      <li>Update docs only where they describe request config, auth behavior, or changed examples.</li>
+    </ul>
+
+    <h3>Out of Scope</h3>
+    <ul>
+      <li>Do not rewrite the endpoint model around generated code.</li>
+      <li>Do not remove the root <code>TMDB</code> class or rename existing endpoint groups.</li>
+      <li>Do not add new TMDB endpoint coverage in the same task unless needed for tests.</li>
+      <li>Do not change auth semantics beyond preserving current API key and bearer-token behavior.</li>
+      <li>Do not add dependencies.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="files-to-inspect">
+    <h2 id="files-to-inspect">5. Files and Areas to Inspect</h2>
+    <ul>
+      <li><code>src/index.ts</code>: public <code>TMDB</code> facade and endpoint construction.</li>
+      <li><code>src/@types/models/baseEndpoint.ts</code>: endpoint base class and transport ownership.</li>
+      <li><code>src/client.ts</code>: TMDB auth injection and request option typing.</li>
+      <li><code>src/utils/query.ts</code>: <code>RequestConfig</code>, <code>csv</code>, and <code>withQuery</code>.</li>
+      <li><code>src/endpoints/*.ts</code>: endpoint signatures and raw query call sites.</li>
+      <li><code>tests/client.test.ts</code>: transport-level behavior.</li>
+      <li><code>tests/tmdb-client.test.ts</code>: facade construction behavior.</li>
+      <li><code>tests/endpoint-coverage.test.ts</code>: endpoint path/query/body coverage.</li>
+      <li><code>docs/request-config.md</code>, <code>README.md</code>, <code>ROADMAP.md</code>: docs that should stay aligned.</li>
+      <li><code>package.json</code>, <code>tsdown.config.ts</code>, <code>tests/package-build.test.ts</code>: only inspect for later export improvements.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="implementation-plan">
+    <h2 id="implementation-plan">6. Implementation Plan</h2>
+    <ol>
+      <li><strong>Characterize current behavior.</strong> Run the existing targeted tests before editing: <code>bun run typecheck</code>, <code>bun run check</code>, <code>bun test tests/client.test.ts tests/tmdb-client.test.ts tests/endpoint-coverage.test.ts</code>. Do not run format write commands before making source changes.</li>
+      <li><strong>Share the transport client.</strong> In <code>src/index.ts</code>, create one <code>TMDBApiClient</code> in the <code>TMDB</code> constructor. Update <code>BaseEndpoint</code> so endpoint classes receive that client instead of constructing their own. Preserve endpoint class property names and public <code>new TMDB(auth)</code> usage.</li>
+      <li><strong>Keep endpoint constructors boring and compatible.</strong> Update endpoint constructors in <code>src/endpoints/*.ts</code> to call <code>super(api)</code> or use a small constructor helper pattern. Avoid per-endpoint custom transport logic.</li>
+      <li><strong>Add a shared-client regression test.</strong> In <code>tests/tmdb-client.test.ts</code> or <code>tests/client.test.ts</code>, inject a custom <code>fetch</code> through <code>client.fetch</code>, call methods on multiple endpoint groups, and assert the same fetch configuration is honored across those groups. If direct identity checks require exposing internals, avoid exposing internals and verify behavior through calls.</li>
+      <li><strong>Standardize request-config signatures incrementally.</strong> Sweep <code>src/endpoints/*.ts</code> for methods that call <code>this.api.get</code>, <code>post</code>, <code>delete</code>, or similar without a final <code>request?: RequestConfig</code>. Add <code>request?: RequestConfig</code> as the last parameter and pass it through with <code>withQuery</code> or directly when no query exists.</li>
+      <li><strong>Use <code>withQuery</code> consistently.</strong> Replace raw <code>{ query: options }</code> with <code>withQuery(options, request)</code> once the method accepts request config. For computed query objects such as append-to-response or image-language arrays, keep the existing <code>csv</code> behavior.</li>
+      <li><strong>Protect public compatibility.</strong> For methods where adding a final optional argument could conflict with an existing positional API, preserve current parameter order and only append the request argument. Do not reorder existing options, IDs, session IDs, or bodies.</li>
+      <li><strong>Tighten query typing only if it stays small.</strong> If the casts in <code>src/utils/query.ts</code> can be reduced with a local <code>EndpointQuery</code> type compatible with <code>api-core</code>, do that in the same pass. If it becomes invasive, leave it for a second task and document why.</li>
+      <li><strong>Expand endpoint coverage tests for request config.</strong> Add focused tests that call representative methods across older and newer endpoint groups with <code>{ headers, timeoutMs, signal, cacheKey, tags }</code> where observable. At minimum verify custom headers or abort signal pass to fetch for movies, TV shows, genre, changes, and account/search-style query endpoints.</li>
+      <li><strong>Update docs after tests pass.</strong> Update <code>docs/request-config.md</code> and README snippets only if examples need changed argument placement or if request-config support becomes materially broader. Keep docs source-verified.</li>
+      <li><strong>Run final validation.</strong> Run <code>bun run typecheck</code>, <code>bun run check</code>, <code>bun test</code>, and <code>bun run build</code>. If preparing a release, run <code>bun pm pack --dry-run</code> or <code>bun run verify</code>.</li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="code-quality-rules">
+    <h2 id="code-quality-rules">7. Code Quality Rules</h2>
+    <ul>
+      <li>Follow the existing manual endpoint-class style.</li>
+      <li>Keep the public <code>TMDB</code> facade stable.</li>
+      <li>Avoid duplicate transport setup.</li>
+      <li>Do not weaken TypeScript strictness.</li>
+      <li>Do not use <code>any</code>.</li>
+      <li>Prefer existing <code>RequestConfig</code>, <code>csv</code>, and <code>withQuery</code> helpers before adding new helpers.</li>
+      <li>Avoid adding dependencies.</li>
+      <li>Keep docs claims tied to implemented and tested behavior.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="validation">
+    <h2 id="validation">8. Testing and Validation</h2>
+    <ul>
+      <li><code>bun run typecheck</code> before and after changes.</li>
+      <li><code>bun run check</code> before and after changes.</li>
+      <li><code>bun test tests/client.test.ts tests/tmdb-client.test.ts tests/endpoint-coverage.test.ts</code> while iterating.</li>
+      <li><code>bun test</code> before finishing.</li>
+      <li><code>bun run build</code> before finishing because package declarations and CJS/ESM outputs are part of the public contract.</li>
+      <li><code>bun pm pack --dry-run</code> if the task includes package export changes.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="acceptance-criteria">
+    <h2 id="acceptance-criteria">9. Acceptance Criteria</h2>
+    <ul>
+      <li>A <code>TMDB</code> instance uses one shared configured <code>TMDBApiClient</code> across all endpoint groups.</li>
+      <li>Existing examples such as <code>new TMDB(token)</code>, <code>tmdb.movies.details(...)</code>, and <code>tmdb.search.movies(...)</code> continue to compile.</li>
+      <li>Endpoint methods consistently support final-argument <code>RequestConfig</code> unless there is a documented exception.</li>
+      <li>Raw query-object call sites are replaced with the shared query helper where request config is involved.</li>
+      <li>Tests cover shared transport behavior and representative request-config pass-through across multiple endpoint groups.</li>
+      <li><code>bun run typecheck</code>, <code>bun run check</code>, <code>bun test</code>, and <code>bun run build</code> pass.</li>
+      <li>Docs remain accurate and do not claim unsupported endpoint coverage.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="risks">
+    <h2 id="risks">10. Risks and Notes</h2>
+    <ul>
+      <li><strong>Compatibility risk:</strong> Endpoint constructor signatures are internal today, but classes are exported. If consumers instantiate endpoint classes directly, changing constructors may be a breaking change. Consider preserving overloads or documenting that endpoint classes are intended for the <code>TMDB</code> facade.</li>
+      <li><strong>Behavior risk:</strong> Sharing one transport client may expose stateful <code>api-core</code> behavior across endpoint groups. This is likely desirable, but tests should verify auth, default headers, retry, and custom fetch still behave as expected.</li>
+      <li><strong>Scope risk:</strong> Sweeping all endpoints can become large. If the diff grows too much, split into two PRs: shared client first, request-config parity second.</li>
+      <li><strong>Docs risk:</strong> Do not update docs before source behavior is confirmed by tests.</li>
+      <li><strong>Package risk:</strong> Subpath exports are useful but should be a later task unless the executor is explicitly asked to handle package exports.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>

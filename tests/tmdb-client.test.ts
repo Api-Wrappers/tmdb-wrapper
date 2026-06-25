@@ -103,6 +103,51 @@ describe("TMDB Client Instantiation (src)", () => {
 			expect(typeof tmdb.genre).toBe("object");
 			expect(typeof tmdb.trending).toBe("object");
 		});
+
+		it("shares one transport client across endpoint groups", () => {
+			const moviesApi = (tmdb.movies as unknown as { api: unknown }).api;
+
+			expect((tmdb.tvShows as unknown as { api: unknown }).api).toBe(moviesApi);
+			expect((tmdb.search as unknown as { api: unknown }).api).toBe(moviesApi);
+			expect((tmdb.genre as unknown as { api: unknown }).api).toBe(moviesApi);
+			expect((tmdb.account as unknown as { api: unknown }).api).toBe(moviesApi);
+		});
+	});
+
+	describe("Request Config", () => {
+		it("passes request config through while preserving endpoint query options", async () => {
+			const calls: Array<{ url: string; init?: RequestInit }> = [];
+			const tmdb = new TMDB({
+				apiKey: TMDB_API_KEY,
+				client: {
+					fetch: (async (url: string, init?: RequestInit) => {
+						calls.push({ url, init });
+
+						return new Response(JSON.stringify({ results: [] }), {
+							status: 200,
+							headers: { "content-type": "application/json" },
+						});
+					}) as typeof fetch,
+					retry: { maxAttempts: 1 },
+				},
+			});
+
+			await tmdb.tvShows.popular(
+				{ language: "en-US", page: 2 },
+				{ headers: { "x-request-id": "request-config-test" } },
+			);
+
+			expect(calls).toHaveLength(1);
+
+			const url = new URL(calls[0].url);
+			const headers = new Headers(calls[0].init?.headers);
+
+			expect(url.pathname).toBe("/3/tv/popular");
+			expect(url.searchParams.get("language")).toBe("en-US");
+			expect(url.searchParams.get("page")).toBe("2");
+			expect(url.searchParams.get("api_key")).toBe(TMDB_API_KEY);
+			expect(headers.get("x-request-id")).toBe("request-config-test");
+		});
 	});
 
 	describe("Edge Cases", () => {

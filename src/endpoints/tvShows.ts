@@ -28,7 +28,6 @@ import {
 	type Similartv,
 	type StatusResponse,
 	type TimezoneOption,
-	type TokenType,
 	type TopRatedtv,
 	type Translations,
 	type TvShowChangeValue,
@@ -48,15 +47,6 @@ const BASE_TV = "/tv";
  */
 export class TvShowsEndpoint extends BaseEndpoint {
 	/**
-	 * Constructs a new TvShowsEndpoint instance.
-	 *
-	 * @param {TokenType} auth - The authentication configuration.
-	 */
-	constructor(protected readonly auth: TokenType) {
-		super(auth);
-	}
-
-	/**
 	 * Retrieves details of a specific TV show asynchronously.
 	 *
 	 * @param {number} id - The ID of the TV show.
@@ -70,6 +60,7 @@ export class TvShowsEndpoint extends BaseEndpoint {
 		id: number,
 		appendToResponse?: T,
 		language?: string,
+		request?: RequestConfig,
 	): Promise<AppendToResponse<TvShowDetails, T, "tvShow">> {
 		const options = {
 			append_to_response: csv(appendToResponse),
@@ -78,7 +69,7 @@ export class TvShowsEndpoint extends BaseEndpoint {
 
 		return this.api.get<AppendToResponse<TvShowDetails, T, "tvShow">>(
 			`${BASE_TV}/${id}`,
-			{ query: options },
+			withQuery(options, request),
 		);
 	}
 
@@ -89,9 +80,13 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 * @returns {Promise<AlternativeTitles>} A Promise that resolves with the
 	 * alternative titles of the TV show.
 	 */
-	alternativeTitles(id: number): Promise<AlternativeTitles> {
+	alternativeTitles(
+		id: number,
+		request?: RequestConfig,
+	): Promise<AlternativeTitles> {
 		return this.api.get<AlternativeTitles>(
 			`${BASE_TV}/${id}/alternative_titles`,
+			request,
 		);
 	}
 
@@ -106,10 +101,11 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	changes(
 		id: number,
 		options?: ChangeOption,
+		request?: RequestConfig,
 	): Promise<Changes<TvShowChangeValue>> {
 		return this.api.get<Changes<TvShowChangeValue>>(
 			`${BASE_TV}/${id}/changes`,
-			{ query: options },
+			withQuery(options, request),
 		);
 	}
 
@@ -120,8 +116,11 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 * @returns {Promise<ContentRatings>} A Promise that resolves with the
 	 * content ratings of the TV show.
 	 */
-	contentRatings(id: number): Promise<ContentRatings> {
-		return this.api.get<ContentRatings>(`${BASE_TV}/${id}/content_ratings`);
+	contentRatings(id: number, request?: RequestConfig): Promise<ContentRatings> {
+		return this.api.get<ContentRatings>(
+			`${BASE_TV}/${id}/content_ratings`,
+			request,
+		);
 	}
 
 	/**
@@ -135,10 +134,11 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	aggregateCredits(
 		id: number,
 		options?: LanguageOption,
+		request?: RequestConfig,
 	): Promise<AggregateCredits> {
 		return this.api.get<AggregateCredits>(
 			`${BASE_TV}/${id}/aggregate_credits`,
-			{ query: options },
+			withQuery(options, request),
 		);
 	}
 
@@ -150,10 +150,15 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 * @returns {Promise<Credits>} A Promise that resolves with the credits of
 	 * the TV show.
 	 */
-	credits(id: number, options?: LanguageOption): Promise<Credits> {
-		return this.api.get<Credits>(`${BASE_TV}/${id}/credits`, {
-			query: options,
-		});
+	credits(
+		id: number,
+		options?: LanguageOption,
+		request?: RequestConfig,
+	): Promise<Credits> {
+		return this.api.get<Credits>(
+			`${BASE_TV}/${id}/credits`,
+			withQuery(options, request),
+		);
 	}
 
 	/**
@@ -164,9 +169,14 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 * @returns {Promise<SeasonDetails>} A Promise that resolves with the details
 	 * of the season.
 	 */
-	season(tvId: number, seasonNumber: number): Promise<SeasonDetails> {
+	season(
+		tvId: number,
+		seasonNumber: number,
+		request?: RequestConfig,
+	): Promise<SeasonDetails> {
 		return this.api.get<SeasonDetails>(
 			`${BASE_TV}/${tvId}/season/${seasonNumber}`,
+			request,
 		);
 	}
 
@@ -177,8 +187,11 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 * @returns {Promise<EpisodeGroups>} A Promise that resolves with the episode
 	 * groups of the TV show.
 	 */
-	episodeGroups(id: number): Promise<EpisodeGroups> {
-		return this.api.get<EpisodeGroups>(`${BASE_TV}/${id}/episode_groups`);
+	episodeGroups(id: number, request?: RequestConfig): Promise<EpisodeGroups> {
+		return this.api.get<EpisodeGroups>(
+			`${BASE_TV}/${id}/episode_groups`,
+			request,
+		);
 	}
 
 	/**
@@ -188,8 +201,8 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 * @returns {Promise<ExternalIds>} A Promise that resolves with the external
 	 * IDs of the TV show.
 	 */
-	externalIds(id: number): Promise<ExternalIds> {
-		return this.api.get<ExternalIds>(`${BASE_TV}/${id}/external_ids`);
+	externalIds(id: number, request?: RequestConfig): Promise<ExternalIds> {
+		return this.api.get<ExternalIds>(`${BASE_TV}/${id}/external_ids`, request);
 	}
 
 	/**
@@ -201,15 +214,20 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 * @returns {Promise<Images>} A Promise that resolves with the images of the
 	 * TV show.
 	 */
-	images(id: number, options?: TvShowImageOptions): Promise<Images> {
+	images(
+		id: number,
+		options?: TvShowImageOptions,
+		request?: RequestConfig,
+	): Promise<Images> {
 		const computedOptions = {
 			include_image_language: csv(options?.include_image_language),
 			language: options?.language,
 		};
 
-		return this.api.get<Images>(`${BASE_TV}/${id}/images`, {
-			query: computedOptions,
-		});
+		return this.api.get<Images>(
+			`${BASE_TV}/${id}/images`,
+			withQuery(computedOptions, request),
+		);
 	}
 
 	/**
@@ -219,8 +237,8 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 * @returns {Promise<Keywords>} A Promise that resolves with the keywords of
 	 * the TV show.
 	 */
-	keywords(id: number): Promise<Keywords> {
-		return this.api.get<Keywords>(`${BASE_TV}/${id}/keywords`);
+	keywords(id: number, request?: RequestConfig): Promise<Keywords> {
+		return this.api.get<Keywords>(`${BASE_TV}/${id}/keywords`, request);
 	}
 
 	/**
@@ -235,10 +253,12 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	recommendations(
 		id: number,
 		options?: LanguageOption & PageOption,
+		request?: RequestConfig,
 	): Promise<Recommendations> {
-		return this.api.get<Recommendations>(`${BASE_TV}/${id}/recommendations`, {
-			query: options,
-		});
+		return this.api.get<Recommendations>(
+			`${BASE_TV}/${id}/recommendations`,
+			withQuery(options, request),
+		);
 	}
 
 	/**
@@ -250,10 +270,15 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 * @returns {Promise<Reviews>} A Promise that resolves with the reviews of
 	 * the TV show.
 	 */
-	reviews(id: number, options?: LanguageOption & PageOption): Promise<Reviews> {
-		return this.api.get<Reviews>(`${BASE_TV}/${id}/reviews`, {
-			query: options,
-		});
+	reviews(
+		id: number,
+		options?: LanguageOption & PageOption,
+		request?: RequestConfig,
+	): Promise<Reviews> {
+		return this.api.get<Reviews>(
+			`${BASE_TV}/${id}/reviews`,
+			withQuery(options, request),
+		);
 	}
 
 	/**
@@ -264,9 +289,13 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 * @returns {Promise<ScreenedTheatrically>} A Promise that resolves with
 	 * information about theatrical screenings.
 	 */
-	screenedTheatrically(id: number): Promise<ScreenedTheatrically> {
+	screenedTheatrically(
+		id: number,
+		request?: RequestConfig,
+	): Promise<ScreenedTheatrically> {
 		return this.api.get<ScreenedTheatrically>(
 			`${BASE_TV}/${id}/screened_theatrically`,
+			request,
 		);
 	}
 
@@ -282,10 +311,12 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	similar(
 		id: number,
 		options?: LanguageOption & PageOption,
+		request?: RequestConfig,
 	): Promise<Similartv> {
-		return this.api.get<Similartv>(`${BASE_TV}/${id}/similar`, {
-			query: options,
-		});
+		return this.api.get<Similartv>(
+			`${BASE_TV}/${id}/similar`,
+			withQuery(options, request),
+		);
 	}
 
 	/**
@@ -295,8 +326,8 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 * @returns {Promise<Translations>} A Promise that resolves with the
 	 * translations of the TV show.
 	 */
-	translations(id: number): Promise<Translations> {
-		return this.api.get<Translations>(`${BASE_TV}/${id}/translations`);
+	translations(id: number, request?: RequestConfig): Promise<Translations> {
+		return this.api.get<Translations>(`${BASE_TV}/${id}/translations`, request);
 	}
 
 	/**
@@ -308,15 +339,20 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 * @returns {Promise<Videos>} A Promise that resolves with the videos of the
 	 * TV show.
 	 */
-	videos(id: number, options?: TvShowVideoOptions): Promise<Videos> {
+	videos(
+		id: number,
+		options?: TvShowVideoOptions,
+		request?: RequestConfig,
+	): Promise<Videos> {
 		const computedOptions = {
 			include_video_language: csv(options?.include_video_language),
 			language: options?.language,
 		};
 
-		return this.api.get<Videos>(`${BASE_TV}/${id}/videos`, {
-			query: computedOptions,
-		});
+		return this.api.get<Videos>(
+			`${BASE_TV}/${id}/videos`,
+			withQuery(computedOptions, request),
+		);
 	}
 
 	/**
@@ -327,8 +363,11 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 * @returns {Promise<WatchProviders>} A Promise that resolves with the watch
 	 * providers of the TV show.
 	 */
-	watchProviders(id: number): Promise<WatchProviders> {
-		return this.api.get<WatchProviders>(`${BASE_TV}/${id}/watch/providers`);
+	watchProviders(id: number, request?: RequestConfig): Promise<WatchProviders> {
+		return this.api.get<WatchProviders>(
+			`${BASE_TV}/${id}/watch/providers`,
+			request,
+		);
 	}
 
 	/**
@@ -399,8 +438,8 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 * @returns {Promise<Latesttv>} A Promise that resolves with the latest TV
 	 * show.
 	 */
-	latest(): Promise<Latesttv> {
-		return this.api.get<Latesttv>(`${BASE_TV}/latest`);
+	latest(request?: RequestConfig): Promise<Latesttv> {
+		return this.api.get<Latesttv>(`${BASE_TV}/latest`, request);
 	}
 
 	/**
@@ -413,10 +452,12 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 */
 	onTheAir(
 		options?: PageOption & LanguageOption & TimezoneOption,
+		request?: RequestConfig,
 	): Promise<OnTheAir> {
-		return this.api.get<OnTheAir>(`${BASE_TV}/on_the_air`, {
-			query: options,
-		});
+		return this.api.get<OnTheAir>(
+			`${BASE_TV}/on_the_air`,
+			withQuery(options, request),
+		);
 	}
 
 	/**
@@ -429,10 +470,12 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 */
 	airingToday(
 		options?: PageOption & LanguageOption & TimezoneOption,
+		request?: RequestConfig,
 	): Promise<tvAiringToday> {
-		return this.api.get<tvAiringToday>(`${BASE_TV}/airing_today`, {
-			query: options,
-		});
+		return this.api.get<tvAiringToday>(
+			`${BASE_TV}/airing_today`,
+			withQuery(options, request),
+		);
 	}
 
 	/**
@@ -443,10 +486,14 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 * @returns {Promise<Populartv>} A Promise that resolves with popular TV
 	 * shows.
 	 */
-	popular(options?: PageOption & LanguageOption): Promise<Populartv> {
-		return this.api.get<Populartv>(`${BASE_TV}/popular`, {
-			query: options,
-		});
+	popular(
+		options?: PageOption & LanguageOption,
+		request?: RequestConfig,
+	): Promise<Populartv> {
+		return this.api.get<Populartv>(
+			`${BASE_TV}/popular`,
+			withQuery(options, request),
+		);
 	}
 
 	/**
@@ -457,9 +504,13 @@ export class TvShowsEndpoint extends BaseEndpoint {
 	 * @returns {Promise<TopRatedtv>} A Promise that resolves with top-rated TV
 	 * shows.
 	 */
-	topRated(options?: PageOption & LanguageOption): Promise<TopRatedtv> {
-		return this.api.get<TopRatedtv>(`${BASE_TV}/top_rated`, {
-			query: options,
-		});
+	topRated(
+		options?: PageOption & LanguageOption,
+		request?: RequestConfig,
+	): Promise<TopRatedtv> {
+		return this.api.get<TopRatedtv>(
+			`${BASE_TV}/top_rated`,
+			withQuery(options, request),
+		);
 	}
 }

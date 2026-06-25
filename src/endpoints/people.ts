@@ -16,7 +16,6 @@ import {
 	type PersonTvShowCredit,
 	type PopularPersons,
 	type TaggedImages,
-	type TokenType,
 } from "../@types";
 import { csv, type RequestConfig, withQuery } from "../utils";
 
@@ -26,15 +25,6 @@ const BASE_PERSON = "/person";
  * Represents an endpoint for accessing information about people.
  */
 export class PeopleEndpoint extends BaseEndpoint {
-	/**
-	 * Constructs a new PeopleEndpoint instance.
-	 *
-	 * @param {TokenType} auth - The authentication configuration.
-	 */
-	constructor(protected readonly auth: TokenType) {
-		super(auth);
-	}
-
 	/**
 	 * Retrieves details of a specific person asynchronously.
 	 *

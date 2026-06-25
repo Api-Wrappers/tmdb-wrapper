@@ -11,7 +11,6 @@ import {
 	type LanguageOption,
 	type SeasonDetails,
 	type SeasonSelection,
-	type TokenType,
 	type Translations,
 	type TvSeasonAccountStateOptions,
 	type TvSeasonAccountStates,
@@ -31,15 +30,6 @@ const BASE_SEASON = (seasonSelection: SeasonSelection): string => {
  * Represents an endpoint for accessing TV season-related information.
  */
 export class TvSeasonsEndpoint extends BaseEndpoint {
-	/**
-	 * Constructs a new TvSeasonsEndpoint instance.
-	 *
-	 * @param {TokenType} auth - The authentication configuration.
-	 */
-	constructor(protected readonly auth: TokenType) {
-		super(auth);
-	}
-
 	/**
 	 * Retrieves details of a specific TV season asynchronously.
 	 *

@@ -9,7 +9,7 @@ Note: the property is `tmdb.review` (singular), not `tmdb.reviews`.
 ### `details`
 
 ```typescript
-tmdb.review.details(id: string): Promise<ReviewDetails>
+tmdb.review.details(id: string, request?: RequestConfig): Promise<ReviewDetails>
 ```
 
 Fetch a review by its TMDB review ID.

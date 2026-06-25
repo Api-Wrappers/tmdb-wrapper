@@ -7,7 +7,10 @@ Access via `tmdb.keywords` (instance of `KeywordsEndpoint`).
 ### `details`
 
 ```typescript
-tmdb.keywords.details(keywordId: number): Promise<Keyword>
+tmdb.keywords.details(
+  keywordId: number,
+  request?: RequestConfig,
+): Promise<Keyword>
 ```
 
 ```typescript
@@ -28,6 +31,7 @@ tmdb.keywords.belongingMovies(
     language?: string;
     page?: number;
   },
+  request?: RequestConfig,
 ): Promise<BelongingMovies>
 ```
 

@@ -6,7 +6,6 @@ import {
 	type ConfigurationLanguage,
 	type ConfigurationTimezone,
 	type LanguageOption,
-	type TokenType,
 } from "../@types";
 import { type RequestConfig, withQuery } from "../utils";
 
@@ -14,15 +13,6 @@ import { type RequestConfig, withQuery } from "../utils";
  * Represents an endpoint for retrieving current system configuration.
  */
 export class ConfigurationEndpoint extends BaseEndpoint {
-	/**
-	 * Constructs a new ConfigurationEndpoint instance.
-	 *
-	 * @param {TokenType} auth - The authentication configuration.
-	 */
-	constructor(protected readonly auth: TokenType) {
-		super(auth);
-	}
-
 	/**
 	 * Retrieves the current system configuration asynchronously.
 	 *

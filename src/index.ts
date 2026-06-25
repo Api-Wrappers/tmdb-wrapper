@@ -1,4 +1,5 @@
 import type { TokenType } from "./@types";
+import { TMDBApiClient } from "./client";
 import {
 	AccountEndpoint,
 	AuthenticationEndpoint,
@@ -55,31 +56,33 @@ class TMDB {
 	readonly watchProviders: WatchProvidersEndpoint;
 
 	constructor(auth: TokenType) {
-		this.account = new AccountEndpoint(auth);
-		this.authentication = new AuthenticationEndpoint(auth);
-		this.certification = new CertificationEndpoint(auth);
-		this.changes = new ChangeEndpoint(auth);
-		this.collections = new CollectionsEndpoint(auth);
-		this.companies = new CompaniesEndpoint(auth);
-		this.configuration = new ConfigurationEndpoint(auth);
-		this.credits = new CreditsEndpoint(auth);
-		this.discover = new DiscoverEndpoint(auth);
-		this.find = new FindEndpoint(auth);
-		this.genre = new GenreEndpoint(auth);
-		this.guestSessions = new GuestSessionsEndpoint(auth);
-		this.keywords = new KeywordsEndpoint(auth);
-		this.lists = new ListsEndpoint(auth);
-		this.movies = new MoviesEndpoint(auth);
-		this.networks = new NetworksEndpoint(auth);
-		this.people = new PeopleEndpoint(auth);
-		this.review = new ReviewEndpoint(auth);
-		this.search = new SearchEndpoint(auth);
-		this.trending = new TrendingEndpoint(auth);
-		this.tvEpisodeGroups = new TvEpisodeGroupsEndpoint(auth);
-		this.tvEpisodes = new TvEpisodesEndpoint(auth);
-		this.tvSeasons = new TvSeasonsEndpoint(auth);
-		this.tvShows = new TvShowsEndpoint(auth);
-		this.watchProviders = new WatchProvidersEndpoint(auth);
+		const api = new TMDBApiClient(auth);
+
+		this.account = new AccountEndpoint(api);
+		this.authentication = new AuthenticationEndpoint(api);
+		this.certification = new CertificationEndpoint(api);
+		this.changes = new ChangeEndpoint(api);
+		this.collections = new CollectionsEndpoint(api);
+		this.companies = new CompaniesEndpoint(api);
+		this.configuration = new ConfigurationEndpoint(api);
+		this.credits = new CreditsEndpoint(api);
+		this.discover = new DiscoverEndpoint(api);
+		this.find = new FindEndpoint(api);
+		this.genre = new GenreEndpoint(api);
+		this.guestSessions = new GuestSessionsEndpoint(api);
+		this.keywords = new KeywordsEndpoint(api);
+		this.lists = new ListsEndpoint(api);
+		this.movies = new MoviesEndpoint(api);
+		this.networks = new NetworksEndpoint(api);
+		this.people = new PeopleEndpoint(api);
+		this.review = new ReviewEndpoint(api);
+		this.search = new SearchEndpoint(api);
+		this.trending = new TrendingEndpoint(api);
+		this.tvEpisodeGroups = new TvEpisodeGroupsEndpoint(api);
+		this.tvEpisodes = new TvEpisodesEndpoint(api);
+		this.tvSeasons = new TvSeasonsEndpoint(api);
+		this.tvShows = new TvShowsEndpoint(api);
+		this.watchProviders = new WatchProvidersEndpoint(api);
 	}
 }
 

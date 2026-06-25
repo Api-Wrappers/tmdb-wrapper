@@ -9,7 +9,9 @@ Returns streaming availability data powered by JustWatch.
 ### `movie`
 
 ```typescript
-tmdb.watchProviders.movie(): Promise<WatchProviderListResponse>
+tmdb.watchProviders.movie(
+  request?: RequestConfig,
+): Promise<WatchProviderListResponse>
 ```
 
 Returns all watch providers available for movies.
@@ -19,7 +21,7 @@ Returns all watch providers available for movies.
 ### `tv`
 
 ```typescript
-tmdb.watchProviders.tv(): Promise<WatchProviderListResponse>
+tmdb.watchProviders.tv(request?: RequestConfig): Promise<WatchProviderListResponse>
 ```
 
 Returns all watch providers available for TV shows.
@@ -29,7 +31,7 @@ Returns all watch providers available for TV shows.
 ### `regions`
 
 ```typescript
-tmdb.watchProviders.regions(): Promise<WatchRegionsResponse>
+tmdb.watchProviders.regions(request?: RequestConfig): Promise<WatchRegionsResponse>
 ```
 
 Returns all available regions.

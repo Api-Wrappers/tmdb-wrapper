@@ -13,7 +13,6 @@ import {
 	type RatingBody,
 	type SessionOrGuestSessionOption,
 	type StatusResponse,
-	type TokenType,
 	type TvEpisodeChangeValue,
 	type TvEpisodeCredit,
 	type TvEpisodeImageSearchOptions,
@@ -31,15 +30,6 @@ const BASE_EPISODE = (episodeSelection: EpisodeSelection): string => {
  * Represents an endpoint for accessing TV episode-related information.
  */
 export class TvEpisodesEndpoint extends BaseEndpoint {
-	/**
-	 * Constructs a new TvEpisodesEndpoint instance.
-	 *
-	 * @param {TokenType} auth - The authentication configuration.
-	 */
-	constructor(protected readonly auth: TokenType) {
-		super(auth);
-	}
-
 	/**
 	 * Retrieves details of a specific TV episode asynchronously.
 	 *

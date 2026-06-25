@@ -11,7 +11,6 @@ import {
 	type AccountWatchlistRequest,
 	BaseEndpoint,
 	type SessionIdOption,
-	type TokenType,
 } from "../@types";
 import { type RequestConfig, withQuery } from "../utils";
 
@@ -27,15 +26,6 @@ import { type RequestConfig, withQuery } from "../utils";
  * it for subsequent requests.
  */
 export class AccountEndpoint extends BaseEndpoint {
-	/**
-	 * Constructs a new AccountEndpoint instance.
-	 *
-	 * @param {TokenType} access_token - The access token used for authentication.
-	 */
-	constructor(protected readonly access_token: TokenType) {
-		super(access_token);
-	}
-
 	/**
 	 * Retrieves account details asynchronously.
 	 *

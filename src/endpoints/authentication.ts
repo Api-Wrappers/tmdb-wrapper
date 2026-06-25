@@ -8,7 +8,6 @@ import {
 	type RequestTokenResponse,
 	type SessionResponse,
 	type StatusResponse,
-	type TokenType,
 	type ValidateKeyResponse,
 } from "../@types";
 import type { RequestConfig } from "../utils";
@@ -19,10 +18,6 @@ const BASE_AUTHENTICATION = "/authentication";
  * Represents TMDB v3 authentication and session endpoints.
  */
 export class AuthenticationEndpoint extends BaseEndpoint {
-	constructor(protected readonly auth: TokenType) {
-		super(auth);
-	}
-
 	/**
 	 * Validates the configured TMDB API key or read access token.
 	 */

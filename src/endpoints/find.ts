@@ -2,22 +2,13 @@ import {
 	BaseEndpoint,
 	type ExternalIdOptions,
 	type FindResult,
-	type TokenType,
 } from "../@types";
+import { type RequestConfig, withQuery } from "../utils";
 
 /**
  * Represents an endpoint for finding media by external ID.
  */
 export class FindEndpoint extends BaseEndpoint {
-	/**
-	 * Constructs a new FindEndpoint instance.
-	 *
-	 * @param {TokenType} auth - The authentication configuration.
-	 */
-	constructor(protected readonly auth: TokenType) {
-		super(auth);
-	}
-
 	/**
 	 * Retrieves media by external ID asynchronously.
 	 *
@@ -27,9 +18,14 @@ export class FindEndpoint extends BaseEndpoint {
 	 * @returns {Promise<FindResult>} A Promise that resolves with the result of
 	 * the find operation.
 	 */
-	byId(externalId: string, options: ExternalIdOptions): Promise<FindResult> {
-		return this.api.get<FindResult>(`/find/${externalId}`, {
-			query: options,
-		});
+	byId(
+		externalId: string,
+		options: ExternalIdOptions,
+		request?: RequestConfig,
+	): Promise<FindResult> {
+		return this.api.get<FindResult>(
+			`/find/${externalId}`,
+			withQuery(options, request),
+		);
 	}
 }

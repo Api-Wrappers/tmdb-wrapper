@@ -9,7 +9,7 @@ Note: the property is `tmdb.certification` (singular), not `tmdb.certifications`
 ### `movies`
 
 ```typescript
-tmdb.certification.movies(): Promise<Certifications>
+tmdb.certification.movies(request?: RequestConfig): Promise<Certifications>
 ```
 
 Returns certification systems for movies, keyed by country code.
@@ -25,7 +25,7 @@ certs.certifications['US']; // Certification[]
 ### `tv`
 
 ```typescript
-tmdb.certification.tv(): Promise<Certifications>
+tmdb.certification.tv(request?: RequestConfig): Promise<Certifications>
 ```
 
 Returns certification systems for TV shows, keyed by country code.

@@ -11,6 +11,7 @@ tmdb.tvShows.details(
   id: number,
   appendToResponse?: AppendToResponseTvKey[],
   language?: string,
+  request?: RequestConfig,
 ): Promise<TvShowDetails>
 ```
 
@@ -30,7 +31,10 @@ show.credits.cast;
 ### `alternativeTitles`
 
 ```typescript
-tmdb.tvShows.alternativeTitles(id: number): Promise<AlternativeTitles>
+tmdb.tvShows.alternativeTitles(
+  id: number,
+  request?: RequestConfig,
+): Promise<AlternativeTitles>
 ```
 
 ---
@@ -41,6 +45,7 @@ tmdb.tvShows.alternativeTitles(id: number): Promise<AlternativeTitles>
 tmdb.tvShows.aggregateCredits(
   id: number,
   options?: { language?: string },
+  request?: RequestConfig,
 ): Promise<AggregateCredits>
 ```
 
@@ -54,6 +59,7 @@ Returns cast and crew aggregated across all seasons.
 tmdb.tvShows.changes(
   id: number,
   options?: { page?: number; start_date?: string; end_date?: string },
+  request?: RequestConfig,
 ): Promise<Changes<TvShowChangeValue>>
 ```
 
@@ -62,7 +68,10 @@ tmdb.tvShows.changes(
 ### `contentRatings`
 
 ```typescript
-tmdb.tvShows.contentRatings(id: number): Promise<ContentRatings>
+tmdb.tvShows.contentRatings(
+  id: number,
+  request?: RequestConfig,
+): Promise<ContentRatings>
 ```
 
 ---
@@ -73,6 +82,7 @@ tmdb.tvShows.contentRatings(id: number): Promise<ContentRatings>
 tmdb.tvShows.credits(
   id: number,
   options?: { language?: string },
+  request?: RequestConfig,
 ): Promise<Credits>
 ```
 
@@ -81,7 +91,11 @@ tmdb.tvShows.credits(
 ### `season`
 
 ```typescript
-tmdb.tvShows.season(tvId: number, seasonNumber: number): Promise<SeasonDetails>
+tmdb.tvShows.season(
+  tvId: number,
+  seasonNumber: number,
+  request?: RequestConfig,
+): Promise<SeasonDetails>
 ```
 
 Shortcut to fetch a season's details without going through `tmdb.tvSeasons`.
@@ -96,7 +110,10 @@ season1.episodes; // Episode[]
 ### `episodeGroups`
 
 ```typescript
-tmdb.tvShows.episodeGroups(id: number): Promise<EpisodeGroups>
+tmdb.tvShows.episodeGroups(
+  id: number,
+  request?: RequestConfig,
+): Promise<EpisodeGroups>
 ```
 
 ---
@@ -104,7 +121,7 @@ tmdb.tvShows.episodeGroups(id: number): Promise<EpisodeGroups>
 ### `externalIds`
 
 ```typescript
-tmdb.tvShows.externalIds(id: number): Promise<ExternalIds>
+tmdb.tvShows.externalIds(id: number, request?: RequestConfig): Promise<ExternalIds>
 ```
 
 ---
@@ -115,6 +132,7 @@ tmdb.tvShows.externalIds(id: number): Promise<ExternalIds>
 tmdb.tvShows.images(
   id: number,
   options?: { language?: string; include_image_language?: string[] },
+  request?: RequestConfig,
 ): Promise<Images>
 ```
 
@@ -123,7 +141,7 @@ tmdb.tvShows.images(
 ### `keywords`
 
 ```typescript
-tmdb.tvShows.keywords(id: number): Promise<Keywords>
+tmdb.tvShows.keywords(id: number, request?: RequestConfig): Promise<Keywords>
 ```
 
 ---
@@ -134,6 +152,7 @@ tmdb.tvShows.keywords(id: number): Promise<Keywords>
 tmdb.tvShows.recommendations(
   id: number,
   options?: { language?: string; page?: number },
+  request?: RequestConfig,
 ): Promise<Recommendations>
 ```
 
@@ -145,6 +164,7 @@ tmdb.tvShows.recommendations(
 tmdb.tvShows.reviews(
   id: number,
   options?: { language?: string; page?: number },
+  request?: RequestConfig,
 ): Promise<Reviews>
 ```
 
@@ -153,7 +173,10 @@ tmdb.tvShows.reviews(
 ### `screenedTheatrically`
 
 ```typescript
-tmdb.tvShows.screenedTheatrically(id: number): Promise<ScreenedTheatrically>
+tmdb.tvShows.screenedTheatrically(
+  id: number,
+  request?: RequestConfig,
+): Promise<ScreenedTheatrically>
 ```
 
 ---
@@ -164,6 +187,7 @@ tmdb.tvShows.screenedTheatrically(id: number): Promise<ScreenedTheatrically>
 tmdb.tvShows.similar(
   id: number,
   options?: { language?: string; page?: number },
+  request?: RequestConfig,
 ): Promise<Similartv>
 ```
 
@@ -172,7 +196,10 @@ tmdb.tvShows.similar(
 ### `translations`
 
 ```typescript
-tmdb.tvShows.translations(id: number): Promise<Translations>
+tmdb.tvShows.translations(
+  id: number,
+  request?: RequestConfig,
+): Promise<Translations>
 ```
 
 ---
@@ -183,6 +210,7 @@ tmdb.tvShows.translations(id: number): Promise<Translations>
 tmdb.tvShows.videos(
   id: number,
   options?: { language?: string; include_video_language?: string[] },
+  request?: RequestConfig,
 ): Promise<Videos>
 ```
 
@@ -191,7 +219,10 @@ tmdb.tvShows.videos(
 ### `watchProviders`
 
 ```typescript
-tmdb.tvShows.watchProviders(id: number): Promise<WatchProviders>
+tmdb.tvShows.watchProviders(
+  id: number,
+  request?: RequestConfig,
+): Promise<WatchProviders>
 ```
 
 Streaming availability powered by JustWatch.
@@ -250,7 +281,7 @@ tmdb.tvShows.deleteRating(
 ### `latest`
 
 ```typescript
-tmdb.tvShows.latest(): Promise<Latesttv>
+tmdb.tvShows.latest(request?: RequestConfig): Promise<Latesttv>
 ```
 
 ---
@@ -260,6 +291,7 @@ tmdb.tvShows.latest(): Promise<Latesttv>
 ```typescript
 tmdb.tvShows.onTheAir(
   options?: { page?: number; language?: string; timezone?: string },
+  request?: RequestConfig,
 ): Promise<OnTheAir>
 ```
 
@@ -270,6 +302,7 @@ tmdb.tvShows.onTheAir(
 ```typescript
 tmdb.tvShows.airingToday(
   options?: { page?: number; language?: string; timezone?: string },
+  request?: RequestConfig,
 ): Promise<tvAiringToday>
 ```
 
@@ -280,6 +313,7 @@ tmdb.tvShows.airingToday(
 ```typescript
 tmdb.tvShows.popular(
   options?: { page?: number; language?: string },
+  request?: RequestConfig,
 ): Promise<Populartv>
 ```
 
@@ -290,5 +324,6 @@ tmdb.tvShows.popular(
 ```typescript
 tmdb.tvShows.topRated(
   options?: { page?: number; language?: string },
+  request?: RequestConfig,
 ): Promise<TopRatedtv>
 ```

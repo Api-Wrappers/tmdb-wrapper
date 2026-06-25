@@ -1,18 +1,10 @@
-import { BaseEndpoint, type ReviewDetails, type TokenType } from "../@types";
+import { BaseEndpoint, type ReviewDetails } from "../@types";
+import type { RequestConfig } from "../utils";
 
 /**
  * Represents an endpoint for accessing review details.
  */
 export class ReviewEndpoint extends BaseEndpoint {
-	/**
-	 * Constructs a new ReviewEndpoint instance.
-	 *
-	 * @param {TokenType} auth - The authentication configuration.
-	 */
-	constructor(protected readonly auth: TokenType) {
-		super(auth);
-	}
-
 	/**
 	 * Retrieves details of a specific review asynchronously.
 	 *
@@ -20,7 +12,7 @@ export class ReviewEndpoint extends BaseEndpoint {
 	 * @returns {Promise<ReviewDetails>} A Promise that resolves with the details
 	 * of the review.
 	 */
-	details(id: string): Promise<ReviewDetails> {
-		return this.api.get<ReviewDetails>(`/review/${id}`);
+	details(id: string, request?: RequestConfig): Promise<ReviewDetails> {
+		return this.api.get<ReviewDetails>(`/review/${id}`, request);
 	}
 }

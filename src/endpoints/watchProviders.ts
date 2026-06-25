@@ -1,31 +1,25 @@
 import {
 	BaseEndpoint,
-	type TokenType,
 	type WatchProviderListResponse,
 	type WatchRegionsResponse,
 } from "../@types";
+import type { RequestConfig } from "../utils";
 
 /**
  * Represents an endpoint for accessing watch provider information.
  */
 export class WatchProvidersEndpoint extends BaseEndpoint {
 	/**
-	 * Constructs a new WatchProvidersEndpoint instance.
-	 *
-	 * @param {TokenType} access_token - The access token used for authentication.
-	 */
-	constructor(protected readonly access_token: TokenType) {
-		super(access_token);
-	}
-
-	/**
 	 * Retrieves a list of watch providers for movies.
 	 *
 	 * @returns {Promise<WatchProviderListResponse>} A Promise that resolves with
 	 * the list of movie watch providers.
 	 */
-	movie(): Promise<WatchProviderListResponse> {
-		return this.api.get<WatchProviderListResponse>("/watch/providers/movie");
+	movie(request?: RequestConfig): Promise<WatchProviderListResponse> {
+		return this.api.get<WatchProviderListResponse>(
+			"/watch/providers/movie",
+			request,
+		);
 	}
 
 	/**
@@ -34,8 +28,11 @@ export class WatchProvidersEndpoint extends BaseEndpoint {
 	 * @returns {Promise<WatchProviderListResponse>} A Promise that resolves with
 	 * the list of TV watch providers.
 	 */
-	tv(): Promise<WatchProviderListResponse> {
-		return this.api.get<WatchProviderListResponse>("/watch/providers/tv");
+	tv(request?: RequestConfig): Promise<WatchProviderListResponse> {
+		return this.api.get<WatchProviderListResponse>(
+			"/watch/providers/tv",
+			request,
+		);
 	}
 
 	/**
@@ -44,7 +41,10 @@ export class WatchProvidersEndpoint extends BaseEndpoint {
 	 * @returns {Promise<WatchRegionsResponse>} A Promise that resolves with the
 	 * list of available regions.
 	 */
-	regions(): Promise<WatchRegionsResponse> {
-		return this.api.get<WatchRegionsResponse>("/watch/providers/regions");
+	regions(request?: RequestConfig): Promise<WatchRegionsResponse> {
+		return this.api.get<WatchRegionsResponse>(
+			"/watch/providers/regions",
+			request,
+		);
 	}
 }

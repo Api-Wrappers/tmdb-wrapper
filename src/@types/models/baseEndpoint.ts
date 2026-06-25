@@ -1,5 +1,4 @@
-import { TMDBApiClient } from "../../client";
-import type { TokenType } from "../types";
+import type { TMDBApiClient } from "../../client";
 
 /**
  * Base class for all TMDB API endpoints.
@@ -15,11 +14,9 @@ export class BaseEndpoint {
 	/**
 	 * Create a new endpoint instance.
 	 *
-	 * @param {TokenType} auth - Authentication information.
-	 * - If a string: treated as a v4 API Read Access Token (Bearer token).
-	 * - If an object: can include an API key and/or access token.
+	 * @param {TMDBApiClient} api - Shared TMDB API client instance.
 	 */
-	constructor(protected readonly auth: TokenType) {
-		this.api = new TMDBApiClient(auth);
+	constructor(api: TMDBApiClient) {
+		this.api = api;
 	}
 }

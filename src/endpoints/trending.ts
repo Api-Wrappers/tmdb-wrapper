@@ -3,7 +3,6 @@ import {
 	type LanguageOption,
 	type PageOption,
 	type TimeWindow,
-	type TokenType,
 	type TrendingMediaType,
 	type TrendingResults,
 } from "../@types";
@@ -13,15 +12,6 @@ import { type RequestConfig, withQuery } from "../utils";
  * Represents an endpoint for retrieving trending content.
  */
 export class TrendingEndpoint extends BaseEndpoint {
-	/**
-	 * Constructs a new TrendingEndpoint instance.
-	 *
-	 * @param {TokenType} auth - The authentication configuration.
-	 */
-	constructor(protected readonly auth: TokenType) {
-		super(auth);
-	}
-
 	/**
 	 * Retrieves trending content asynchronously based on media type and time
 	 * window.

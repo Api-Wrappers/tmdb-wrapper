@@ -3,8 +3,8 @@ import {
 	type BelongingMovies,
 	type Keyword,
 	type KeywordsOptions,
-	type TokenType,
 } from "../@types";
+import { type RequestConfig, withQuery } from "../utils";
 
 const BASE_KEYWORD = "/keyword";
 
@@ -13,23 +13,14 @@ const BASE_KEYWORD = "/keyword";
  */
 export class KeywordsEndpoint extends BaseEndpoint {
 	/**
-	 * Constructs a new KeywordsEndpoint instance.
-	 *
-	 * @param {TokenType} auth - The authentication configuration.
-	 */
-	constructor(protected readonly auth: TokenType) {
-		super(auth);
-	}
-
-	/**
 	 * Retrieves details of a specific keyword asynchronously.
 	 *
 	 * @param {number} keywordId - The ID of the keyword.
 	 * @returns {Promise<Keyword>} A Promise that resolves with the details of
 	 * the keyword.
 	 */
-	details(keywordId: number): Promise<Keyword> {
-		return this.api.get<Keyword>(`${BASE_KEYWORD}/${keywordId}`);
+	details(keywordId: number, request?: RequestConfig): Promise<Keyword> {
+		return this.api.get<Keyword>(`${BASE_KEYWORD}/${keywordId}`, request);
 	}
 
 	/**
@@ -44,12 +35,11 @@ export class KeywordsEndpoint extends BaseEndpoint {
 	belongingMovies(
 		keywordId: number,
 		options?: KeywordsOptions,
+		request?: RequestConfig,
 	): Promise<BelongingMovies> {
 		return this.api.get<BelongingMovies>(
 			`${BASE_KEYWORD}/${keywordId}/movies`,
-			{
-				query: options,
-			},
+			withQuery(options, request),
 		);
 	}
 }

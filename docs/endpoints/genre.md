@@ -9,7 +9,10 @@ Note: the property is `tmdb.genre` (singular), not `tmdb.genres`.
 ### `movies`
 
 ```typescript
-tmdb.genre.movies(options?: { language?: string }): Promise<Genres>
+tmdb.genre.movies(
+  options?: { language?: string },
+  request?: RequestConfig,
+): Promise<Genres>
 ```
 
 ```typescript
@@ -22,7 +25,10 @@ genres.genres; // Array<{ id: number; name: string }>
 ### `tv`
 
 ```typescript
-tmdb.genre.tv(options?: { language?: string }): Promise<Genres>
+tmdb.genre.tv(
+  options?: { language?: string },
+  request?: RequestConfig,
+): Promise<Genres>
 ```
 
 ## Common Genre IDs (Movies)

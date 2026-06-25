@@ -9,7 +9,7 @@ Look up a credit record directly by its TMDB credit ID.
 ### `getById`
 
 ```typescript
-tmdb.credits.getById(id: string): Promise<CreditResponse>
+tmdb.credits.getById(id: string, request?: RequestConfig): Promise<CreditResponse>
 ```
 
 ```typescript

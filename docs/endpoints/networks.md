@@ -7,7 +7,7 @@ Access via `tmdb.networks` (instance of `NetworksEndpoint`).
 ### `details`
 
 ```typescript
-tmdb.networks.details(id: number): Promise<NetworkDetails>
+tmdb.networks.details(id: number, request?: RequestConfig): Promise<NetworkDetails>
 ```
 
 ```typescript
@@ -23,7 +23,10 @@ network.origin_country;
 ### `alternativeNames`
 
 ```typescript
-tmdb.networks.alternativeNames(id: number): Promise<AlternativeNames>
+tmdb.networks.alternativeNames(
+  id: number,
+  request?: RequestConfig,
+): Promise<AlternativeNames>
 ```
 
 ---
@@ -31,7 +34,7 @@ tmdb.networks.alternativeNames(id: number): Promise<AlternativeNames>
 ### `images`
 
 ```typescript
-tmdb.networks.images(id: number): Promise<NetworkImages>
+tmdb.networks.images(id: number, request?: RequestConfig): Promise<NetworkImages>
 ```
 
 ## Types

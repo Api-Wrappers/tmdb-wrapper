@@ -4,7 +4,6 @@ import {
 	type DetailedCollection,
 	type ImageCollection,
 	type LanguageOption,
-	type TokenType,
 	type Translations,
 } from "../@types";
 import { csv, type RequestConfig, withQuery } from "../utils";
@@ -15,15 +14,6 @@ const BASE_COLLECTION = "/collection";
  * Represents an endpoint for accessing collections and their details.
  */
 export class CollectionsEndpoint extends BaseEndpoint {
-	/**
-	 * Constructs a new CollectionsEndpoint instance.
-	 *
-	 * @param {TokenType} auth - The authentication configuration.
-	 */
-	constructor(protected readonly auth: TokenType) {
-		super(auth);
-	}
-
 	/**
 	 * Retrieves details of a specific collection asynchronously.
 	 *

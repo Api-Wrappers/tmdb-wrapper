@@ -27,7 +27,6 @@ import {
 	type SessionOrGuestSessionOption,
 	type SimilarMovies,
 	type StatusResponse,
-	type TokenType,
 	type TopRatedMovies,
 	type Translations,
 	type UpcomingMovies,
@@ -42,15 +41,6 @@ const BASE_MOVIE = "/movie";
  * Represents an endpoint for accessing movie-related information.
  */
 export class MoviesEndpoint extends BaseEndpoint {
-	/**
-	 * Constructs a new MoviesEndpoint instance.
-	 *
-	 * @param {TokenType} auth - The authentication configuration.
-	 */
-	constructor(protected readonly auth: TokenType) {
-		super(auth);
-	}
-
 	/**
 	 * Retrieves details of a specific movie asynchronously.
 	 *

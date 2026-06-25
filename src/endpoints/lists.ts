@@ -9,7 +9,6 @@ import {
 	type ListItemStatus,
 	type ListItemStatusOptions,
 	type ListStatusResponse,
-	type TokenType,
 } from "../@types";
 import { type RequestConfig, withQuery } from "../utils";
 
@@ -19,10 +18,6 @@ const BASE_LIST = "/list";
  * Represents TMDB v3 list management endpoints.
  */
 export class ListsEndpoint extends BaseEndpoint {
-	constructor(protected readonly auth: TokenType) {
-		super(auth);
-	}
-
 	/**
 	 * Retrieves list details.
 	 */
