@@ -28,7 +28,52 @@ import {
 	WatchProvidersEndpoint,
 } from "./endpoints";
 
+/** Authentication or an already configured TMDB transport client. */
+export type TMDBClientInput = TokenType | TMDBApiClient;
+
+/** Creates or reuses the shared api-core HTTP client used by TMDB endpoints. */
+export function createHttpClient(auth: TMDBClientInput): TMDBApiClient {
+	return auth instanceof TMDBApiClient ? auth : new TMDBApiClient(auth);
+}
+
+/** Creates every endpoint group around one shared TMDB transport client. */
+export function createClientBundle(auth: TMDBClientInput) {
+	const http = createHttpClient(auth);
+
+	return {
+		http,
+		account: new AccountEndpoint(http),
+		authentication: new AuthenticationEndpoint(http),
+		certification: new CertificationEndpoint(http),
+		changes: new ChangeEndpoint(http),
+		collections: new CollectionsEndpoint(http),
+		companies: new CompaniesEndpoint(http),
+		configuration: new ConfigurationEndpoint(http),
+		credits: new CreditsEndpoint(http),
+		discover: new DiscoverEndpoint(http),
+		find: new FindEndpoint(http),
+		genre: new GenreEndpoint(http),
+		guestSessions: new GuestSessionsEndpoint(http),
+		keywords: new KeywordsEndpoint(http),
+		lists: new ListsEndpoint(http),
+		movies: new MoviesEndpoint(http),
+		networks: new NetworksEndpoint(http),
+		people: new PeopleEndpoint(http),
+		review: new ReviewEndpoint(http),
+		search: new SearchEndpoint(http),
+		trending: new TrendingEndpoint(http),
+		tvEpisodeGroups: new TvEpisodeGroupsEndpoint(http),
+		tvEpisodes: new TvEpisodesEndpoint(http),
+		tvSeasons: new TvSeasonsEndpoint(http),
+		tvShows: new TvShowsEndpoint(http),
+		watchProviders: new WatchProvidersEndpoint(http),
+	};
+}
+
+export type TMDBClientBundle = ReturnType<typeof createClientBundle>;
+
 class TMDB {
+	readonly http: TMDBApiClient;
 	readonly account: AccountEndpoint;
 	readonly authentication: AuthenticationEndpoint;
 	readonly certification: CertificationEndpoint;
@@ -55,37 +100,43 @@ class TMDB {
 	readonly tvShows: TvShowsEndpoint;
 	readonly watchProviders: WatchProvidersEndpoint;
 
-	constructor(auth: TokenType) {
-		const api = new TMDBApiClient(auth);
+	constructor(auth: TMDBClientInput) {
+		const bundle = createClientBundle(auth);
 
-		this.account = new AccountEndpoint(api);
-		this.authentication = new AuthenticationEndpoint(api);
-		this.certification = new CertificationEndpoint(api);
-		this.changes = new ChangeEndpoint(api);
-		this.collections = new CollectionsEndpoint(api);
-		this.companies = new CompaniesEndpoint(api);
-		this.configuration = new ConfigurationEndpoint(api);
-		this.credits = new CreditsEndpoint(api);
-		this.discover = new DiscoverEndpoint(api);
-		this.find = new FindEndpoint(api);
-		this.genre = new GenreEndpoint(api);
-		this.guestSessions = new GuestSessionsEndpoint(api);
-		this.keywords = new KeywordsEndpoint(api);
-		this.lists = new ListsEndpoint(api);
-		this.movies = new MoviesEndpoint(api);
-		this.networks = new NetworksEndpoint(api);
-		this.people = new PeopleEndpoint(api);
-		this.review = new ReviewEndpoint(api);
-		this.search = new SearchEndpoint(api);
-		this.trending = new TrendingEndpoint(api);
-		this.tvEpisodeGroups = new TvEpisodeGroupsEndpoint(api);
-		this.tvEpisodes = new TvEpisodesEndpoint(api);
-		this.tvSeasons = new TvSeasonsEndpoint(api);
-		this.tvShows = new TvShowsEndpoint(api);
-		this.watchProviders = new WatchProvidersEndpoint(api);
+		this.http = bundle.http;
+		this.account = bundle.account;
+		this.authentication = bundle.authentication;
+		this.certification = bundle.certification;
+		this.changes = bundle.changes;
+		this.collections = bundle.collections;
+		this.companies = bundle.companies;
+		this.configuration = bundle.configuration;
+		this.credits = bundle.credits;
+		this.discover = bundle.discover;
+		this.find = bundle.find;
+		this.genre = bundle.genre;
+		this.guestSessions = bundle.guestSessions;
+		this.keywords = bundle.keywords;
+		this.lists = bundle.lists;
+		this.movies = bundle.movies;
+		this.networks = bundle.networks;
+		this.people = bundle.people;
+		this.review = bundle.review;
+		this.search = bundle.search;
+		this.trending = bundle.trending;
+		this.tvEpisodeGroups = bundle.tvEpisodeGroups;
+		this.tvEpisodes = bundle.tvEpisodes;
+		this.tvSeasons = bundle.tvSeasons;
+		this.tvShows = bundle.tvShows;
+		this.watchProviders = bundle.watchProviders;
+	}
+
+	/** Disposes resources owned by the shared api-core HTTP client. */
+	dispose(): Promise<void> {
+		return this.http.dispose();
 	}
 }
 
 export * from "./@types";
 export * from "./utils";
-export { TMDB };
+export { TMDB, TMDBApiClient };
