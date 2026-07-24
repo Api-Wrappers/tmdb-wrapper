@@ -17,6 +17,7 @@ const trending = await tmdb.trending.trending("movie", "day");
 | Need | Read |
 | --- | --- |
 | Create a client with a token or API key | [Authentication](./authentication.md) |
+| Access, inject, or dispose the shared HTTP client | [Client Lifecycle](./client-lifecycle.md) |
 | Copy-paste common workflows | [Examples](./examples.md) |
 | Set timeouts, cancellation, headers, or retry behavior | [Request Config](./request-config.md) |
 | Catch failed TMDB requests | [Error Handling](./error-handling.md) |
