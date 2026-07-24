@@ -8,10 +8,16 @@
   "types": "./dist/index.d.mts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
-    }
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"
@@ -56,7 +62,7 @@
     "media"
   ],
   "engines": {
-    "node": ">=16"
+    "node": ">=22"
   },
   "author": "api-wrappers",
   "license": "MIT",
@@ -66,13 +72,14 @@
     "dev": "tsdown --watch",
     "test": "bun test",
     "typecheck": "tsc --noEmit",
-    "verify": "bun run check && bun run typecheck && bun run test && bun run build && bun pm pack --dry-run",
+    "verify": "bun run check && bun run typecheck && bun run test && bun run build && bun pm pack --dry-run && bun run smoke:package",
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "bun run verify && changeset publish",
     "check": "biome check .",
     "check:unsafe": "biome check --write --unsafe .",
-    "check:write": "biome check --write ."
+    "check:write": "biome check --write .",
+    "smoke:package": "node ./scripts/smoke-package.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
@@ -85,5 +92,6 @@
   },
   "dependencies": {
     "@api-wrappers/api-core": "^1.1.0"
-  }
+  },
+  "sideEffects": false
 }

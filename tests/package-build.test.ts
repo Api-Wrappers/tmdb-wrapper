@@ -100,9 +100,13 @@ describe("Package Build", () => {
 
 			expect(packageJson.exports).toBeDefined();
 			expect(packageJson.exports["."]).toBeDefined();
-			expect(packageJson.exports["."].import).toBe("./dist/index.mjs");
-			expect(packageJson.exports["."].require).toBe("./dist/index.cjs");
-			expect(packageJson.exports["."].types).toBe("./dist/index.d.mts");
+			expect(packageJson.exports["."].import.default).toBe("./dist/index.mjs");
+			expect(packageJson.exports["."].import.types).toBe("./dist/index.d.mts");
+			expect(packageJson.exports["."].require.default).toBe("./dist/index.cjs");
+			expect(packageJson.exports["."].require.types).toBe("./dist/index.d.cts");
+			expect(packageJson.exports["./package.json"]).toBe("./package.json");
+			expect(packageJson.engines.node).toBe(">=22");
+			expect(packageJson.sideEffects).toBe(false);
 		});
 
 		it("has the build script configured", () => {

@@ -24,7 +24,7 @@ Use it when you want TMDB data without hand-writing fetch URLs, query strings, a
 - **Image helpers:** build poster, backdrop, and TMDB image URLs with `getFullImagePath`, `formImage`, `TMDB_IMAGE_BASE_URL`, and `ImageSizes`.
 - **Retries and timeouts:** requests run through `@api-wrappers/api-core`, including default retry behavior plus global or per-request timeout overrides.
 - **Clean pagination shape:** paginated endpoints keep TMDB's `{ page, results, total_pages, total_results }` response pattern and accept typed `page` options where TMDB supports them.
-- **Bun and Node support:** the package ships ESM/CJS builds, TypeScript declarations, and a Node `>=16` engine target, with Bun used for local development and tests.
+- **Bun and Node support:** the package ships ESM/CJS builds, TypeScript declarations, and compatibility checks for Node.js 22 and 24 plus Bun, with Bun used for local development and tests.
 
 ## Who Is It For?
 

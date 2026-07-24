@@ -15,6 +15,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          package-manager-cache: false
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
@@ -34,3 +40,6 @@ jobs:
 
       - name: Build
         run: bun run build
+
+      - name: Smoke test packed package
+        run: bun run smoke:package
