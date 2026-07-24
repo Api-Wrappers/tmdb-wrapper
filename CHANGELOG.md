@@ -1,5 +1,20 @@
 # Changelog
 
+## 3.0.0
+
+### Major Changes
+
+- 62d4a0f: Require Node.js 22 or newer, add packed-package compatibility tests for Node.js and Bun, and correct conditional ESM/CommonJS declaration exports.
+
+### Minor Changes
+
+- 3ca626c: Re-export api-core error classes, type guards, and common request/response types from the TMDB wrapper entry point.
+- a011419: Upgrade to `@api-wrappers/api-core` 1.1.0 and expose the shared TMDB HTTP client, client factories, injected-client support, and disposal lifecycle.
+
+### Patch Changes
+
+- b6992a4: Add complete TV details, TV discovery, provider logo, and endpoint timeout examples across the published documentation and runnable examples.
+
 ## 2.2.0
 
 ### Minor Changes
