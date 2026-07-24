@@ -32,8 +32,20 @@ jobs:
       - name: Typecheck
         run: bun run typecheck
 
-      - name: Run tests
-        run: bun run test
+      - name: Client tests
+        run: bun test tests/client.test.ts
+
+      - name: Lifecycle tests
+        run: bun test tests/lifecycle.test.ts
+
+      - name: TMDB client tests
+        run: bun test tests/tmdb-client.test.ts
+
+      - name: Endpoint coverage tests
+        run: bun test tests/endpoint-coverage.test.ts
+
+      - name: Package build tests
+        run: bun test tests/package-build.test.ts
 
       - name: Build
         run: bun run build
