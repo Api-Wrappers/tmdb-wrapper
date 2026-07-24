@@ -45,6 +45,8 @@ describe("Package Build", () => {
 
 			expect(mts).toContain("TMDB");
 			expect(cts).toContain("TMDB");
+			expect(mts).toContain("ApiError");
+			expect(cts).toContain("ApiError");
 		});
 	});
 
@@ -58,6 +60,9 @@ describe("Package Build", () => {
 
 			expect(mod.TMDB).toBeDefined();
 			expect(typeof mod.TMDB).toBe("function");
+			expect(typeof mod.ApiError).toBe("function");
+			expect(typeof mod.RateLimitError).toBe("function");
+			expect(typeof mod.TimeoutError).toBe("function");
 
 			const client = new mod.TMDB("test-token");
 			expect(client).toBeInstanceOf(mod.TMDB);
@@ -69,6 +74,9 @@ describe("Package Build", () => {
 
 			expect(mod.TMDB).toBeDefined();
 			expect(typeof mod.TMDB).toBe("function");
+			expect(typeof mod.ApiError).toBe("function");
+			expect(typeof mod.RateLimitError).toBe("function");
+			expect(typeof mod.TimeoutError).toBe("function");
 
 			const client = new mod.TMDB("test-token");
 			expect(client).toBeInstanceOf(mod.TMDB);

@@ -137,6 +137,26 @@ class TMDB {
 	}
 }
 
+export type {
+	ApiCoreError,
+	ApiPlugin,
+	ApiResponse,
+	ClientConfig,
+	HeaderInput,
+	QueryParams,
+	RequestOptions,
+	RetryConfig,
+} from "@api-wrappers/api-core";
+export {
+	ApiError,
+	isApiCoreError,
+	isApiError,
+	isRateLimitError,
+	isTimeoutError,
+	RateLimitError,
+	TimeoutError,
+} from "@api-wrappers/api-core";
+
 export * from "./@types";
 export * from "./utils";
 export { TMDB, TMDBApiClient };
