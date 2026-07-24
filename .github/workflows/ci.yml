@@ -5,18 +5,12 @@ on:
     branches:
       - main
 
-permissions:
-  contents: write
-
 jobs:
-  update-lock-and-validate:
+  validate:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout branch
+      - name: Checkout
         uses: actions/checkout@v7
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -29,21 +23,23 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Update Bun lockfile
-        run: bun install
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
 
-      - name: Commit lockfile when changed
-        shell: bash
-        run: |
-          if git diff --quiet -- bun.lock; then
-            echo "bun.lock is already current"
-          else
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add bun.lock
-            git commit -m "Update Bun lockfile"
-            git push origin HEAD:${{ github.head_ref }}
-          fi
+      - name: Lint
+        run: bun run check
 
-      - name: Verify package
-        run: bun run verify
+      - name: Typecheck
+        run: bun run typecheck
+
+      - name: Run tests
+        run: bun run test
+
+      - name: Build
+        run: bun run build
+
+      - name: Verify package contents
+        run: bun pm pack --dry-run
+
+      - name: Smoke test packed package
+        run: bun run smoke:package
