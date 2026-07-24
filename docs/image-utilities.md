@@ -124,6 +124,18 @@ const png = formImage(poster, ImageSizes.W500, ImageFormats.PNG);
 // e.g. "https://image.tmdb.org/t/p/w500/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.png"
 ```
 
+## Watch Provider Logos
+
+```typescript
+const providers = await tmdb.movies.watchProviders(550);
+const provider = providers.results.US?.flatrate?.[0];
+const logoUrl = provider?.logo_path
+  ? getFullImagePath(TMDB_IMAGE_BASE_URL, ImageSizes.W185, provider.logo_path)
+  : undefined;
+```
+
+Handle a missing provider or `logo_path` before rendering the image.
+
 ## `Image` Type
 
 ```typescript

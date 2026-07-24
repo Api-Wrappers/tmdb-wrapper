@@ -16,13 +16,18 @@ tmdb.tvShows.details(
 ```
 
 ```typescript
-const show = await tmdb.tvShows.details(1396); // Breaking Bad
-show.name; show.number_of_seasons; show.status;
+const show = await tmdb.tvShows.details(
+  1396,
+  ["credits", "videos"],
+  "en-US",
+);
 
-// With appended data
-const show = await tmdb.tvShows.details(1396, ['credits', 'videos']);
-show.credits.cast;
+console.log(show.name);
+console.log(show.credits?.cast.slice(0, 5).map((person) => person.name));
+console.log(show.videos?.results.find((video) => video.type === "Trailer")?.name);
 ```
+
+The appended properties are available only when their keys are requested.
 
 **`AppendToResponseTvKey` values:** `"account_states"`, `"aggregate_credits"`, `"alternative_titles"`, `"changes"`, `"content_ratings"`, `"credits"`, `"episode_groups"`, `"external_ids"`, `"images"`, `"keywords"`, `"lists"`, `"recommendations"`, `"reviews"`, `"screened_theatrically"`, `"similar"`, `"translations"`, `"videos"`, `"watch/providers"`
 

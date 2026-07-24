@@ -100,9 +100,17 @@ tmdb.discover.tvShow(
 **`TvSortOption` values:** `"first_air_date.asc"`, `"first_air_date.desc"`, `"name.asc"`, `"name.desc"`, `"original_name.asc"`, `"original_name.desc"`, `"popularity.asc"`, `"popularity.desc"`, `"vote_average.asc"`, `"vote_average.desc"`, `"vote_count.asc"`, `"vote_count.desc"`
 
 ```typescript
-// Shows on Netflix sorted by vote average
-const netflixShows = await tmdb.discover.tvShow({
-  with_networks: '213',
-  sort_by: 'vote_average.desc',
+const streamingShows = await tmdb.discover.tvShow({
+  sort_by: "popularity.desc",
+  first_air_date_year: 2024,
+  with_watch_providers: "8",
+  watch_region: "US",
+  page: 1,
 });
+
+for (const show of streamingShows.results) {
+  console.log(show.name);
+}
 ```
+
+Discovery does not automatically fetch subsequent pages. Increment `page` when `page < total_pages`.
