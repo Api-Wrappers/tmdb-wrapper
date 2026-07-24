@@ -28,6 +28,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      issues: write
       id-token: write
 
     steps:
@@ -95,39 +96,84 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Read package metadata
-        if: github.ref == 'refs/heads/main' && !(github.event_name == 'workflow_dispatch' && inputs.dry_run) && steps.changesets.outputs.pending == 'false'
-        id: package
-        shell: bash
-        run: |
-          echo "name=$(node -p "require('./package.json').name")" >> "$GITHUB_OUTPUT"
-          echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
-
-      - name: Check whether package version is already published
-        if: github.ref == 'refs/heads/main' && !(github.event_name == 'workflow_dispatch' && inputs.dry_run) && steps.changesets.outputs.pending == 'false'
-        id: registry
-        shell: bash
-        run: |
-          if npm view "${{ steps.package.outputs.name }}@${{ steps.package.outputs.version }}" version >/dev/null 2>&1; then
-            echo "published=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "published=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Publish package to npm
-        if: github.ref == 'refs/heads/main' && !(github.event_name == 'workflow_dispatch' && inputs.dry_run) && steps.changesets.outputs.pending == 'false' && steps.registry.outputs.published == 'false'
-        run: npm publish --access public --provenance
-
-      - name: Create GitHub release
+      - name: Publish package and create release
+        id: publish
         if: github.ref == 'refs/heads/main' && !(github.event_name == 'workflow_dispatch' && inputs.dry_run) && steps.changesets.outputs.pending == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERSION: ${{ steps.package.outputs.version }}
+          STATUS_ISSUE: "23"
         shell: bash
         run: |
-          tag="v${VERSION}"
-          if gh release view "$tag" >/dev/null 2>&1; then
-            echo "GitHub release $tag already exists"
+          set -uo pipefail
+
+          package_name=$(node -p "require('./package.json').name")
+          version=$(node -p "require('./package.json').version")
+          tag="v${version}"
+          report=$(mktemp)
+
+          {
+            echo "## Release run for \`${package_name}@${version}\`"
+            echo
+            echo "- Commit: \`${GITHUB_SHA}\`"
+            echo "- Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          } > "$report"
+
+          if npm view "${package_name}@${version}" version >/dev/null 2>&1; then
+            echo "- npm: already published" >> "$report"
           else
-            gh release create "$tag" --target "$GITHUB_SHA" --title "$tag" --generate-notes
+            set +e
+            npm publish --access public --provenance 2>&1 | tee /tmp/npm-publish.log
+            publish_status=${PIPESTATUS[0]}
+            set -e
+
+            if [[ $publish_status -ne 0 ]]; then
+              {
+                echo "- npm: failed"
+                echo
+                echo '```text'
+                tail -n 80 /tmp/npm-publish.log
+                echo '```'
+              } >> "$report"
+              gh issue comment "$STATUS_ISSUE" --body-file "$report" || true
+              exit "$publish_status"
+            fi
+
+            echo "- npm: published successfully" >> "$report"
           fi
+
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "- GitHub release: already exists" >> "$report"
+          else
+            if ! git ls-remote --exit-code --tags origin "refs/tags/${tag}" >/dev/null 2>&1; then
+              git tag "$tag" "$GITHUB_SHA"
+              git push origin "refs/tags/${tag}"
+            fi
+
+            set +e
+            gh release create "$tag" --verify-tag --title "$tag" --generate-notes 2>&1 | tee /tmp/github-release.log
+            release_status=${PIPESTATUS[0]}
+            set -e
+
+            if [[ $release_status -ne 0 ]]; then
+              {
+                echo "- GitHub release: failed"
+                echo
+                echo '```text'
+                tail -n 80 /tmp/github-release.log
+                echo '```'
+              } >> "$report"
+              gh issue comment "$STATUS_ISSUE" --body-file "$report" || true
+              exit "$release_status"
+            fi
+
+            echo "- GitHub release: created successfully" >> "$report"
+          fi
+
+          gh issue comment "$STATUS_ISSUE" --body-file "$report"
+
+      - name: Report a pre-publication failure
+        if: failure() && github.ref == 'refs/heads/main' && steps.publish.outcome != 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue comment 23 --body "Release run failed before publication. Inspect ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}."
