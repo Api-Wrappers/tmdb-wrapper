@@ -98,7 +98,9 @@ Please read [SECURITY.md](./SECURITY.md) before reporting security-sensitive iss
 
 User-facing fixes, docs improvements, and package trust changes should be noted in [CHANGELOG.md](./CHANGELOG.md) under `Unreleased`.
 
-For package releases, add a changeset with `bun run changeset`. The release workflow turns merged changesets into a version PR, npm publish, and GitHub release notes.
+For package releases, add a changeset with `bun run changeset`. After changesets reach `main`, the release workflow creates or updates the version PR. Merging that version PR leaves no pending changesets, so the next `main` run publishes the exact `package.json` version to npm with provenance and creates the matching GitHub release.
+
+Publishing is restricted to `main` and the protected `npm` environment. npm Trusted Publishing must authorize `.github/workflows/release.yml` with the `npm` environment. Workflow reruns check the registry first and safely skip an exact version that has already been published.
 
 ## Code Of Conduct
 
