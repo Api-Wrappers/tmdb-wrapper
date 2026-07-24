@@ -32,6 +32,9 @@ jobs:
       - name: Typecheck
         run: bun run typecheck
 
+      - name: Build
+        run: bun run build
+
       - name: Client tests
         run: bun test tests/client.test.ts
 
@@ -46,9 +49,6 @@ jobs:
 
       - name: Package build tests
         run: bun test tests/package-build.test.ts
-
-      - name: Build
-        run: bun run build
 
       - name: Verify package contents
         run: bun pm pack --dry-run
