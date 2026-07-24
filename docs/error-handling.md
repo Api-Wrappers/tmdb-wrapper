@@ -3,11 +3,12 @@
 Requests use `@api-wrappers/api-core` for transport, retries, timeouts, and errors.
 Failed HTTP responses throw `ApiError` or one of its subclasses.
 
+The wrapper re-exports the api-core error classes, guards, and commonly used request/response types, so applications do not need to import the transport dependency directly.
+
 ## Basic Usage
 
 ```typescript
-import { ApiError } from "@api-wrappers/api-core";
-import { TMDB } from "@api-wrappers/tmdb-wrapper";
+import { ApiError, TMDB } from "@api-wrappers/tmdb-wrapper";
 
 const tmdb = new TMDB(process.env.TMDB_ACCESS_TOKEN!);
 

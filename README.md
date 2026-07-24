@@ -171,7 +171,7 @@ console.log(usProviders?.flatrate?.map((provider) => provider.provider_name));
 ### Handle API Errors
 
 ```typescript
-import { ApiError, RateLimitError } from "@api-wrappers/api-core";
+import { ApiError, RateLimitError } from "@api-wrappers/tmdb-wrapper";
 
 try {
 	await tmdb.movies.details(999999999);
