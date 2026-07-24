@@ -33,6 +33,22 @@ console.log(movie.runtime);
 console.log(movie.credits.cast.slice(0, 5).map((person) => person.name));
 ```
 
+## Get TV Show Details With Credits And Videos
+
+```typescript
+const show = await tmdb.tvShows.details(
+	1396,
+	["credits", "videos"],
+	"en-US",
+);
+
+console.log(show.name);
+console.log(show.credits?.cast.slice(0, 5).map((person) => person.name));
+console.log(show.videos?.results.find((video) => video.type === "Trailer")?.name);
+```
+
+Appended properties are present only when their keys are included in `appendToResponse`.
+
 ## Get Trending Movies
 
 ```typescript
@@ -97,6 +113,18 @@ console.log(us?.rent?.map((provider) => provider.provider_name));
 console.log(us?.buy?.map((provider) => provider.provider_name));
 ```
 
+## Build A Watch Provider Logo URL
+
+```typescript
+import { ImageSizes, TMDB_IMAGE_BASE_URL, getFullImagePath } from "@api-wrappers/tmdb-wrapper";
+
+const providers = await tmdb.movies.watchProviders(603);
+const provider = providers.results.US?.flatrate?.[0];
+const logoUrl = provider?.logo_path
+	? getFullImagePath(TMDB_IMAGE_BASE_URL, ImageSizes.W185, provider.logo_path)
+	: undefined;
+```
+
 ## Search TV Shows
 
 ```typescript
@@ -123,6 +151,22 @@ const discover = await tmdb.discover.movie({
 console.log(discover.results.map((movie) => movie.title));
 ```
 
+## Discover TV Shows By Provider
+
+```typescript
+const shows = await tmdb.discover.tvShow({
+	sort_by: "popularity.desc",
+	first_air_date_year: 2024,
+	with_watch_providers: "8",
+	watch_region: "US",
+	page: 1,
+});
+
+console.log(shows.results.map((show) => show.name));
+```
+
+Discovery returns one page at a time; request the next page explicitly when needed.
+
 ## Work With Paginated Results
 
 ```typescript
@@ -139,6 +183,8 @@ if (pageOne.page < pageOne.total_pages) {
 ```
 
 ## Use A Per-Request Timeout
+
+Pass `RequestConfig` as the final argument. See [Request Config](./request-config.md) for every transport control.
 
 ```typescript
 const results = await tmdb.search.movies(

@@ -30,6 +30,17 @@ const results = await tmdb.search.movies({ query: 'Inception' });
 results.results; // Movie[]
 ```
 
+Set transport controls in the final argument:
+
+```typescript
+const timedResults = await tmdb.search.movies(
+  { query: "Alien", page: 1 },
+  { timeoutMs: 5_000 },
+);
+```
+
+See [Request Config](../request-config.md) for every per-request option.
+
 ---
 
 ### `tv`

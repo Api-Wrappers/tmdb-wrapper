@@ -80,3 +80,16 @@ us?.buy;      // Buy[]
 us?.free;     // available for free
 us?.ads;      // ad-supported
 ```
+
+
+## Provider Logo URLs
+
+```typescript
+import { ImageSizes, TMDB_IMAGE_BASE_URL, getFullImagePath } from "@api-wrappers/tmdb-wrapper";
+
+const providers = await tmdb.watchProviders.movie();
+const provider = providers.results[0];
+const logoUrl = provider?.logo_path
+  ? getFullImagePath(TMDB_IMAGE_BASE_URL, ImageSizes.W185, provider.logo_path)
+  : undefined;
+```

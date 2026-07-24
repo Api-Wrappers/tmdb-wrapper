@@ -48,3 +48,17 @@ console.log("\nHighly rated science fiction movies:");
 for (const movie of highlyRatedSciFi.results.slice(0, 5)) {
 	console.log(` - ${movie.title} (${movie.vote_average.toFixed(1)})`);
 }
+
+
+const streamingShows = await tmdb.discover.tvShow({
+	first_air_date_year: 2024,
+	with_watch_providers: "8",
+	watch_region: "US",
+	sort_by: "popularity.desc",
+	language: "en-US",
+});
+
+console.log("\nPopular 2024 TV shows from provider 8 in the US:");
+for (const show of streamingShows.results.slice(0, 5)) {
+	console.log(` - ${show.name}`);
+}
