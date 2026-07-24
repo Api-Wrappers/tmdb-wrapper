@@ -1,0 +1,107 @@
+name: Package Compatibility
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Verify source and packed package
+        run: bun run verify
+
+      - name: Pack npm artifact
+        run: mkdir -p package-artifact && npm pack --json --pack-destination package-artifact
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tmdb-wrapper-package
+          path: package-artifact/*.tgz
+          if-no-files-found: error
+
+  node-consumer:
+    needs: package
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [22, 24]
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+          package-manager-cache: false
+
+      - name: Download package artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: tmdb-wrapper-package
+          path: package-artifact
+
+      - name: Test ESM and CommonJS consumers
+        shell: bash
+        run: |
+          tarball=$(find package-artifact -name '*.tgz' -print -quit)
+          test -n "$tarball"
+          mkdir consumer
+          cd consumer
+          npm init -y >/dev/null
+          npm install --ignore-scripts "../$tarball"
+          printf '%s\n' 'import { TMDB } from "@api-wrappers/tmdb-wrapper";' 'const client = new TMDB("test-token");' 'if (!client.movies) throw new Error("ESM consumer failed");' > esm.mjs
+          printf '%s\n' 'const { TMDB } = require("@api-wrappers/tmdb-wrapper");' 'const client = new TMDB("test-token");' 'if (!client.movies) throw new Error("CJS consumer failed");' > cjs.cjs
+          node esm.mjs
+          node cjs.cjs
+
+  bun-consumer:
+    needs: package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Download package artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: tmdb-wrapper-package
+          path: package-artifact
+
+      - name: Test Bun consumer
+        shell: bash
+        run: |
+          tarball=$(find package-artifact -name '*.tgz' -print -quit)
+          test -n "$tarball"
+          mkdir consumer
+          cd consumer
+          bun init -y >/dev/null
+          bun add "../$tarball"
+          printf '%s\n' 'import { TMDB } from "@api-wrappers/tmdb-wrapper";' 'const client = new TMDB("test-token");' 'if (!client.movies) throw new Error("Bun consumer failed");' > smoke.ts
+          bun run smoke.ts
