@@ -90,7 +90,7 @@ jobs:
 
       - name: Create or update version PR
         if: github.ref == 'refs/heads/main' && !(github.event_name == 'workflow_dispatch' && inputs.dry_run) && steps.changesets.outputs.pending == 'true'
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         with:
           version: bun run version-packages
         env:
