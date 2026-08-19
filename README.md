@@ -205,6 +205,10 @@ const results = await tmdb.search.movies(
 - **Recommendation apps:** combine search, discover filters, trending data, and related titles.
 - **Media dashboards:** display popular, top-rated, upcoming, trending, provider, and configuration data.
 
+## Pair With Trakt For User Tracking
+
+TMDB is strongest for catalog metadata, artwork, discovery, and provider data. If your app also needs Trakt watch history, watchlists, ratings, scrobbling, calendars, or sync workflows, see [`@api-wrappers/trakt-wrapper`](https://github.com/Api-Wrappers/trakt-wrapper).
+
 ## Endpoint Map
 
 | Client property | Use it for |
