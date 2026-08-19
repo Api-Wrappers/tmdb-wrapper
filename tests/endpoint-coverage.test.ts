@@ -494,4 +494,81 @@ describe("TMDB v3 endpoint coverage", () => {
 			);
 		}
 	});
+
+	it("serializes array options as comma-separated query values", async () => {
+		const calls: CapturedRequest[] = [];
+		const tmdb = new TMDB({
+			apiKey: "api-key",
+			client: {
+				fetch: (async (url: string, init?: RequestInit) => {
+					calls.push({ url, init });
+					return json({ ok: true }, { status: 200 });
+				}) as typeof fetch,
+				retry: { maxAttempts: 1 },
+			},
+		});
+
+		const arrayCases: Array<{
+			name: string;
+			call: () => Promise<unknown>;
+			expected: ExpectedRequest;
+		}> = [
+			{
+				name: "movie images with include_image_language array",
+				call: () =>
+					tmdb.movies.images(550, {
+						include_image_language: ["en", "null"],
+					}),
+				expected: {
+					method: "GET",
+					path: "/3/movie/550/images",
+					query: { include_image_language: "en,null" },
+				},
+			},
+			{
+				name: "movie details with append_to_response array",
+				call: () =>
+					tmdb.movies.details(550, {
+						append_to_response: ["credits", "videos", "images"],
+					}),
+				expected: {
+					method: "GET",
+					path: "/3/movie/550",
+					query: { append_to_response: "credits,videos,images" },
+				},
+			},
+			{
+				name: "tv show images with include_image_language array",
+				call: () =>
+					tmdb.tvShows.images(1396, {
+						include_image_language: ["en"],
+					}),
+				expected: {
+					method: "GET",
+					path: "/3/tv/1396/images",
+					query: { include_image_language: "en" },
+				},
+			},
+		];
+
+		for (const item of arrayCases) {
+			calls.length = 0;
+
+			await item.call();
+
+			expect(calls, item.name).toHaveLength(1);
+			const request = calls[0];
+			const url = new URL(request.url);
+
+			expect(url.pathname, item.name).toBe(item.expected.path);
+			expect(request.init?.method ?? "GET", item.name).toBe(
+				item.expected.method,
+			);
+			expect(url.searchParams.get("api_key"), item.name).toBe("api-key");
+
+			for (const [key, value] of Object.entries(item.expected.query ?? {})) {
+				expect(url.searchParams.get(key), item.name).toBe(value);
+			}
+		}
+	});
 });
