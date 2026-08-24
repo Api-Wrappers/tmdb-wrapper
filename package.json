@@ -82,7 +82,7 @@
     "smoke:package": "node ./scripts/smoke-package.mjs"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.31.0",
+    "@changesets/cli": "^3.0.1",
     "@biomejs/biome": "^2.4.14",
     "@types/bun": "^1.3.13",
     "@types/node": "^26.1.1",
